@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.guoxw.geekproject.MainActivity">
+    <!--Android使用fitsSystemWindows属性实现–状态栏【status_bar】各版本适配方案 -->
+
+    <include layout="@layout/include_main_center" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left">
+
+        <include
+            layout="@layout/include_main_left"
+            android:layout_width="320dp"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <!--<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@android:color/holo_green_dark"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12" />
+        </LinearLayout>
+    </FrameLayout>-->
+
+    <!--<include-->
+    <!--layout="@layout/include_main_left"-->
+    <!--android:layout_marginTop="-27dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start" />-->
+
+    <!--<include-->
+    <!--layout="@layout/include_main_center"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+
+</android.support.v4.widget.DrawerLayout>

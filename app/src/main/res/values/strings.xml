@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GeekProject</string>
+
+    <string name="tv_header_skin">个性换肤</string>
+    <string name="tv_header_about">关于</string>
+    <string name="tv_header_setting">设置</string>
+    <string name="tv_header_feedback">意见反馈</string>
+    <string name="tv_header_quit">退出</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

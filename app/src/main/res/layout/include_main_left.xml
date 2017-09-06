@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><!--在新版的support-v4兼容包里面有一个NestedScrollView控件，
+这个控件其实和普通的ScrollView并没有多大的区别。
+这个控件其实是MD（Meterial Design）中设计的一个控件，目的是跟MD中的其他控件兼容。
+应该说在MD中，RecyclerView代替了ListView，而NestedScrollView代替了ScrollView。
+他们两个都可以用来跟ToolBar交互，实现上拉下滑中ToolBar的变化。-->
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBg"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_haden"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_theme_color"
+            style="@style/home.fragment"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/theme_color"
+                android:text="@string/tv_header_skin" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_about_us"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/about_us"
+                android:text="@string/tv_header_about" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_setting"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/setting"
+                android:text="@string/tv_header_setting" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_feedback"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/feedback"
+                android:text="@string/tv_header_feedback" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_exit_app"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/exit_app"
+                android:text="@string/tv_header_quit" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
