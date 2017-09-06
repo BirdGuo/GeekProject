@@ -4,6 +4,7 @@ import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseActivity
 
 class CalenderActivity : BaseActivity() {
+
     override fun getLayoutId(): Int = R.layout.activity_calender
 
     override fun initView() {
@@ -14,5 +15,7 @@ class CalenderActivity : BaseActivity() {
 
     override fun initListener() {
     }
+
+
 
 }
