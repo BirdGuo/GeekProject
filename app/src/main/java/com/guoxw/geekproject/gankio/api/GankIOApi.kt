@@ -23,6 +23,6 @@ interface GankIOApi {
      * @param page
      * 第几页：数字，大于0
      */
-    fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<List<GankData>>>
+    fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<MutableList<GankData>>>
 
 }

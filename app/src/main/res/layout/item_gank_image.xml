@@ -8,13 +8,13 @@
     app:cardCornerRadius="4dp">
 
     <ImageView
-        android:id="@+id/imageview"
+        android:id="@+id/img_item_gank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/text_view"
+        android:id="@+id/tv_item_gank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"

@@ -28,6 +28,6 @@ interface GankIOService {
      * 测试成功
      */
     @GET("data/{type}/{number}/{page}")
-    fun getGankIOData(@Path("type") type: String, @Path("number") number: Number, @Path("page") page: Int): Flowable<GankResponse<List<GankData>>>
+    fun getGankIOData(@Path("type") type: String, @Path("number") number: Number, @Path("page") page: Int): Flowable<GankResponse<MutableList<GankData>>>
 
 }

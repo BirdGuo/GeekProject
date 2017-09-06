@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.guoxw.geekproject.MainActivity">
+    tools:context="com.guoxw.geekproject.main.MainActivity">
     <!--Android使用fitsSystemWindows属性实现–状态栏【status_bar】各版本适配方案 -->
 
     <include layout="@layout/include_main_center" />

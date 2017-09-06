@@ -26,7 +26,7 @@ object GankIOResetApi : GankIOApi {
      * @param page
      * 第几页：数字，大于0
      */
-    override fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<List<GankData>>>
+    override fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<MutableList<GankData>>>
             = ApiClient.retrofit.create(GankIOService::class.java).getGankIOData(type, number, page)
 
 }

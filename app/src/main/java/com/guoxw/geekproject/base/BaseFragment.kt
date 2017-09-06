@@ -25,11 +25,16 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        initData()
-        initView()
-        initListener()
 
         return inflater!!.inflate(getLayoutId(), container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initView()
+        initData()
+        initListener()
+
     }
 
     //绑定页面

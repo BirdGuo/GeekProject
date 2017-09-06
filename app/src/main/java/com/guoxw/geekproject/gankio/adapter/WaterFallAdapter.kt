@@ -5,8 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.bean.GankData
+import com.guoxw.geekproject.utils.LogUtil
 import java.util.*
 
 
@@ -27,12 +31,15 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     constructor(mContext: Context?) : super() {
         this.mContext = mContext
+        LogUtil.i("GXW", "----------super---------")
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_gank_image, parent, false)
+
+        LogUtil.i("GXW", "----------onCreateViewHolder---------")
 
         return ViewHolder(view)
     }
@@ -48,14 +55,18 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         if (holder is ViewHolder) {
             val gankData = mImages[position]
 
+            LogUtil.i("GXW", gankData.url)
 
-
+            Glide.with(mContext)
+                    .load(gankData.url)
+                    .into(holder.img_item_gank)
         }
 
     }
 
-    fun getRandomHeight(mList: List<GankData>) {
+    fun getRandomHeight(mList: MutableList<GankData>) {
         mHeights = ArrayList<Int>()
+
         for (i in mList.indices) {
             //随机的获取一个范围为200-600直接的高度
             mHeights!!.add((300 + Math.random() * 400).toInt())
@@ -64,7 +75,16 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
 
     class ViewHolder : RecyclerView.ViewHolder {
-        constructor(itemView: View?) : super(itemView) {}
+
+        var img_item_gank: ImageView? = null
+        var tv_item_gank: TextView? = null
+
+        constructor(itemView: View?) : super(itemView) {
+
+            img_item_gank = itemView!!.findViewById(R.id.img_item_gank) as ImageView
+            tv_item_gank = itemView!!.findViewById(R.id.tv_item_gank) as TextView
+
+        }
     }
 
 }
