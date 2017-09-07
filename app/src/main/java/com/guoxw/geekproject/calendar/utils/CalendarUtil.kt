@@ -3,6 +3,7 @@ package com.guoxw.geekproject.calendar.utils
 import com.guoxw.geekproject.calendar.constant.CalenderConstant
 import java.util.*
 
+
 /**
  * Created by guoxw on 2017/9/7 0007.
  * @auther guoxw
@@ -13,6 +14,9 @@ import java.util.*
 class CalendarUtil {
 
     var iday: Int = 0
+    var eventArr: List<Map<String, String>>? = null
+    var pickedEvents: List<Map<String, String>>? = null
+    var picked_events: List<Map<String, String>>? = null
 
     constructor() {
         val calendar = Calendar.getInstance()
@@ -29,6 +33,64 @@ class CalendarUtil {
             n = n % 11117
         }
         return n
+    }
+
+    private fun pickTodaysLuck() {
+        val numGood = random(iday, 98) % 3 + 2
+        val numBad = random(iday, 87) % 3 + 2
+
+        pickRandomActivity(numGood + numBad)
+
+    }
+
+    private fun pickRandomActivity(size: Int): MutableList<Map<String, String>> {
+        picked_events = pickRandom(CalenderConstant.getActivities(), size)
+        pickedEvents = ArrayList<Map<String, String>>()
+
+        var map: Map<String, String>? = null
+
+        for (i in 0..picked_events.size - 1) {
+            map = parse(picked_events[i])
+            pickedEvents.add(map)
+        }
+        //System.out.println(pickedEvents);
+        return pickedEvents
+    }
+
+    private fun parse(pickRes: Map<String, String>): Map<String, String> {
+        val result = HashMap<String, String>()
+        result.put("name", pickRes["name"]!!)
+        result.put("good", pickRes["good"]!!)
+        result.put("bad", pickRes["bad"]!!)
+        val rName = result["name"]
+        if (rName!!.indexOf("%v") != -1) {
+            val name = rName!!.replace("%v", CalenderConstant.varNames[random(iday, 12) % CalenderConstant.varNames.size])
+            result.put("name", name)
+        }
+
+        if (rName!!.indexOf("%t") != -1) {
+            val name = rName!!.replace("%t", CalenderConstant.tools[random(iday, 11) % CalenderConstant.tools.size])
+            result.put("name", name)
+        }
+
+        if (rName!!.indexOf("%l") != -1) {
+            val name = rName!!.replace("%l", (random(iday, 12) % 247 + 30).toString())
+            result.put("name", name)
+        }
+        return result
+    }
+
+    private fun pickRandom(array: MutableList<Map<String, String>>, size: Int): List<Map<String, String>> {
+        val result = ArrayList<Map<String, String>>()
+        for (map in array) {
+            result.add(map)
+        }
+
+        for (j in 0..array.size - size - 1) {
+            val index = random(iday, j) % result.size
+            result.removeAt(index)
+        }
+        return result
     }
 
     private fun pickRandomList(array: Array<String>, size: Int): List<String> {
