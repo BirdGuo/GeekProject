@@ -19,10 +19,33 @@ object TimeUtil {
      * 当前时间 格式：yyyy-MM-dd HH:mm:ss
      */
     fun getNowTime(): String {
-        val dateFormat = SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val timeNow = dateFormat.format(Date(System.currentTimeMillis()))// 获取系统时间
         return timeNow
+    }
+
+    /**
+     * 获取当前时间
+     *
+     * @return String
+     *
+     * 当前时间 格式：yyyy-MM-dd HH:mm:ss
+     */
+    fun getNowDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dateFormat.format(Date(System.currentTimeMillis()))// 获取系统时间
+    }
+
+    /**
+     * 获取当前时间
+     *
+     * @return String
+     *
+     * 当前时间 格式：yyyy-MM-dd HH:mm:ss
+     */
+    fun getNowDateZH(): String {
+        val dateFormat = SimpleDateFormat("yyyy年MM月dd日")
+        return dateFormat.format(Date(System.currentTimeMillis()))// 获取系统时间
     }
 
     /**
@@ -85,6 +108,7 @@ object TimeUtil {
         }
         return str
     }
+
 
 
 }

@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.bean.GankData
-import com.guoxw.geekproject.utils.LogUtil
 import java.util.*
 
 
@@ -31,15 +30,12 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     constructor(mContext: Context?) : super() {
         this.mContext = mContext
-        LogUtil.i("GXW", "----------super---------")
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_gank_image, parent, false)
-
-        LogUtil.i("GXW", "----------onCreateViewHolder---------")
 
         return ViewHolder(view)
     }
@@ -52,15 +48,11 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         val layoutParams = holder!!.itemView.layoutParams
         layoutParams.height = mHeights!![position]
         holder.itemView.layoutParams = layoutParams
-        if (holder is ViewHolder) {
-            val gankData = mImages[position]
+        val gankData = mImages[position]
 
-            LogUtil.i("GXW", gankData.url)
-
-            Glide.with(mContext)
-                    .load(gankData.url)
-                    .into(holder.img_item_gank)
-        }
+        Glide.with(mContext)
+                .load(gankData.url)
+                .into(holder.img_item_gank)
 
     }
 

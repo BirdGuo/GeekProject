@@ -9,13 +9,13 @@
         <item name="colorPrimaryDark">@color/colorTheme</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-    <!--    //沉浸状态栏
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        //可以让appbarlayout从最顶上开始，状态栏会覆盖toolbar
+        <!--    //沉浸状态栏
+            <item name="android:windowIsTranslucent">true</item>
+            <item name="android:windowTranslucentStatus">true</item>
+            //可以让appbarlayout从最顶上开始，状态栏会覆盖toolbar
 
-        //ActionBarDrawerToggle设置颜色
-        <item name="colorControlNormal">@android:color/white</item>-->
+            //ActionBarDrawerToggle设置颜色
+            <item name="colorControlNormal">@android:color/white</item>-->
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
@@ -62,10 +62,12 @@
     <style name="home">
         <item name="android:layout_width">match_parent</item>
     </style>
+
     <style name="home.fragment">
         <item name="android:layout_height">45dp</item>
         <item name="android:background">@drawable/ripple_tab_bg</item>
     </style>
+
     <style name="home.textview">
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/comment_text</item>
@@ -78,6 +80,51 @@
     <style name="home.horizontalLine">
         <item name="android:background">@color/colorLineItem</item>
         <item name="android:layout_height">1px</item>
+    </style>
+
+    <style name="lin_cal_base">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_180</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_marginRight">@dimen/dp_5</item>
+    </style>
+
+    <style name="tv_cal_good">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp_24</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">@dimen/dp_90</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="lv_cal_base">
+        <item name="android:layout_marginLeft">@dimen/dp_1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="lin_cal_title">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_marginTop">@dimen/dp_3</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="tv_cal_base.title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="tv_cal_base">
+        <item name="android:textColor">@color/tv_cal_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
 </resources>

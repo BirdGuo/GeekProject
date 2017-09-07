@@ -24,14 +24,23 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/fl_theme_color"
-            style="@style/home.fragment"
-            android:visibility="gone">
+            android:id="@+id/fl_theme_main"
+            style="@style/home.fragment">
 
             <TextView
                 style="@style/home.textview"
                 android:drawableLeft="@drawable/theme_color"
-                android:text="@string/tv_header_skin" />
+                android:text="@string/tv_header_main" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_theme_calendar"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/theme_color"
+                android:text="@string/tv_header_calendar" />
         </FrameLayout>
 
         <FrameLayout

@@ -20,6 +20,8 @@
     <!--tab标签栏文字的颜色-->
     <color name="colorTabText">#585858</color>
 
+    <color name="tv_cal_content">#777777</color>
+
     <!--首页item文字颜色-->
     <color name="colorSubtitle">#999</color>
 

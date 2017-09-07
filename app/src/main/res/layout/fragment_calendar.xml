@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_cal_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="date"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/sp_22"
+        android:textStyle="bold" />
+
+    <LinearLayout style="@style/lin_cal_base">
+
+        <TextView
+            android:id="@+id/tv_cal_good"
+            style="@style/tv_cal_good"
+            android:background="#ffee44"
+            android:text="宜"
+            android:textColor="@android:color/black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_cal_good"
+            style="@style/lv_cal_base"
+            android:background="#ffffaa"
+            android:divider="#A52A2A" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/lin_cal_base"
+        android:layout_marginTop="@dimen/dp_2">
+
+        <TextView
+            android:id="@+id/tv_cal_bad"
+            style="@style/tv_cal_good"
+            android:background="#ff4444"
+            android:text="忌"
+            android:textColor="@android:color/white" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_cal_bad"
+            style="@style/lv_cal_base"
+            android:background="#ffddd3"
+            android:divider="#008B45" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/lin_cal_title">
+
+        <TextView
+            android:id="@+id/tv_cal_title_direction"
+            style="@style/tv_cal_base.title"
+            android:text="座位朝向：" />
+
+        <TextView
+            android:id="@+id/tv_cal_direction"
+            style="@style/tv_cal_base" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/lin_cal_title">
+
+        <TextView
+            android:id="@+id/tv_cal_title_drink"
+            style="@style/tv_cal_base.title"
+            android:text="今日宜饮：" />
+
+        <TextView
+            android:id="@+id/tv_cal_drink"
+            style="@style/tv_cal_base" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/lin_cal_title">
+
+        <TextView
+            android:id="@+id/tv_cal_title_girl"
+            style="@style/tv_cal_base.title"
+            android:text="女神亲近指数：" />
+
+        <TextView
+            android:id="@+id/tv_cal_girl"
+            style="@style/tv_cal_base" />
+    </LinearLayout>
+</LinearLayout>
+
