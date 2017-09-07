@@ -1,39 +1,28 @@
 package com.guoxw.geekproject
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
 import com.guoxw.geekproject.base.BaseActivity
-import com.guoxw.geekproject.gankio.ui.fragment.FragmentBeauty
-import kotlinx.android.synthetic.main.include_main_center.*
+import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
 
 
 class MainActivity : BaseActivity() {
 
-    var gankFragments: MutableList<Fragment> = ArrayList<Fragment>()
-    var beauty: FragmentBeauty = FragmentBeauty()
+    private var fragmentGank: FragmentGank = FragmentGank()
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView() {
-//        dl_main.openDrawer(Gravity.LEFT)
-        vp_main.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
-            override fun getItem(position: Int): Fragment {
-                return gankFragments[position]
-            }
+        /* val beginTransaction = fragmentManager.beginTransaction()
+         beginTransaction.replace(R.id.fl_main_content, fragmentGank as Fragment)
+         beginTransaction.commit()*/
 
-            override fun getCount(): Int {
-                return gankFragments.size
-            }
-        }
-        vp_main.currentItem = 0
+        val beginTransaction = supportFragmentManager.beginTransaction()
+        beginTransaction.replace(R.id.fl_main_content, fragmentGank)
+        beginTransaction.commit()
+
 
     }
 
     override fun initData() {
-
-        gankFragments.add(beauty)
-//        gankFragments.add(beauty)
-//        gankFragments.add(beauty)
 
     }
 

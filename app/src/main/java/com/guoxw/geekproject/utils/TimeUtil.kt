@@ -1,9 +1,8 @@
 package com.guoxw.geekproject.utils
 
+import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
-import jdk.nashorn.internal.objects.NativeDate.getTime
-import java.text.ParsePosition
 
 
 /**
