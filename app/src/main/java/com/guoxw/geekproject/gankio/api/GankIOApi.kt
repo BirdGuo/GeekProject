@@ -1,16 +1,17 @@
 package com.guoxw.geekproject.gankio.api
 
 import com.guoxw.geekproject.gankio.bean.GankData
+import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import io.reactivex.Flowable
 
 /**
-* Created by guoxw on 2017/5/22.
-* @auther guoxw
-* @date 2017/5/22
-* @desciption
-* @package ${PACKAGE_NAME}
-*/
+ * Created by guoxw on 2017/5/22.
+ * @auther guoxw
+ * @date 2017/5/22
+ * @desciption
+ * @package ${PACKAGE_NAME}
+ */
 interface GankIOApi {
 
     /**
@@ -25,4 +26,13 @@ interface GankIOApi {
      */
     fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<MutableList<GankData>>>
 
+    /**
+     * 每日数据： http://gank.io/api/day/年/月/日
+     *
+     * @param year  年
+     * @param month 月
+     * @param date  日
+     *
+     */
+    fun getGankDayData(year: String, month: String, date: String): Flowable<GankResponse<GankDayData>>
 }
