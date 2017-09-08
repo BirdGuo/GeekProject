@@ -15,7 +15,7 @@ import com.guoxw.geekproject.R
  * @desciption
  * @package com.guoxw.geekproject.calendar.ui.adapter
  */
-class CalGoodAdapter : RecyclerView.Adapter<CalGoodAdapter.ViewHolder> {
+class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
 
     var calendars: MutableList<Map<String,String>> = ArrayList<Map<String,String>>()
     var mContext: Context? = null
@@ -34,7 +34,7 @@ class CalGoodAdapter : RecyclerView.Adapter<CalGoodAdapter.ViewHolder> {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val myCalendar = calendars[position]
         holder!!.tv_item_good_title!!.text = myCalendar["name"]
-        holder!!.tv_item_good_content!!.text = myCalendar["good"]
+        holder!!.tv_item_good_content!!.text = myCalendar["bad"]
     }
 
     override fun getItemCount(): Int {

@@ -102,6 +102,8 @@
         <item name="android:layout_marginLeft">@dimen/dp_1</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="lin_cal_title">

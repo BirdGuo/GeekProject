@@ -2,6 +2,7 @@ package com.guoxw.geekproject.calendar.utils
 
 import com.guoxw.geekproject.calendar.constant.CalenderConstant
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -15,8 +16,11 @@ class CalendarUtil {
 
     var iday: Int = 0
     var eventArr: List<Map<String, String>>? = null
-    var pickedEvents: List<Map<String, String>>? = null
-    var picked_events: List<Map<String, String>>? = null
+    var pickedEvents: MutableList<Map<String, String>>? = null
+    var picked_events: MutableList<Map<String, String>>? = null
+
+    val goodList: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
+    val badList: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
 
     constructor() {
         val calendar = Calendar.getInstance()
@@ -24,6 +28,9 @@ class CalendarUtil {
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         iday = year * 10000 + month * 100 + day
+
+        pickTodaysLuck()
+
     }
 
     private fun random(dayseed: Int, indexseed: Int): Int {
@@ -39,7 +46,14 @@ class CalendarUtil {
         val numGood = random(iday, 98) % 3 + 2
         val numBad = random(iday, 87) % 3 + 2
 
-        pickRandomActivity(numGood + numBad)
+        eventArr = pickRandomActivity(numGood + numBad)
+
+        for (i in 0 until numGood - 1) {
+            goodList.add(eventArr!![i])
+        }
+        for (i in 0 until numBad - 1) {
+            badList.add(eventArr!![numGood + i])
+        }
 
     }
 
@@ -49,12 +63,12 @@ class CalendarUtil {
 
         var map: Map<String, String>? = null
 
-        for (i in 0..picked_events.size - 1) {
-            map = parse(picked_events[i])
-            pickedEvents.add(map)
+        for (i in 0 until picked_events!!.size - 1) {
+            map = parse(picked_events!![i])
+            pickedEvents!!.add(map)
         }
-        //System.out.println(pickedEvents);
-        return pickedEvents
+
+        return pickedEvents!!
     }
 
     private fun parse(pickRes: Map<String, String>): Map<String, String> {
@@ -80,7 +94,7 @@ class CalendarUtil {
         return result
     }
 
-    private fun pickRandom(array: MutableList<Map<String, String>>, size: Int): List<Map<String, String>> {
+    private fun pickRandom(array: MutableList<Map<String, String>>, size: Int): MutableList<Map<String, String>> {
         val result = ArrayList<Map<String, String>>()
         for (map in array) {
             result.add(map)
