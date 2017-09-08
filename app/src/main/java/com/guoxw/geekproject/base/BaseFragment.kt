@@ -1,6 +1,7 @@
 package com.guoxw.geekproject.base
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -49,5 +50,20 @@ abstract class BaseFragment : Fragment() {
     //监听
     abstract fun initListener()
 
+    /**
+     * 打开页面
+     *
+     * @param activity 需要打开的页面
+     * @param bundle 传的值
+     */
+    fun openActivity(activity: Class<*>, bundle: Bundle?) {
+        val intent: Intent = Intent()
+        if (bundle != null) {
+            intent.putExtra("data", bundle)
+        }
+        intent.setClass(mContext, activity)
+        startActivity(intent)
+//        overridePendingTransition(R.anim.screen_zoom_in, R.anim.screen_zoom_out)
+    }
 
 }

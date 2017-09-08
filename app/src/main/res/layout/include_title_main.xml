@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55">
+        <!--Android:contentInsetLeft  指的是边上文字到左边的距离-->
+        <!--之前我们只能在application或者activity中使用theme主题，但是在Android 5.0中可以给View使用theme主题，这个View及其子View都会使用这个theme。
+        给View添加theme的方法为：android:theme="你的theme"-->
+        <!--app:popupTheme，这个属性就是用来自定义我们弹出的菜单的样式-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_title_main"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_55"
+            android:background="@color/colorTheme"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="@dimen/dp_0"
+            app:popupTheme="@style/Theme.AppCompat.Light">
+
+
+            <FrameLayout
+                android:id="@+id/fl_title_main_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_15">
+
+                <ImageView
+                    android:id="@+id/iv_title_menu"
+                    android:layout_width="@dimen/dp_23"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/img_open_left_menu"
+                    android:src="@mipmap/ic_title_menu" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_title_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_20"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <!--     <com.miguelcatalan.materialsearchview.MaterialSearchView
+                 android:id="@+id/view_search"
+                 android:layout_width="match_parent"
+                 android:visibility="visible"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="right" />-->
+    </FrameLayout>
+</LinearLayout>

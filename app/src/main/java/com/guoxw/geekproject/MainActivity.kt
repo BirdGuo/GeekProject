@@ -2,11 +2,13 @@ package com.guoxw.geekproject
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.view.Gravity
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main_left.*
+import kotlinx.android.synthetic.main.include_title_main.*
 
 
 class MainActivity : BaseActivity() {
@@ -19,6 +21,9 @@ class MainActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView() {
+
+        tv_title_menu.text = "首页"
+
         val beginTransaction = supportFragmentManager.beginTransaction()
         beginTransaction.add(R.id.fl_main_content, mainFragments[0], "main")
         beginTransaction.add(R.id.fl_main_content, mainFragments[1], "cale")
@@ -29,19 +34,25 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-        mainFragments.add(calendarFragment)
+        //注意顺序
         mainFragments.add(fragmentGank)
+        mainFragments.add(calendarFragment)
     }
 
     override fun initListener() {
 
         fl_theme_main.setOnClickListener {
             showNewPage(mainFragments[0])
-
+            tv_title_menu.text = "首页"
         }
 
         fl_theme_calendar.setOnClickListener {
             showNewPage(mainFragments[1])
+            tv_title_menu.text = "程序猿老黄历"
+        }
+
+        fl_title_main_menu.setOnClickListener {
+            dl_main.openDrawer(Gravity.LEFT)
         }
 
     }

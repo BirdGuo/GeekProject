@@ -17,7 +17,7 @@ import com.guoxw.geekproject.R
  */
 class CalGoodAdapter : RecyclerView.Adapter<CalGoodAdapter.ViewHolder> {
 
-    var calendars: MutableList<Map<String,String>> = ArrayList<Map<String,String>>()
+    var calendars: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
     var mContext: Context? = null
 
     constructor(mContext: Context?) : super() {

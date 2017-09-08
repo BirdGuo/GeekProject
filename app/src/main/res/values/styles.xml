@@ -9,13 +9,13 @@
         <item name="colorPrimaryDark">@color/colorTheme</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <!--    //沉浸状态栏
-            <item name="android:windowIsTranslucent">true</item>
-            <item name="android:windowTranslucentStatus">true</item>
-            //可以让appbarlayout从最顶上开始，状态栏会覆盖toolbar
+        //沉浸状态栏
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        //可以让appbarlayout从最顶上开始，状态栏会覆盖toolbar
 
-            //ActionBarDrawerToggle设置颜色
-            <item name="colorControlNormal">@android:color/white</item>-->
+        //ActionBarDrawerToggle设置颜色
+        <item name="colorControlNormal">@android:color/white</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
