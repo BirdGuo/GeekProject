@@ -35,4 +35,9 @@ interface GankIOApi {
      *
      */
     fun getGankDayData(year: String, month: String, date: String): Flowable<GankResponse<GankDayData>>
+
+    /**
+     * 获取发过干货日期接口
+     */
+    fun getGankHistoryDate(): Flowable<GankResponse<MutableList<String>>>
 }

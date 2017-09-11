@@ -12,7 +12,6 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
-import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -24,18 +23,9 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
  */
 class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
-    var currentPage: Int = 1
+    var currentPage: Int = 0
 
-    override fun onItemClickListener(view: View, postion: Int) {
-
-        val bundle = Bundle()
-        bundle.putString("url", waterFullAdapter!!.mImages[postion].url)
-        openActivity(BeautyActivity::class.java, bundle)
-
-    }
-
-    override fun onItemLongClickListener(view: View, postion: Int) {
-    }
+    var dates: MutableList<String> = ArrayList()
 
     var waterFullAdapter: WaterFallAdapter? = null
     val gankIOApi: GankIOApi = GankIOResetApi
@@ -52,7 +42,37 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
     override fun initData() {
 
-        initIamges(1)
+//        initIamges(1)
+
+        initHisDay()
+
+    }
+
+    private fun initHisDay() {
+
+        gankIOApi.getGankHistoryDate().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe({ res ->
+                    if (!res.error) {
+                        dates.addAll(res.results)
+                        initPage(currentPage)
+                    } else {
+
+                    }
+                }, { e ->
+                    LogUtil.e("MainActivity", "error:".plus(e.message).plus("-----").plus(e.cause))
+                }, {})
+    }
+
+    private fun initPage(currentPage: Int) {
+
+        for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
+            LogUtil.i("GXW", "".plus(i).plus("waterFullAdapter.dates").plus(dates[i]))
+            waterFullAdapter!!.dates.add(dates[i])
+        }
+        LogUtil.i("GXW", "waterFullAdapter.dates sie:".plus(waterFullAdapter!!.dates.size))
+
+        waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
+        waterFullAdapter!!.notifyDataSetChanged()
 
     }
 
@@ -60,9 +80,9 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
         gankIOApi.getGankIOData("福利", 10, currentPage).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
                     if (!res.error) {
-                        waterFullAdapter!!.mImages.addAll(res.results)
-                        waterFullAdapter!!.getRandomHeight(res.results)
-                        waterFullAdapter!!.notifyDataSetChanged()
+//                        waterFullAdapter!!.mImages.addAll(res.results)
+//                        waterFullAdapter!!.getRandomHeight(res.results)
+//                        waterFullAdapter!!.notifyDataSetChanged()
                     } else {
                     }
                 }, { e -> LogUtil.e("MainActivity", "error:".plus(e.message)) }, {
@@ -82,7 +102,8 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (isSlideToBottom(recyclerView)) {
                     currentPage++
-                    initIamges(currentPage)
+//                    initIamges(currentPage)
+                    initPage(currentPage)
                 }
             }
         })
@@ -93,5 +114,17 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
         if (recyclerView == null) return false
         return if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) true else false
     }
+
+    override fun onItemClickListener(view: View, postion: Int) {
+
+        val bundle = Bundle()
+//        bundle.putString("url", waterFullAdapter!!.mImages[postion].url)
+//        openActivity(BeautyActivity::class.java, bundle)
+
+    }
+
+    override fun onItemLongClickListener(view: View, postion: Int) {
+    }
+
 
 }// Required empty public constructor

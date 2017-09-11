@@ -25,7 +25,7 @@ object ApiClient {
             //rxjava适配器
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             //设置超时
-            .client(OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+            .client(OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS)
                     //添加头还有拦截器
                     .addInterceptor({ chain ->
                         val request: Request = chain.request().newBuilder()

@@ -41,4 +41,11 @@ object GankIOResetApi : GankIOApi {
      */
     override fun getGankDayData(year: String, month: String, date: String): Flowable<GankResponse<GankDayData>>
             = ApiClient.retrofit.create(GankIOService::class.java).getGankDayData(year, month, date)
+
+    /**
+     * 获取发过干货日期接口
+     */
+    override fun getGankHistoryDate(): Flowable<GankResponse<MutableList<String>>>
+            = ApiClient.retrofit.create(GankIOService::class.java).getGankHistoryDate()
+
 }

@@ -1,6 +1,8 @@
 package com.guoxw.geekproject.gankio.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,8 +13,12 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.events.RCVItemClickListener
-import com.guoxw.geekproject.gankio.bean.GankData
-import java.util.*
+import com.guoxw.geekproject.gankio.api.GankIOApi
+import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
+import com.guoxw.geekproject.utils.LogUtil
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -24,7 +30,9 @@ import java.util.*
  */
 class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
-    var mImages: MutableList<GankData> = ArrayList<GankData>()
+//    var mImages: MutableList<GankData> = ArrayList<GankData>()
+
+    var dates: MutableList<String> = ArrayList<String>()
 
     var mHeights: MutableList<Int> = ArrayList<Int>()
 
@@ -50,22 +58,54 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
     }
 
     override fun getItemCount(): Int {
-        return mImages.size
+        return dates.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val layoutParams = holder!!.itemView.layoutParams
+        val layoutParams = holder!!.img_item_gank!!.layoutParams
         layoutParams.height = mHeights!![position]
-        holder.itemView.layoutParams = layoutParams
-        val gankData = mImages[position]
+        holder.img_item_gank!!.layoutParams = layoutParams
+//        val gankData = mImages[position]
 
-        Glide.with(mContext)
-                .load(gankData.url)
-                .into(holder.img_item_gank)
+        val date = dates[position]
+        val YMD = date.split("-")
 
+        val gankIOApi: GankIOApi = GankIOResetApi
+
+        LogUtil.i("GXW", "date:".plus(date))
+
+        gankIOApi.getGankDayData(YMD[0], YMD[1], YMD[2]).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe({ res ->
+                    if (!res.error) {
+
+                        val url = res.results.福利[0].url
+                        Glide.with(mContext)
+                                .load(url)
+                                .into(holder!!.img_item_gank)
+
+                        holder.img_item_gank!!.setOnClickListener {
+
+
+                            LogUtil.i("GXW", "img_item_gank")
+                            val bundle = Bundle()
+                            bundle.putString("url", url)
+                            val intent = Intent()
+                            intent.putExtra("data", bundle)
+                            intent.setClass(mContext, BeautyActivity::class.java)
+                            mContext!!.startActivity(intent)
+
+                        }
+
+                        if (res.results.休息视频 != null && res.results.休息视频.isNotEmpty()) {
+                            holder!!.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus(res.results.休息视频[0].desc)
+                        } else {
+                            holder!!.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus("今天木有小视频")
+                        }
+                    }
+                })
     }
 
-    fun getRandomHeight(mList: MutableList<GankData>) {
+    fun getRandomHeight(mList: MutableList<String>) {
 
         for (i in mList.indices) {
             //随机的获取一个范围为200-600直接的高度
@@ -89,11 +129,11 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
             cv_item_gank = itemView!!.findViewById(R.id.cv_item_gank) as CardView
 
-            cv_item_gank!!.setOnClickListener { view ->
+            tv_item_gank!!.setOnClickListener { view ->
                 itemClickListener!!.onItemClickListener(view, adapterPosition)
             }
 
-            cv_item_gank!!.setOnLongClickListener { view ->
+            tv_item_gank!!.setOnLongClickListener { view ->
                 itemClickListener!!.onItemLongClickListener(view, adapterPosition)
                 false
             }
@@ -101,5 +141,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
 
     }
+
 
 }

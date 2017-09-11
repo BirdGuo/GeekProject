@@ -43,4 +43,10 @@ interface GankIOService {
     @GET("day/{year}/{month}/{date}")
     fun getGankDayData(@Path("year") year: String, @Path("month") month: String, @Path("date") date: String): Flowable<GankResponse<GankDayData>>
 
+    /**
+     * 获取发过干货日期接口
+     */
+    @GET("day/history")
+    fun getGankHistoryDate(): Flowable<GankResponse<MutableList<String>>>
+
 }

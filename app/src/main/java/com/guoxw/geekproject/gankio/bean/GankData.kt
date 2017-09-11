@@ -14,8 +14,8 @@ data class GankData(
         //id
         var _id: String,
         //创建时间
-        var createAt: String,
-        var desc: String,
+        var createAt: String = "",
+        var desc: String = "",
         var images: Array<String>?,
         var publishedAt: String,
         var source: String,
