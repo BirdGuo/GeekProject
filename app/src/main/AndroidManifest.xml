@@ -23,9 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".gankio.ui.activity.BeautyActivity"
-          />
+        <activity android:name=".gankio.ui.activity.BeautyActivity" />
+        <activity android:name=".gankio.ui.activity.GankDayInfoActivity" />
     </application>
 
 </manifest>

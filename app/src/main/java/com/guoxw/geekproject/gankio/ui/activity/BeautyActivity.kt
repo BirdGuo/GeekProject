@@ -4,7 +4,8 @@ import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseToolbarActivity
 import kotlinx.android.synthetic.main.activity_beauty.*
-import kotlinx.android.synthetic.main.activity_toolbar_base.*
+import kotlinx.android.synthetic.main.include_toolbar.*
+
 
 class BeautyActivity : BaseToolbarActivity() {
 
@@ -29,10 +30,18 @@ class BeautyActivity : BaseToolbarActivity() {
 
     override fun initListener() {
 
+        img_beauty.setOnClickListener {
 
+            hideOrShowToolBar()
+//            when (tb_toolbar_base.visibility) {
+//                View.GONE -> {
+//                    tb_toolbar_base.visibility = View.VISIBLE
+//                }
+//                View.VISIBLE ->{
+//                    tb_toolbar_base.visibility = View.GONE
+//                }
+//            }
+        }
     }
-
-//    override fun getLayoutId(): Int = R.layout.activity_beauty
-
 
 }

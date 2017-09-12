@@ -1,10 +1,8 @@
 package com.guoxw.geekproject.base
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.VelocityTracker
 import android.view.View
 import android.view.Window
@@ -87,28 +85,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     //监听
     abstract fun initListener()
-
-    /**
-     * 设置title
-     * 子类可以直接用
-     *
-     * @param toolbar
-     * @param title
-     */
-    protected fun setToolBar(toolbar: Toolbar, title: String) {
-        //设置标题
-        toolbar.title = title
-        setSupportActionBar(toolbar)
-        //标题颜色
-        toolbar.setTitleTextColor(Color.WHITE)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)//显示返回按钮
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        //返回按钮监听事件
-        toolbar.setNavigationOnClickListener {
-            //返回
-            onBackPressed()
-        }
-    }
 
     override fun onPause() {
         super.onPause()

@@ -13,4 +13,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="img_open_left_menu">打开侧滑菜单</string>
+
+    <string name="error_wifi">你连接的网络有问题，请检查路由器</string>
+    <string name="error_lazy">程序员哥哥偷懒去了，快去举报他</string>
+
 </resources>

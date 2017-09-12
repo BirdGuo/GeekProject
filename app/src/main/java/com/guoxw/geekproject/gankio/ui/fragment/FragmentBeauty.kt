@@ -12,6 +12,7 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
 import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -118,8 +119,9 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
     override fun onItemClickListener(view: View, postion: Int) {
 
         val bundle = Bundle()
-//        bundle.putString("url", waterFullAdapter!!.mImages[postion].url)
+        bundle.putString("url", waterFullAdapter!!.dates[postion])
 //        openActivity(BeautyActivity::class.java, bundle)
+        openActivity(GankDayInfoActivity::class.java,bundle)
 
     }
 
