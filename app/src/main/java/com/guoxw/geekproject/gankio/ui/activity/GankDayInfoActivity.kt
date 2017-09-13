@@ -1,25 +1,24 @@
 package com.guoxw.geekproject.gankio.ui.activity
 
+import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
-import com.guoxw.geekproject.base.BaseToolbarActivity
+import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.bean.GankDayDataParam
 import com.guoxw.geekproject.gankio.presenter.GankDataInfoPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
-import kotlinx.android.synthetic.main.include_toolbar.*
+import kotlinx.android.synthetic.main.activity_gank_day_info.*
 
-class GankDayInfoActivity : BaseToolbarActivity(), IGankDayDataView {
+class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
+
 
     var date: String = ""
 
     val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this)
 
-    override fun getContentLayoutId(): Int = R.layout.activity_gank_day_info
+    override fun getLayoutId(): Int = R.layout.activity_gank_day_info
 
-    override fun initUI() {
-
-        setToolBar(tb_toolbar_base, date)
-
+    override fun initView() {
     }
 
     override fun initData() {
@@ -38,8 +37,9 @@ class GankDayInfoActivity : BaseToolbarActivity(), IGankDayDataView {
 
     override fun reflashView(mData: GankDayData) {
 
-
-
+        Glide.with(this)
+                .load(mData.福利[0].url)
+                .into(img_gdi)
     }
 
     override fun getDataFail(error: String) {

@@ -43,8 +43,6 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
     override fun initData() {
 
-//        initIamges(1)
-
         initHisDay()
 
     }
@@ -119,7 +117,7 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
     override fun onItemClickListener(view: View, postion: Int) {
 
         val bundle = Bundle()
-        bundle.putString("url", waterFullAdapter!!.dates[postion])
+        bundle.putString("date", waterFullAdapter!!.dates[postion])
 //        openActivity(BeautyActivity::class.java, bundle)
         openActivity(GankDayInfoActivity::class.java,bundle)
 

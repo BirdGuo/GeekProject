@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin_toolbar_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true">
 
-    <!--在这儿加    android:fitsSystemWindows="true" 如果在最外一层加的话会出现一条白边-->
-  <!--  <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_toolbar_base"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|enterAlways"
-        android:background="?attr/colorPrimary" />
--->
-
-    <include layout="@layout/include_toolbar"/>
+    <include layout="@layout/include_toolbar" />
 
     <FrameLayout
         android:id="@+id/fl_toolbar_base"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="-30dp"
+        android:background="@color/colorWhite"
+        android:fitsSystemWindows="true" />
+
+
+</RelativeLayout>

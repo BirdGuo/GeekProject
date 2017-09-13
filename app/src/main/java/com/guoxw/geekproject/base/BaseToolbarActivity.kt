@@ -1,7 +1,8 @@
 package com.guoxw.geekproject.base
 
 import android.graphics.Color
-import android.support.design.widget.AppBarLayout
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.animation.DecelerateInterpolator
@@ -25,10 +26,12 @@ abstract class BaseToolbarActivity : BaseActivity() {
 
     override fun getLayoutId(): Int = R.layout.activity_toolbar_base
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initView() {
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
         fl_toolbar_base.addView(contentView)
         setToolBar(tb_toolbar_base, "")
+        window.statusBarColor = Color.RED
         initUI()
     }
 
@@ -46,7 +49,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
         //标题颜色
         toolbar.setTitleTextColor(Color.WHITE)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)//显示返回按钮
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
+//        supportActionBar!!.setDisplayShowHomeEnabled(true)
         //返回按钮监听事件
         toolbar.setNavigationOnClickListener {
             //返回
@@ -56,11 +59,19 @@ abstract class BaseToolbarActivity : BaseActivity() {
 
     protected fun hideOrShowToolBar() {
 
-        (supportActionBar as AppBarLayout)
-                .animate()
+        app_bar.animate()
                 .translationY((if (isToolBarHiding) 0 else -supportActionBar!!.height).toFloat())
                 .setInterpolator(DecelerateInterpolator(2f))
                 .start()
+
+/*
+        if (!isToolBarHiding) {
+            lin_toolbar_base.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray))
+        } else {
+//            lin_toolbar_base.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        }
+*/
+
         isToolBarHiding = !isToolBarHiding
     }
 
