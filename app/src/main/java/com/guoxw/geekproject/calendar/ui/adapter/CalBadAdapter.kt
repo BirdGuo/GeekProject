@@ -17,7 +17,7 @@ import com.guoxw.geekproject.R
  */
 class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
 
-    var calendars: MutableList<Map<String,String>> = ArrayList<Map<String,String>>()
+    var calendars: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
     var mContext: Context? = null
 
     constructor(mContext: Context?) : super() {
@@ -48,8 +48,10 @@ class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
         var tv_item_good_content: TextView? = null
 
         constructor(itemView: View?) : super(itemView) {
-            tv_item_good_title = itemView!!.findViewById(R.id.tv_item_good_title) as TextView
-            tv_item_good_content = itemView!!.findViewById(R.id.tv_item_good_content) as TextView
+            tv_item_good_title = itemView!!.findViewById<TextView>(R.id.tv_item_good_title)
+//            tv_item_good_content = itemView!!.findViewById(R.id.tv_item_good_content) as TextView 过时了
+            //使用
+            tv_item_good_content = itemView!!.findViewById<TextView>(R.id.tv_item_good_content)
         }
     }
 

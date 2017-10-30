@@ -63,7 +63,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val layoutParams = holder!!.img_item_gank!!.layoutParams
-        layoutParams.height = mHeights!![position]
+        layoutParams.height = mHeights[position]
         holder.img_item_gank!!.layoutParams = layoutParams
 //        val gankData = mImages[position]
 
@@ -124,10 +124,10 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         constructor(itemView: View?, itemClickListener: RCVItemClickListener?) : super(itemView) {
             this.itemClickListener = itemClickListener
-            img_item_gank = itemView!!.findViewById(R.id.img_item_gank) as ImageView
-            tv_item_gank = itemView!!.findViewById(R.id.tv_item_gank) as TextView
+            img_item_gank = itemView!!.findViewById<ImageView>(R.id.img_item_gank)
+            tv_item_gank = itemView!!.findViewById<TextView>(R.id.tv_item_gank)
 
-            cv_item_gank = itemView!!.findViewById(R.id.cv_item_gank) as CardView
+            cv_item_gank = itemView!!.findViewById<CardView>(R.id.cv_item_gank)
 
             tv_item_gank!!.setOnClickListener { view ->
                 itemClickListener!!.onItemClickListener(view, adapterPosition)

@@ -48,8 +48,8 @@ class CalGoodAdapter : RecyclerView.Adapter<CalGoodAdapter.ViewHolder> {
         var tv_item_good_content: TextView? = null
 
         constructor(itemView: View?) : super(itemView) {
-            tv_item_good_title = itemView!!.findViewById(R.id.tv_item_good_title) as TextView
-            tv_item_good_content = itemView!!.findViewById(R.id.tv_item_good_content) as TextView
+            tv_item_good_title = itemView!!.findViewById<TextView>(R.id.tv_item_good_title)
+            tv_item_good_content = itemView!!.findViewById<TextView>(R.id.tv_item_good_content)
         }
     }
 

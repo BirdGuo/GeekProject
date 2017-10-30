@@ -8,6 +8,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.guoxw.geekproject"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
@@ -51,16 +52,18 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation "com.android.support:support-v4:${rootProject.ext.support}"
     testImplementation 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin_version}"
-    compile "com.android.support:appcompat-v7:${rootProject.ext.support}"
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
+//    compile "com.android.support:appcompat-v7:${rootProject.ext.support}"
+//    testCompile 'junit:junit:4.12'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+//
 //    kapt "com.android.databinding:compiler:${versions.databinding}"
+
+    compile 'com.android.support:multidex:1.0.1'
 
     compile "com.squareup.retrofit2:retrofit:${versions.retrofit2}"
     compile "com.squareup.retrofit2:adapter-guava:${versions.retrofit2}"
