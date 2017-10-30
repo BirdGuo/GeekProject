@@ -9,7 +9,9 @@ import kotlinx.android.synthetic.main.fragment_gank.*
 class FragmentGank : BaseFragment() {
 
     var gankFragments: MutableList<Fragment> = ArrayList<Fragment>()
-    private val beauty: FragmentBeauty = FragmentBeauty()
+    val beauty: FragmentBeauty = FragmentBeauty()
+
+    val andFragment: FragmentAndroid = FragmentAndroid()
 
     override fun getLayoutId(): Int = R.layout.fragment_gank
 
@@ -28,6 +30,7 @@ class FragmentGank : BaseFragment() {
 
     override fun initData() {
         gankFragments.add(beauty)
+        gankFragments.add(andFragment)
         vp_gank.adapter.notifyDataSetChanged()
     }
 

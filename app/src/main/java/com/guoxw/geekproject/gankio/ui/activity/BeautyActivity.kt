@@ -1,5 +1,6 @@
 package com.guoxw.geekproject.gankio.ui.activity
 
+import android.view.View
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseToolbarActivity
