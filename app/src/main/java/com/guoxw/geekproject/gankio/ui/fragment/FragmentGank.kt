@@ -11,7 +11,8 @@ class FragmentGank : BaseFragment() {
     var gankFragments: MutableList<Fragment> = ArrayList<Fragment>()
     val beauty: FragmentBeauty = FragmentBeauty()
 
-    val andFragment: FragmentAndroid = FragmentAndroid()
+    val andFragment: FragmentAndroid = FragmentAndroid("Android")
+    val iosFragment: FragmentAndroid = FragmentAndroid("iOS")
 
     override fun getLayoutId(): Int = R.layout.fragment_gank
 
@@ -31,6 +32,7 @@ class FragmentGank : BaseFragment() {
     override fun initData() {
         gankFragments.add(beauty)
         gankFragments.add(andFragment)
+        gankFragments.add(iosFragment)
         vp_gank.adapter.notifyDataSetChanged()
     }
 

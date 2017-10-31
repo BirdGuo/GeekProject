@@ -2,6 +2,8 @@ package com.guoxw.geekproject.gankio.api
 
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.GankDayData
+import com.guoxw.geekproject.gankio.bean.params.GankDataParam
+import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import io.reactivex.Flowable
 
@@ -24,7 +26,7 @@ interface GankIOApi {
      * @param page
      * 第几页：数字，大于0
      */
-    fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<MutableList<GankData>>>
+    fun getGankIOData(gankDataParam: GankDataParam): Flowable<GankResponse<MutableList<GankData>>>
 
     /**
      * 每日数据： http://gank.io/api/day/年/月/日
@@ -34,7 +36,7 @@ interface GankIOApi {
      * @param date  日
      *
      */
-    fun getGankDayData(year: String, month: String, date: String): Flowable<GankResponse<GankDayData>>
+    fun getGankDayData(gankDayDataParam: GankDayDataParam): Flowable<GankResponse<GankDayData>>
 
     /**
      * 获取发过干货日期接口

@@ -15,6 +15,7 @@ import com.guoxw.geekproject.R
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -73,8 +74,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         val gankIOApi: GankIOApi = GankIOResetApi
 
         LogUtil.i("GXW", "date:".plus(date))
-
-        gankIOApi.getGankDayData(YMD[0], YMD[1], YMD[2]).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+        gankIOApi.getGankDayData(GankDayDataParam(YMD[0], YMD[1], YMD[2])).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
                     if (!res.error) {
 

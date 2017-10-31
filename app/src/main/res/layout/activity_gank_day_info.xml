@@ -69,6 +69,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingBottom="40dp" />
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

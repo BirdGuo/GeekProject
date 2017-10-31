@@ -11,6 +11,7 @@ import android.os.Parcelable
  * @package com.guoxw.geekproject.gankio.bean
  */
 data class GankDayData(
+        var 拓展资源: MutableList<GankData>,
         var Android: MutableList<GankData>,
         var iOS: MutableList<GankData>,
         var 休息视频: MutableList<GankData>,
@@ -21,12 +22,14 @@ data class GankDayData(
             source.createTypedArrayList(GankData.CREATOR),
             source.createTypedArrayList(GankData.CREATOR),
             source.createTypedArrayList(GankData.CREATOR),
+            source.createTypedArrayList(GankData.CREATOR),
             source.createTypedArrayList(GankData.CREATOR)
     )
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeTypedList(拓展资源)
         writeTypedList(Android)
         writeTypedList(iOS)
         writeTypedList(休息视频)
@@ -35,7 +38,7 @@ data class GankDayData(
     }
 
     override fun toString(): String {
-        return "GankDayData(Android=$Android, iOS=$iOS, 休息视频=$休息视频, 前端=$前端, 福利=$福利)"
+        return "GankDayData(拓展资源=$拓展资源, Android=$Android, iOS=$iOS, 休息视频=$休息视频, 前端=$前端, 福利=$福利)"
     }
 
     companion object {

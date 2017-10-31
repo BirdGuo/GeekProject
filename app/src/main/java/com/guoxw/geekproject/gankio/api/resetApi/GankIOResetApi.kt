@@ -4,6 +4,8 @@ import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.service.GankIOService
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.GankDayData
+import com.guoxw.geekproject.gankio.bean.params.GankDataParam
+import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import com.guoxw.geekproject.network.ApiClient
 import io.reactivex.Flowable
@@ -28,8 +30,8 @@ object GankIOResetApi : GankIOApi {
      * @param page
      * 第几页：数字，大于0
      */
-    override fun getGankIOData(type: String, number: Number, page: Int): Flowable<GankResponse<MutableList<GankData>>>
-            = ApiClient.retrofit.create(GankIOService::class.java).getGankIOData(type, number, page)
+    override fun getGankIOData(gankDataParam: GankDataParam): Flowable<GankResponse<MutableList<GankData>>>
+            = ApiClient.retrofit.create(GankIOService::class.java).getGankIOData(gankDataParam.type, gankDataParam.number, gankDataParam.page)
 
     /**
      * 每日数据： http://gank.io/api/day/年/月/日
@@ -39,8 +41,8 @@ object GankIOResetApi : GankIOApi {
      * @param date  日
      *
      */
-    override fun getGankDayData(year: String, month: String, date: String): Flowable<GankResponse<GankDayData>>
-            = ApiClient.retrofit.create(GankIOService::class.java).getGankDayData(year, month, date)
+    override fun getGankDayData(gankDayDataParam: GankDayDataParam): Flowable<GankResponse<GankDayData>>
+            = ApiClient.retrofit.create(GankIOService::class.java).getGankDayData(gankDayDataParam.year, gankDayDataParam.month, gankDayDataParam.date)
 
     /**
      * 获取发过干货日期接口

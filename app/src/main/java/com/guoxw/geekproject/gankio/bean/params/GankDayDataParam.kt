@@ -1,4 +1,4 @@
-package com.guoxw.geekproject.gankio.bean
+package com.guoxw.geekproject.gankio.bean.params
 
 import android.os.Parcel
 import android.os.Parcelable

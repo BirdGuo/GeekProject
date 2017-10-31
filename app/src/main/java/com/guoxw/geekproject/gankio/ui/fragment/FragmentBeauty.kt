@@ -75,20 +75,20 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
     }
 
-    private fun initIamges(currentPage: Int) {
-        gankIOApi.getGankIOData("福利", 10, currentPage).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe({ res ->
-                    if (!res.error) {
-//                        waterFullAdapter!!.mImages.addAll(res.results)
-//                        waterFullAdapter!!.getRandomHeight(res.results)
-//                        waterFullAdapter!!.notifyDataSetChanged()
-                    } else {
-                    }
-                }, { e -> LogUtil.e("MainActivity", "error:".plus(e.message)) }, {
-
-                })
-
-    }
+//    private fun initIamges(currentPage: Int) {
+//        gankIOApi.getGankIOData(gankDataParam).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+//                .subscribe({ res ->
+//                    if (!res.error) {
+////                        waterFullAdapter!!.mImages.addAll(res.results)
+////                        waterFullAdapter!!.getRandomHeight(res.results)
+////                        waterFullAdapter!!.notifyDataSetChanged()
+//                    } else {
+//                    }
+//                }, { e -> LogUtil.e("MainActivity", "error:".plus(e.message)) }, {
+//
+//                })
+//
+//    }
 
     override fun initListener() {
 
