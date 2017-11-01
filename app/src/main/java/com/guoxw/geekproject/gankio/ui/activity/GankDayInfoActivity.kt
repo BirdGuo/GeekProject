@@ -1,12 +1,9 @@
 package com.guoxw.geekproject.gankio.ui.activity
 
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseActivity
-import com.guoxw.geekproject.events.RCVItemClickListener
-import com.guoxw.geekproject.gankio.adapter.AndroidAdapter
 import com.guoxw.geekproject.gankio.adapter.DataAdapter
 import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.bean.GankListData
@@ -37,6 +34,8 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
         val bundleExtra = intent.getBundleExtra("data")
         date = bundleExtra.getString("date")
 
+        ctb_gdi.title = date
+
         val dateSP = date.split("-")
 
         presenter.initDayData(GankDayDataParam(dateSP[0], dateSP[1], dateSP[2]))
@@ -44,6 +43,7 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
     }
 
     override fun initListener() {
+
     }
 
     override fun reflashView(mData: GankDayData) {
@@ -52,7 +52,7 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
                 .load(mData.福利[0].url)
                 .into(img_gdi)
 
-        val gankListDatas: MutableList<GankListData> = ArrayList()
+        val gankListDatas: MutableList<GankListData> = ArrayList<GankListData>()
 
         if (mData.Android != null)
             gankListDatas.add(GankListData("Android", mData.Android))

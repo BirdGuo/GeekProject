@@ -1,7 +1,10 @@
 package com.guoxw.geekproject.gankio.ui.fragment
 
 
+import android.app.Activity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -12,11 +15,14 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
 import com.guoxw.geekproject.utils.LogUtil
+import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_beauty.*
+import java.io.Serializable
 
 
 /**
@@ -75,21 +81,6 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
     }
 
-//    private fun initIamges(currentPage: Int) {
-//        gankIOApi.getGankIOData(gankDataParam).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-//                .subscribe({ res ->
-//                    if (!res.error) {
-////                        waterFullAdapter!!.mImages.addAll(res.results)
-////                        waterFullAdapter!!.getRandomHeight(res.results)
-////                        waterFullAdapter!!.notifyDataSetChanged()
-//                    } else {
-//                    }
-//                }, { e -> LogUtil.e("MainActivity", "error:".plus(e.message)) }, {
-//
-//                })
-//
-//    }
-
     override fun initListener() {
 
         rcv_beauty.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -101,7 +92,6 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (isSlideToBottom(recyclerView)) {
                     currentPage++
-//                    initIamges(currentPage)
                     initPage(currentPage)
                 }
             }
@@ -109,17 +99,23 @@ class FragmentBeauty : BaseFragment(), RCVItemClickListener {
 
     }
 
-    private fun isSlideToBottom(recyclerView: RecyclerView?): Boolean {
-        if (recyclerView == null) return false
-        return if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) true else false
-    }
 
     override fun onItemClickListener(view: View, postion: Int) {
 
         val bundle = Bundle()
         bundle.putString("date", waterFullAdapter!!.dates[postion])
+
+//        BeautyPic.beauty =
+
+//        ShareElement.shareDrawable = ivMeizi.getDrawable()
+//        val intent = Intent(context, MeizhiActivity::class.java)
+//        intent.putExtra(PanConfig.MEIZI, card.getTag() as Serializable)
+//        val optionsCompat = ActivityOptionsCompat
+//                .makeSceneTransitionAnimation(context as Activity, ivMeizi, PanConfig.TRANSLATE_GIRL_VIEW)
+//        ActivityCompat.startActivity(context, intent, optionsCompat.toBundle())
+
 //        openActivity(BeautyActivity::class.java, bundle)
-        openActivity(GankDayInfoActivity::class.java,bundle)
+//        openActivity(GankDayInfoActivity::class.java, bundle)
 
     }
 

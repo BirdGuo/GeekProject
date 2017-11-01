@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.VelocityTracker
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import com.guoxw.geekproject.R
+import com.guoxw.geekproject.utils.LogUtil
 import rx.subscriptions.CompositeSubscription
 import java.util.*
+
 
 /**
  * Created by guoxw on 2017/9/5 0005.
@@ -31,6 +34,8 @@ abstract class BaseActivity : AppCompatActivity() {
     var isClose: Boolean = true
     var decorView: View? = null
     var mVelocityTracker: VelocityTracker = VelocityTracker.obtain()
+
+    var isExit = false
 
     var mCompositeSubscription: CompositeSubscription? = null
 
@@ -171,6 +176,24 @@ abstract class BaseActivity : AppCompatActivity() {
         android.os.Process.killProcess(android.os.Process.myPid())
     }
 
-
+    /**
+     * 双击退出
+     */
+    fun exitBy2Click() {
+        var tExit: Timer? = null
+        LogUtil.i("GXW", "isExit:" + isExit)
+        if (isExit == false) {
+            isExit = true // 准备退出
+            Toast.makeText(applicationContext, R.string.double_click_exit, Toast.LENGTH_SHORT).show()
+            tExit = Timer()
+            tExit.schedule(object : TimerTask() {
+                override fun run() {
+                    isExit = false // 取消退出
+                }
+            }, 2000) // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+        } else {
+            exitApp()
+        }
+    }
 
 }

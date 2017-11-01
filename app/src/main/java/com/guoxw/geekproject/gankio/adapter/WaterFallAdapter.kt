@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.gankio.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,11 +18,14 @@ import com.guoxw.geekproject.R
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
+import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
 import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.Serializable
 
 
 /**
@@ -130,7 +136,17 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
             cv_item_gank = itemView!!.findViewById<CardView>(R.id.cv_item_gank)
 
             tv_item_gank!!.setOnClickListener { view ->
-                itemClickListener!!.onItemClickListener(view, adapterPosition)
+//                itemClickListener!!.onItemClickListener(view, adapterPosition)
+
+                BeautyPic.beauty = img_item_gank!!.drawable
+
+//                ShareElement.shareDrawable = ivMeizi.getDrawable()
+                val intent = Intent(view.context, GankDayInfoActivity::class.java)
+                intent.putExtra(PanConfig.MEIZI, card.getTag() as Serializable)
+//                val optionsCompat = ActivityOptionsCompat
+//                        .makeSceneTransitionAnimation(context as Activity, ivMeizi, PanConfig.TRANSLATE_GIRL_VIEW)
+//                ActivityCompat.startActivity(context, intent, optionsCompat.toBundle())
+
             }
 
             tv_item_gank!!.setOnLongClickListener { view ->

@@ -2,6 +2,7 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_gank.*
@@ -17,7 +18,24 @@ class FragmentGank : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_gank
 
     override fun initView() {
+
         vp_gank.adapter = object : FragmentPagerAdapter(fragmentManager) {
+
+            override fun getPageTitle(position: Int): CharSequence {
+                /**
+                 * 设置每页的标题
+                 * @param position
+                 * @return title
+                 */
+                var title: CharSequence = ""
+                when (position) {
+                    0 -> title = "妹汁"
+                    1 -> title = "Android"
+                    2 -> title = "iOS"
+                }
+                return title
+            }
+
             override fun getItem(position: Int): Fragment {
                 return gankFragments[position]
             }
@@ -26,6 +44,12 @@ class FragmentGank : BaseFragment() {
                 return gankFragments.size
             }
         }
+
+        /**
+         * 这样设置之后adapter会把tab中的所有view都清除，然后将adapter中的titile加上
+         */
+        tbl_gank.setupWithViewPager(vp_gank, true)
+
         vp_gank.currentItem = 0
     }
 

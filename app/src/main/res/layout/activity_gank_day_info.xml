@@ -17,6 +17,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ctb_gdi"
             android:layout_width="match_parent"
+            app:title="123"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"

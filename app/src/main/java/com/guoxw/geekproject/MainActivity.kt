@@ -3,12 +3,17 @@ package com.guoxw.geekproject
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.Gravity
+import android.view.KeyEvent
+import android.widget.Toast
+import com.blankj.utilcode.utils.ToastUtils
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main_left.*
 import kotlinx.android.synthetic.main.include_title_main.*
+import java.util.*
 
 
 class MainActivity : BaseActivity() {
@@ -19,6 +24,7 @@ class MainActivity : BaseActivity() {
     private val mainFragments: MutableList<Fragment> = ArrayList<Fragment>()
 
     override fun getLayoutId(): Int = R.layout.activity_main
+
 
     override fun initView() {
 
@@ -80,6 +86,14 @@ class MainActivity : BaseActivity() {
             transaction.hide(fragment)
         }
 
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            LogUtil.i("GXW", "click back")
+            exitBy2Click()
+        }
+        return false
     }
 
     /**
