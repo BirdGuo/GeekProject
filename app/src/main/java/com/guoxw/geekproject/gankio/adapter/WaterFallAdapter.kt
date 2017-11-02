@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.CardView
@@ -16,6 +17,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.events.RCVItemClickListener
+import com.guoxw.geekproject.gankio.GankConfig
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.BeautyPic
@@ -61,7 +63,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         val view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_gank_image, parent, false)
 
-        return ViewHolder(view, rcvItemClickListener)
+        return ViewHolder(view, rcvItemClickListener, dates)
     }
 
     override fun getItemCount(): Int {
@@ -88,6 +90,8 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         Glide.with(mContext)
                                 .load(url)
                                 .into(holder!!.img_item_gank)
+
+                        holder.cv_item_gank!!.tag = res.results.福利[0]
 
                         holder.img_item_gank!!.setOnClickListener {
 
@@ -128,7 +132,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         var cv_item_gank: CardView? = null
 
-        constructor(itemView: View?, itemClickListener: RCVItemClickListener?) : super(itemView) {
+        constructor(itemView: View?, itemClickListener: RCVItemClickListener?, date: MutableList<String>) : super(itemView) {
             this.itemClickListener = itemClickListener
             img_item_gank = itemView!!.findViewById<ImageView>(R.id.img_item_gank)
             tv_item_gank = itemView!!.findViewById<TextView>(R.id.tv_item_gank)
@@ -136,16 +140,17 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
             cv_item_gank = itemView!!.findViewById<CardView>(R.id.cv_item_gank)
 
             tv_item_gank!!.setOnClickListener { view ->
-//                itemClickListener!!.onItemClickListener(view, adapterPosition)
-
                 BeautyPic.beauty = img_item_gank!!.drawable
 
-//                ShareElement.shareDrawable = ivMeizi.getDrawable()
+                LogUtil.i("GXW", "======================")
+
                 val intent = Intent(view.context, GankDayInfoActivity::class.java)
-                intent.putExtra(PanConfig.MEIZI, card.getTag() as Serializable)
-//                val optionsCompat = ActivityOptionsCompat
-//                        .makeSceneTransitionAnimation(context as Activity, ivMeizi, PanConfig.TRANSLATE_GIRL_VIEW)
-//                ActivityCompat.startActivity(context, intent, optionsCompat.toBundle())
+                val bundle = Bundle()
+                bundle.putString("date", date[adapterPosition])
+                intent.putExtra("data", bundle)
+                intent.putExtra(GankConfig.MEIZI, itemView.tag as Serializable)
+                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(itemView.context as Activity, img_item_gank, GankConfig.TRANSLATE_GIRL_VIEW)
+                ActivityCompat.startActivity(itemView.context, intent, optionsCompat.toBundle())
 
             }
 

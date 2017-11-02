@@ -1,7 +1,7 @@
 package com.guoxw.geekproject.gankio.bean
 
-import android.os.Parcel
-import android.os.Parcelable
+import java.io.Serializable
+import java.util.*
 
 /**
  * Created by guoxw on 2017/9/5 0005.
@@ -23,40 +23,9 @@ data class GankData(
         var url: String,
         var used: Boolean,
         var who: String
-) : Parcelable {
-    constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.createStringArray(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            1 == source.readInt(),
-            source.readString()
-    )
+) : Serializable {
 
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(_id)
-        writeString(createAt)
-        writeString(desc)
-        writeStringArray(images)
-        writeString(publishedAt)
-        writeString(source)
-        writeString(type)
-        writeString(url)
-        writeInt((if (used) 1 else 0))
-        writeString(who)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<GankData> = object : Parcelable.Creator<GankData> {
-            override fun createFromParcel(source: Parcel): GankData = GankData(source)
-            override fun newArray(size: Int): Array<GankData?> = arrayOfNulls(size)
-        }
+    override fun toString(): String {
+        return "GankData(_id='$_id', createAt='$createAt', desc='$desc', images=${Arrays.toString(images)}, publishedAt='$publishedAt', source='$source', type='$type', url='$url', used=$used, who='$who')"
     }
 }

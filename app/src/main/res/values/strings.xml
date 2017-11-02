@@ -21,4 +21,6 @@
     <string name="img_des_gank_day_girl">妹纸</string>
     <string name="double_click_exit">再按一次退出程序</string>
 
+    <string name="gank_symbol">&#032; &#187;</string>
+
 </resources>
