@@ -97,12 +97,19 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
 
                             LogUtil.i("GXW", "img_item_gank")
-                            val bundle = Bundle()
-                            bundle.putString("url", url)
-                            val intent = Intent()
-                            intent.putExtra("data", bundle)
-                            intent.setClass(mContext, BeautyActivity::class.java)
-                            mContext!!.startActivity(intent)
+//                            val bundle = Bundle()
+//                            bundle.putString("url", url)
+//                            val intent = Intent()
+//                            intent.putExtra("data", bundle)
+//                            intent.setClass(mContext, BeautyActivity::class.java)
+//                            mContext!!.startActivity(intent)
+                            BeautyPic.beauty = holder!!.img_item_gank!!.drawable
+
+                            val intent = Intent(mContext, BeautyActivity::class.java)
+                            intent.putExtra(GankConfig.MEIZI, holder.cv_item_gank!!.tag as Serializable)
+                            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext as Activity, holder.img_item_gank, GankConfig.TRANSLATE_GIRL_VIEW)
+                            ActivityCompat.startActivity(mContext, intent, optionsCompat.toBundle())
+
 
                         }
 
@@ -141,8 +148,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
             tv_item_gank!!.setOnClickListener { view ->
                 BeautyPic.beauty = img_item_gank!!.drawable
-
-                LogUtil.i("GXW", "======================")
 
                 val intent = Intent(view.context, GankDayInfoActivity::class.java)
                 val bundle = Bundle()

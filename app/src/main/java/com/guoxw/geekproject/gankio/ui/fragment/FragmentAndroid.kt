@@ -59,7 +59,7 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
         //初始化Presenter
         gankDataPresenter = GankDataPresenter(this, context)
         //获取第一页数据
-        gankDataPresenter!!.initGankData(GankDataParam(type,pageNum,currentPage))
+        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
 
     override fun initListener() {
@@ -77,7 +77,7 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
                     //页数+1
                     currentPage++
                     //查询新数据
-                    gankDataPresenter!!.initGankData(GankDataParam(type,pageNum,currentPage))
+                    gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
                 }
             }
         })
@@ -95,6 +95,12 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
     }
 
     override fun getDataComplete() {
+    }
+
+    override fun getHisSuccess(dates: MutableList<String>) {
+    }
+
+    override fun getHisFail(error: String) {
     }
 
 

@@ -42,4 +42,22 @@ class GankDataPresenter(val gankDataView: IGankDataView, val context: Context) {
 
     }
 
+    fun initGankHistory() {
+        gankIOApi.getGankHistoryDate().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe({ res ->
+                    if (!res.error) {
+//                        dates.addAll(res.results)
+//                        initPage(currentPage)
+                        gankDataView.getHisSuccess(res.results)
+                    } else {
+                        gankDataView.getDataFail(context.getString(R.string.error_network))
+                    }
+                }, { e ->
+                    //获取失败
+                    gankDataView.getDataFail(e.message!!)
+                }, {
+                    gankDataView.getDataComplete()
+                })
+    }
+
 }

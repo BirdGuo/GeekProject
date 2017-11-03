@@ -23,4 +23,10 @@
 
     <string name="gank_symbol">&#032; &#187;</string>
 
+    <string name="about_addr">https://github.com/BirdGuo/GeekProject</string>//项目地址
+    <string name="about_author">作者:BirdGuo</string>
+    <string name="github_issues">您好，您有什么好的意见可以及时向我反馈，您可以在GitHub或者开源中国的Issues处说明问题原因，也可以通过以下方式联系我，我将根据情况尽量处理哦 ~</string>
+    <string name="about_project">项目简介:\nGeekProject,使用kotlin编写，集成GankIO API，参考并加入了程序猿老黄历。该项目会持续迭代与优化,加入更丰富的内容与功能,并不断尝试最新的技术,欢迎star、fork、issue\n点击下面的项目链接给个star吧,您的star就是对我最大的支持。</string>
+
+
 </resources>

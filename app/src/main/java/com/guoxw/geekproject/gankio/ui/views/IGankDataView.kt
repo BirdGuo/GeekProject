@@ -8,5 +8,8 @@ import com.guoxw.geekproject.gankio.bean.GankData
  */
 interface IGankDataView : BaseView<MutableList<GankData>> {
 
+    fun getHisSuccess(dates: MutableList<String>)
+
+    fun getHisFail(error: String)
 
 }

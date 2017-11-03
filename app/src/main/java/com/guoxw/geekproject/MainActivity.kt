@@ -1,5 +1,6 @@
 package com.guoxw.geekproject
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.Gravity
@@ -57,9 +58,19 @@ class MainActivity : BaseActivity() {
             tv_title_menu.text = "程序猿老黄历"
         }
 
+        //退出
+        fl_exit_app.setOnClickListener {
+            exitApp()
+        }
+
+        fl_about_us.setOnClickListener {
+            openActivity(AboutActivity::class.java, Bundle())
+        }
+
         fl_title_main_menu.setOnClickListener {
             dl_main.openDrawer(Gravity.LEFT)
         }
+
 
     }
 
