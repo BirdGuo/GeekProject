@@ -64,14 +64,6 @@ abstract class BaseToolbarActivity : BaseActivity() {
                 .setInterpolator(DecelerateInterpolator(2f))
                 .start()
 
-/*
-        if (!isToolBarHiding) {
-            lin_toolbar_base.setBackgroundColor(ContextCompat.getColor(this, android.R.color.darker_gray))
-        } else {
-//            lin_toolbar_base.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        }
-*/
-
         isToolBarHiding = !isToolBarHiding
     }
 

@@ -24,6 +24,9 @@ class GankDataInfoPresenter(val gankDayDataView: IGankDayDataView, val mContext:
     //接口
     private val gankIOApi: GankIOApi = GankIOResetApi
 
+    /**
+     * 每日信息接口
+     */
     fun initDayData(gankDayDataParam: GankDayDataParam) {
 
         //判断网络是否连接
@@ -49,5 +52,6 @@ class GankDataInfoPresenter(val gankDayDataView: IGankDayDataView, val mContext:
 
     }
 
+//    fun initDayData(gankDayDataParam: GankDayDataParam,img_item_gank:ImageV)
 
 }

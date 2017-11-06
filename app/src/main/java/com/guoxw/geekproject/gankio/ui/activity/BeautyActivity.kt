@@ -38,16 +38,7 @@ class BeautyActivity : BaseToolbarActivity() {
     override fun initListener() {
 
         img_beauty.setOnClickListener {
-
             hideOrShowToolBar()
-//            when (tb_toolbar_base.visibility) {
-//                View.GONE -> {
-//                    tb_toolbar_base.visibility = View.VISIBLE
-//                }
-//                View.VISIBLE ->{
-//                    tb_toolbar_base.visibility = View.GONE
-//                }
-//            }
         }
     }
 

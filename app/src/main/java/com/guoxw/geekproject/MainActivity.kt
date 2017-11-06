@@ -63,14 +63,23 @@ class MainActivity : BaseActivity() {
             exitApp()
         }
 
+        //反馈
+        fl_feedback.setOnClickListener {
+            openActivity(FeedbackActivity::class.java, Bundle())
+        }
+
+        //关于
         fl_about_us.setOnClickListener {
             openActivity(AboutActivity::class.java, Bundle())
+        }
+
+        fl_setting.setOnClickListener {
+            openActivity(SettingActivity::class.java,Bundle())
         }
 
         fl_title_main_menu.setOnClickListener {
             dl_main.openDrawer(Gravity.LEFT)
         }
-
 
     }
 
