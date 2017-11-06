@@ -22,8 +22,10 @@ import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
+import com.guoxw.geekproject.gankio.presenter.GankDataInfoPresenter
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
+import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
 import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -49,13 +51,19 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     var rcvItemClickListener: RCVItemClickListener? = null
 
+    var gankDataInfoPresenter: GankDataInfoPresenter? = null
+
+    var gankDayDataView: IGankDayDataView? = null
+
     constructor(mContext: Context?) : super() {
         this.mContext = mContext
+
     }
 
     constructor(mContext: Context?, rcvItemClickListener: RCVItemClickListener?) : super() {
         this.mContext = mContext
         this.rcvItemClickListener = rcvItemClickListener
+//        gankDataInfoPresenter = GankDataInfoPresenter(gankDayDataView, mContext!!)
     }
 
 
@@ -82,9 +90,11 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         val gankIOApi: GankIOApi = GankIOResetApi
 
         LogUtil.i("GXW", "date:".plus(date))
+
+
         gankIOApi.getGankDayData(GankDayDataParam(YMD[0], YMD[1], YMD[2])).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
-                    if (!res.error) {
+                    if (!res.error) {//有数据
 
                         val url = res.results.福利[0].url
                         Glide.with(mContext)
@@ -94,23 +104,11 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         holder.cv_item_gank!!.tag = res.results.福利[0]
 
                         holder.img_item_gank!!.setOnClickListener {
-
-
-                            LogUtil.i("GXW", "img_item_gank")
-//                            val bundle = Bundle()
-//                            bundle.putString("url", url)
-//                            val intent = Intent()
-//                            intent.putExtra("data", bundle)
-//                            intent.setClass(mContext, BeautyActivity::class.java)
-//                            mContext!!.startActivity(intent)
                             BeautyPic.beauty = holder!!.img_item_gank!!.drawable
-
                             val intent = Intent(mContext, BeautyActivity::class.java)
                             intent.putExtra(GankConfig.MEIZI, holder.cv_item_gank!!.tag as Serializable)
                             val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext as Activity, holder.img_item_gank, GankConfig.TRANSLATE_GIRL_VIEW)
                             ActivityCompat.startActivity(mContext, intent, optionsCompat.toBundle())
-
-
                         }
 
                         if (res.results.休息视频 != null && res.results.休息视频.isNotEmpty()) {
@@ -118,7 +116,16 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         } else {
                             holder!!.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus("今天木有小视频")
                         }
+                    } else {//无数据
+                        dates.clear()
+                        notifyDataSetChanged()
                     }
+                }, { error ->
+                    LogUtil.e("GXW", "error:".plus(error.toString()))
+                    dates.clear()
+                    notifyDataSetChanged()
+                }, {
+                    //complete
                 })
     }
 

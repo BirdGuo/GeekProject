@@ -22,7 +22,7 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
     var date: String = ""
 
     //初始化接口
-    val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this)
+    val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this, this)
     //初始化适配器
     var dataAdapter: DataAdapter = DataAdapter(this)
 

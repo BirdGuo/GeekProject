@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.guoxw.geekproject.R
-import com.guoxw.geekproject.base.BaseFragment
+import com.guoxw.geekproject.base.BaseNetFragment
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.AndroidAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
@@ -16,13 +16,14 @@ import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.RecyclerViewUtil
 import kotlinx.android.synthetic.main.fragment_android.*
+import kotlinx.android.synthetic.main.fragment_base.*
 
 
 @SuppressLint("ValidFragment")
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
+class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
 
     //适配器
     var androidAdapter: AndroidAdapter? = null
@@ -36,9 +37,7 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
     //类型
 //    val type: String = "Android"
 
-    override fun getLayoutId(): Int = R.layout.fragment_android
-
-    override fun initView() {
+    override fun initUI() {
         androidAdapter = AndroidAdapter(context, object : RCVItemClickListener {
             override fun onItemClickListener(view: View, postion: Int) {
 
@@ -50,8 +49,9 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
 
         rcv_android.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rcv_android.adapter = androidAdapter
-
     }
+
+    override fun getContentLayoutId(): Int = R.layout.fragment_android
 
     override fun initData() {
         //清除数据
@@ -85,6 +85,10 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
     }
 
     override fun reflashView(mData: MutableList<GankData>) {
+
+        tv_error_msg.visibility = View.GONE
+        fl_android.visibility = View.VISIBLE
+
         //添加新数据
         androidAdapter!!.datas.addAll(mData)
         //更新页面
@@ -92,6 +96,11 @@ class FragmentAndroid(val type: String) : BaseFragment(), IGankDataView {
     }
 
     override fun getDataFail(error: String) {
+
+        tv_error_msg.visibility = View.VISIBLE
+        fl_android.visibility = View.GONE
+
+        tv_error_msg.text = error
     }
 
     override fun getDataComplete() {

@@ -2,6 +2,7 @@ package com.guoxw.geekproject.gankio.presenter
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import com.blankj.utilcode.utils.NetworkUtils
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
@@ -24,40 +25,49 @@ class GankDataPresenter(val gankDataView: IGankDataView, val context: Context) {
      */
     fun initGankData(gankDataParam: GankDataParam) {
 
-        gankIOApi.getGankIOData(gankDataParam).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe({ res ->
-                    //成功
-                    if (!res.error) {
-                        gankDataView.reflashView(res.results)
-                    } else {//无数据
-                        gankDataView.getDataFail(context.getString(R.string.error_network))
-                    }
-                }, { e ->
-                    //获取失败
-                    gankDataView.getDataFail(e.message!!)
-                }, {
-                    //获取完成
-                    gankDataView.getDataComplete()
-                })
-
+        if (NetworkUtils.isConnected()) {
+            gankIOApi.getGankIOData(gankDataParam).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                    .subscribe({ res ->
+                        //成功
+                        if (!res.error) {
+                            gankDataView.reflashView(res.results)
+                        } else {//无数据
+                            gankDataView.getDataFail(context.getString(R.string.error_no_data))
+                        }
+                    }, { e ->
+                        //获取失败
+                        gankDataView.getDataFail(context.getString(R.string.error_no_data))
+                    }, {
+                        //获取完成
+                        gankDataView.getDataComplete()
+                    })
+        } else {
+            gankDataView.getDataFail(context.getString(R.string.error_wifi))
+        }
     }
 
+    /**
+     * 获取历史记录
+     */
     fun initGankHistory() {
-        gankIOApi.getGankHistoryDate().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe({ res ->
-                    if (!res.error) {
-//                        dates.addAll(res.results)
-//                        initPage(currentPage)
-                        gankDataView.getHisSuccess(res.results)
-                    } else {
-                        gankDataView.getDataFail(context.getString(R.string.error_network))
-                    }
-                }, { e ->
-                    //获取失败
-                    gankDataView.getDataFail(e.message!!)
-                }, {
-                    gankDataView.getDataComplete()
-                })
+        if (NetworkUtils.isConnected()) {
+            gankIOApi.getGankHistoryDate().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                    .subscribe({ res ->
+                        if (!res.error) {
+                            gankDataView.getHisSuccess(res.results)
+                        } else {
+                            gankDataView.getDataFail(context.getString(R.string.error_no_data))
+                        }
+                    }, { e ->
+                        //获取失败
+                        gankDataView.getDataFail(context.getString(R.string.error_no_data))
+                    }, {
+                        gankDataView.getDataComplete()
+                    })
+        } else {
+            gankDataView.getDataFail(context.getString(R.string.error_wifi))
+        }
     }
+
 
 }

@@ -15,6 +15,7 @@ import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
+import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.fragment_beauty.*
 
 
@@ -76,10 +77,17 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
     }
 
     override fun getDataFail(error: String) {
-        LogUtil.e("GXW", "error:".plus(error))
+//        LogUtil.e("GXW", "error:".plus(error))
+
+        fl_beauty.visibility = View.GONE
+        tv_error_msg.visibility = View.VISIBLE
+        tv_error_msg.text = error
+
     }
 
     override fun getHisSuccess(result: MutableList<String>) {
+        fl_beauty.visibility = View.VISIBLE
+        tv_error_msg.visibility = View.GONE
 
         dates.addAll(result)
         initPage(currentPage)

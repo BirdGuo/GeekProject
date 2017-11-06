@@ -16,6 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="123" />
+        android:gravity="center" />
 </RelativeLayout>
