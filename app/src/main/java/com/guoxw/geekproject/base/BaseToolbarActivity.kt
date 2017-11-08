@@ -19,19 +19,38 @@ import kotlinx.android.synthetic.main.include_toolbar.*
  */
 abstract class BaseToolbarActivity : BaseActivity() {
 
+    /**
+     * 显示标识
+     */
     protected var isToolBarHiding = false
 
+    /**
+     * 初始化试图
+     */
     protected abstract fun initUI()
+
+    /**
+     * 绑定视图
+     * @return getContentLayoutId 视图id
+     */
     abstract fun getContentLayoutId(): Int
 
+    /**
+     * 绑定父视图
+     */
     override fun getLayoutId(): Int = R.layout.activity_toolbar_base
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initView() {
+        //找寻视图
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
+        //添加到Fragment中
         fl_toolbar_base.addView(contentView)
+        //设置toolbar标题
         setToolBar(tb_toolbar_base, "")
+        //设置标题颜色
         window.statusBarColor = Color.RED
+
         initUI()
     }
 
@@ -57,9 +76,12 @@ abstract class BaseToolbarActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 隐藏或者关闭toolbar
+     */
     protected fun hideOrShowToolBar() {
 
-        app_bar.animate()
+        app_bar.animate()//设置动画
                 .translationY((if (isToolBarHiding) 0 else -supportActionBar!!.height).toFloat())
                 .setInterpolator(DecelerateInterpolator(2f))
                 .start()

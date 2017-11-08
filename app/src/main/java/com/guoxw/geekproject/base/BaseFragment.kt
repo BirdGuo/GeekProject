@@ -37,16 +37,25 @@ abstract class BaseFragment : Fragment() {
 
     }
 
-    //绑定页面
+    /**
+     * 绑定页面
+     * @return getLayoutId 绑定页面id
+     */
     abstract fun getLayoutId(): Int
 
-    //初始化页面
+    /**
+     * 初始化页面
+     */
     abstract fun initView()
 
-    //初始化data
+    /**
+     * 初始化data
+     */
     abstract fun initData()
 
-    //监听
+    /**
+     * 添加监听
+     */
     abstract fun initListener()
 
     /**

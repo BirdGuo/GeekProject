@@ -3,6 +3,7 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
@@ -22,36 +23,53 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
+class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, SwipeRefreshLayout.OnRefreshListener {
 
-    override fun initUI() {
-        waterFullAdapter = WaterFallAdapter(context, this)
-        rcv_beauty.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rcv_beauty.adapter = waterFullAdapter
-    }
-
-    override fun getContentLayoutId(): Int =R.layout.fragment_beauty
-
+    /**
+     * 当前页
+     */
     var currentPage: Int = 0
 
+    /**
+     * 日期列表
+     */
     var dates: MutableList<String> = ArrayList()
 
+    /**
+     * 瀑布流适配器
+     */
     var waterFullAdapter: WaterFallAdapter? = null
 
-    var gankDataPresenter: GankDataPresenter ?= null
+    /**
+     * 数据接口
+     */
+    var gankDataPresenter: GankDataPresenter? = null
+
+    override fun initUI() {
+
+        //实例化瀑布流
+        waterFullAdapter = WaterFallAdapter(context, this)
+        //设置recycleview瀑布流属性
+        rcv_beauty.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        //recycleview设置adapter
+        rcv_beauty.adapter = waterFullAdapter
+        //上拉刷新控件设置监听
+        srl_beauty.setOnRefreshListener(this)
+
+    }
+
+    override fun getContentLayoutId(): Int = R.layout.fragment_beauty
 
     override fun initData() {
-        gankDataPresenter = GankDataPresenter(this,context)
+        gankDataPresenter = GankDataPresenter(this, context)
         gankDataPresenter!!.initGankHistory()
     }
 
     private fun initPage(currentPage: Int) {
 
         for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
-            LogUtil.i("GXW", "".plus(i).plus("waterFullAdapter.dates").plus(dates[i]))
             waterFullAdapter!!.dates.add(dates[i])
         }
-        LogUtil.i("GXW", "waterFullAdapter.dates sie:".plus(waterFullAdapter!!.dates.size))
 
         waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
         waterFullAdapter!!.notifyDataSetChanged()
@@ -63,11 +81,8 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
 
 
     override fun onItemClickListener(view: View, postion: Int) {
-
         val bundle = Bundle()
         bundle.putString("date", waterFullAdapter!!.dates[postion])
-
-
     }
 
     override fun onItemLongClickListener(view: View, postion: Int) {
@@ -92,6 +107,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
         dates.addAll(result)
         initPage(currentPage)
 
+        //滑动监听
         rcv_beauty.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -99,7 +115,9 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                //判断是否到底部
                 if (isSlideToBottom(recyclerView)) {
+                    //页数+1
                     currentPage++
                     initPage(currentPage)
                 }
@@ -112,4 +130,10 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView {
 
     override fun getHisFail(error: String) {
     }
+
+    override fun onRefresh() {
+
+
+    }
+
 }// Required empty public constructor

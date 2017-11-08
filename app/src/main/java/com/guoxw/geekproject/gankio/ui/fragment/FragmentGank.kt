@@ -9,10 +9,22 @@ import kotlinx.android.synthetic.main.fragment_gank.*
 
 class FragmentGank : BaseFragment() {
 
+    /**
+     * fragment列表
+     */
     var gankFragments: MutableList<Fragment> = ArrayList<Fragment>()
-    val beauty: FragmentBeauty = FragmentBeauty()
 
+    /**
+     * 妹纸页面
+     */
+    val beauty: FragmentBeauty = FragmentBeauty()
+    /**
+     * Android页面
+     */
     val andFragment: FragmentAndroid = FragmentAndroid("Android")
+    /**
+     * iOS页面
+     */
     val iosFragment: FragmentAndroid = FragmentAndroid("iOS")
 
     override fun getLayoutId(): Int = R.layout.fragment_gank
@@ -49,15 +61,15 @@ class FragmentGank : BaseFragment() {
          * 这样设置之后adapter会把tab中的所有view都清除，然后将adapter中的titile加上
          */
         tbl_gank.setupWithViewPager(vp_gank, true)
-
+        //当前页
         vp_gank.currentItem = 0
     }
 
     override fun initData() {
-        gankFragments.add(beauty)
-        gankFragments.add(andFragment)
-        gankFragments.add(iosFragment)
-        vp_gank.adapter.notifyDataSetChanged()
+        gankFragments.add(beauty)//添加妹纸页面
+        gankFragments.add(andFragment)//添加Android页面
+        gankFragments.add(iosFragment)//添加iOS页面
+        vp_gank.adapter.notifyDataSetChanged()//更新主页面
     }
 
     override fun initListener() {

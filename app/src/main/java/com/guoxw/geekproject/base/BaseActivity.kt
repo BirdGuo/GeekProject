@@ -31,10 +31,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val BTAG: String = BaseActivity::class.java.name
 
-    var isClose: Boolean = true
     var decorView: View? = null
-    var mVelocityTracker: VelocityTracker = VelocityTracker.obtain()
 
+    /**
+     * 双击退出标识
+     *    true 可以退出
+     *    false 无法退出
+     */
     var isExit = false
 
     var mCompositeSubscription: CompositeSubscription? = null
@@ -79,21 +82,29 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
 
-    //绑定页面
+    /**
+     * 绑定页面
+     * @return getLayoutId 绑定页面id
+     */
     abstract fun getLayoutId(): Int
 
-    //初始化页面
+    /**
+     * 初始化页面
+     */
     abstract fun initView()
 
-    //初始化data
+    /**
+     * 初始化数据
+     */
     abstract fun initData()
 
-    //监听
+    /**
+     * 添加监听
+     */
     abstract fun initListener()
 
     override fun onPause() {
         super.onPause()
-
         activity = null
     }
 
@@ -155,7 +166,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     /**
      * 关闭所有Activity，除了参数传递的Activity
-     *
+     * @param except 不需要关闭的activity
      */
     fun finishAll(except: AppCompatActivity) {
         var copy: List<AppCompatActivity> = ArrayList()
@@ -163,6 +174,7 @@ abstract class BaseActivity : AppCompatActivity() {
             copy = ArrayList(mActivities)
         }
 
+        //遍历的写法
         copy.asSequence()
                 .filter { it !== except }
                 .forEach { it.finish() }
@@ -182,16 +194,21 @@ abstract class BaseActivity : AppCompatActivity() {
     fun exitBy2Click() {
         var tExit: Timer? = null
         LogUtil.i("GXW", "isExit:" + isExit)
-        if (isExit == false) {
+        if (!isExit) {
             isExit = true // 准备退出
+            //吐司提示语
             Toast.makeText(applicationContext, R.string.double_click_exit, Toast.LENGTH_SHORT).show()
+            //创建计时器
             tExit = Timer()
+            //计时线程
             tExit.schedule(object : TimerTask() {
                 override fun run() {
-                    isExit = false // 取消退出
+                    // 取消退出
+                    isExit = false
                 }
             }, 2000) // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
         } else {
+            //退出App
             exitApp()
         }
     }

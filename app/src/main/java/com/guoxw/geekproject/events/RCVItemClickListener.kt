@@ -11,8 +11,18 @@ import android.view.View
  */
 interface RCVItemClickListener {
 
+    /**
+     * recycleview内容点击事件
+     * @param view 父布局
+     * @param postion 序号
+     */
     fun onItemClickListener(view: View, postion: Int)
 
+    /**
+     * recycleview内容长按点击事件
+     * @param view 父布局
+     * @param postion 序号
+     */
     fun onItemLongClickListener(view: View, postion: Int)
 
 }

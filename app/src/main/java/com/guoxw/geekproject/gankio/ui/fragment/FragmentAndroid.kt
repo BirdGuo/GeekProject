@@ -2,8 +2,10 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -16,6 +18,7 @@ import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
+import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil
 import kotlinx.android.synthetic.main.fragment_android.*
 import kotlinx.android.synthetic.main.fragment_base.*
@@ -25,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_base.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
+class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView, SwipeRefreshLayout.OnRefreshListener {
 
     //适配器
     var androidAdapter: AndroidAdapter? = null
@@ -40,6 +43,10 @@ class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
 //    val type: String = "Android"
 
     override fun initUI() {
+
+        swipe_refresh_layout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.BLACK)
+        swipe_refresh_layout.setOnRefreshListener(this)
+
         androidAdapter = AndroidAdapter(context, object : RCVItemClickListener {
             override fun onItemClickListener(view: View, postion: Int) {
 
@@ -95,6 +102,8 @@ class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
         tv_error_msg.visibility = View.GONE
         fl_android.visibility = View.VISIBLE
 
+        if (currentPage == 1)
+            androidAdapter!!.datas.clear()
         //添加新数据
         androidAdapter!!.datas.addAll(mData)
         //更新页面
@@ -110,12 +119,21 @@ class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
     }
 
     override fun getDataComplete() {
+        //
+        swipe_refresh_layout.isRefreshing = false
     }
 
     override fun getHisSuccess(dates: MutableList<String>) {
     }
 
     override fun getHisFail(error: String) {
+    }
+
+    override fun onRefresh() {
+        //刷新首页
+        currentPage = 1
+        //重新请求数据
+        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
 
 

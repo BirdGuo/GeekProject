@@ -9,17 +9,22 @@ import kotlinx.android.synthetic.main.activity_base_web.*
 
 class BaseWebActivity : AppCompatActivity(), IWebView {
 
+    /**
+     * 数据层接口
+     */
     var webPresenter: WebPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_web)
 
+        //获得访问链接
         val data: Bundle = intent.getBundleExtra("data")
         val url: String = data.getString("url")
 
+        //初始化接口
         webPresenter = WebPresenter(this, this)
-
+        //设置webview
         webPresenter!!.setWebViewSettings(web_base, url)
     }
 
