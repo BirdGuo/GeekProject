@@ -2,12 +2,14 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
+import com.guoxw.geekproject.base.BaseWebActivity
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.AndroidAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
@@ -40,6 +42,10 @@ class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView {
     override fun initUI() {
         androidAdapter = AndroidAdapter(context, object : RCVItemClickListener {
             override fun onItemClickListener(view: View, postion: Int) {
+
+                val bundle = Bundle()
+                bundle.putString("url", androidAdapter!!.datas[postion].url)
+                openActivity(BaseWebActivity::class.java, bundle)
 
             }
 

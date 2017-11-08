@@ -33,5 +33,5 @@
     <string name="tv_feedback_issues_name">GankIO</string>
     <string name="tv_feedback_connect">联系我</string>
     <string name="tv_feedback_qq">QQ</string>
-
+    <string name="copy_success">复制成功</string>
 </resources>

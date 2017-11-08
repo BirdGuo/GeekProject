@@ -28,7 +28,8 @@
         <activity android:name=".gankio.ui.activity.GankDayInfoActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".FeedbackActivity"></activity>
+        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".base.BaseWebActivity"></activity>
     </application>
 
 </manifest>
