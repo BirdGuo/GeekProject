@@ -20,6 +20,10 @@ android {
                 cppFlags ""
             }
         }
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+        }
     }
     buildTypes {
         debug {
@@ -94,5 +98,10 @@ dependencies {
 
     compile "com.github.castorflex.smoothprogressbar:library:${versions.smoothprogressbar}"
 
-//    compile "com.commit451:PhotoView:${versions.PhotoView}"
+    //3D地图so及jar
+    compile 'com.amap.api:3dmap:latest.integration'
+    //定位功能
+    compile 'com.amap.api:location:latest.integration'
+    //搜索功能
+    compile 'com.amap.api:search:latest.integration'
 }

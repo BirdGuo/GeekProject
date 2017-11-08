@@ -38,7 +38,6 @@ object HttpUtils {
 //            //target!!.setState(AppConstants.STATE_ERROR)
 //            return
 //        }
-        Log.i("MainActivity", "-----------------invoke----------------")
         val subscribe: Disposable = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

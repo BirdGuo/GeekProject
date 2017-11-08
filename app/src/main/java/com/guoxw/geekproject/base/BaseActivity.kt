@@ -193,7 +193,6 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     fun exitBy2Click() {
         var tExit: Timer? = null
-        LogUtil.i("GXW", "isExit:" + isExit)
         if (!isExit) {
             isExit = true // 准备退出
             //吐司提示语

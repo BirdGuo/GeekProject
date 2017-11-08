@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentTransaction
 import android.view.Gravity
 import android.view.KeyEvent
 import android.widget.Toast
+import com.amap.api.services.weather.LocalWeatherForecastResult
+import com.amap.api.services.weather.LocalWeatherLiveResult
+import com.amap.api.services.weather.WeatherSearch
+import com.amap.api.services.weather.WeatherSearchQuery
 import com.blankj.utilcode.utils.ToastUtils
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
@@ -44,6 +48,27 @@ class MainActivity : BaseActivity() {
         //注意顺序
         mainFragments.add(fragmentGank)
         mainFragments.add(calendarFragment)
+
+        //检索参数为城市和天气类型，实况天气为WEATHER_TYPE_LIVE、天气预报为WEATHER_TYPE_FORECAST
+        val mquery = WeatherSearchQuery("北京", WeatherSearchQuery.WEATHER_TYPE_LIVE)
+
+
+        val mweathersearch = WeatherSearch(this)
+        mweathersearch.setOnWeatherSearchListener(object : WeatherSearch.OnWeatherSearchListener {
+            override fun onWeatherLiveSearched(result: LocalWeatherLiveResult?, rCode: Int) {
+                tv_main_city.text = result!!.liveResult.city
+                tv_main_temp.text = result!!.liveResult.temperature
+
+            }
+
+            override fun onWeatherForecastSearched(localWeatherForecastResult: LocalWeatherForecastResult?, rCode: Int) {
+            }
+
+        })
+        //一次只能查实时数据或者预报数据
+        mweathersearch.query = mquery
+        mweathersearch.searchWeatherAsyn() //异步搜索
+
     }
 
     override fun initListener() {
@@ -74,7 +99,7 @@ class MainActivity : BaseActivity() {
         }
 
         fl_setting.setOnClickListener {
-            openActivity(SettingActivity::class.java,Bundle())
+            openActivity(SettingActivity::class.java, Bundle())
         }
 
         fl_title_main_menu.setOnClickListener {
@@ -110,7 +135,6 @@ class MainActivity : BaseActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            LogUtil.i("GXW", "click back")
             exitBy2Click()
         }
         return false

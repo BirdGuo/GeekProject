@@ -37,9 +37,6 @@ class CalendarFragment : BaseFragment() {
         adapterGood!!.calendars = calendarUtil.goodList
 
         adapterBad = CalBadAdapter(context)
-        for (map in calendarUtil.badList) {
-            Log.i("GXW", map["name"].plus("bad"))
-        }
 
         adapterBad!!.calendars = calendarUtil.badList
 

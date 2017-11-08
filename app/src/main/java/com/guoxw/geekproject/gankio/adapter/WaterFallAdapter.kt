@@ -89,9 +89,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         val gankIOApi: GankIOApi = GankIOResetApi
 
-        LogUtil.i("GXW", "date:".plus(date))
-
-
         gankIOApi.getGankDayData(GankDayDataParam(YMD[0], YMD[1], YMD[2])).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
                     if (!res.error) {//有数据
@@ -121,7 +118,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         notifyDataSetChanged()
                     }
                 }, { error ->
-                    LogUtil.e("GXW", "error:".plus(error.toString()))
                     dates.clear()
                     notifyDataSetChanged()
                 }, {

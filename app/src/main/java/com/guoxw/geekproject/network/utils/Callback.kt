@@ -6,7 +6,6 @@ import com.guoxw.gankio.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseView
 import com.guoxw.geekproject.constatnt.AppConstants
-import com.guoxw.geekproject.utils.LogUtil
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
@@ -20,7 +19,6 @@ open class Callback<T> : Subscriber<T> {
     var target: Stateful? = null
 
     override fun onNext(value: T) {
-        LogUtil.i("MainActivity", "-------------onNext-----------")
         target!!.setState(AppConstants.STATE_SUCCESS)
         onResponse()
         onResponse(value)
@@ -30,7 +28,6 @@ open class Callback<T> : Subscriber<T> {
     }
 
     override fun onError(e: Throwable?) {
-        LogUtil.i("MainActivity", "-------------onError-----------")
         e!!.printStackTrace()
         onFail()
     }

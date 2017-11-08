@@ -92,12 +92,9 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
     }
 
     override fun getDataFail(error: String) {
-//        LogUtil.e("GXW", "error:".plus(error))
-
         fl_beauty.visibility = View.GONE
         tv_error_msg.visibility = View.VISIBLE
         tv_error_msg.text = error
-
     }
 
     override fun getHisSuccess(result: MutableList<String>) {
