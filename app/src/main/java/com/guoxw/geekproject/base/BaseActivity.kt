@@ -1,7 +1,12 @@
 package com.guoxw.geekproject.base
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.VelocityTracker
 import android.view.View
@@ -9,6 +14,7 @@ import android.view.Window
 import android.widget.Toast
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.utils.LogUtil
+import com.guoxw.geekproject.utils.ToastUtil
 import rx.subscriptions.CompositeSubscription
 import java.util.*
 
@@ -30,6 +36,11 @@ import java.util.*
 abstract class BaseActivity : AppCompatActivity() {
 
     val BTAG: String = BaseActivity::class.java.name
+
+    /**
+     * 要申请的权限
+     */
+    val permissions: Array<String> = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
     var decorView: View? = null
 
@@ -59,6 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
         //单例
         var activity: BaseActivity? = null
 
+        var ACCESS_PERMISSION_CODE = 0x01
     }
 
 
@@ -71,6 +83,8 @@ abstract class BaseActivity : AppCompatActivity() {
 //        mBinding = DataBindingUtil.setContentView(this,getLayoutId())
 //        mBinding = createDataBinding(savedInstanceState)
         decorView = window.decorView
+
+        initPermission()
 
         initData()
         initView()
@@ -110,12 +124,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
     }
 
     override fun onResume() {
         super.onResume()
-
         activity = this
     }
 
@@ -210,6 +222,35 @@ abstract class BaseActivity : AppCompatActivity() {
             //退出App
             exitApp()
         }
+    }
+
+    /**
+     * 判断权限
+     */
+    fun initPermission() {
+        //判断权限是否大于6.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            permissions.asSequence()
+                    .filter { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }
+                    .forEach {
+                        ActivityCompat.requestPermissions(this, permissions, ACCESS_PERMISSION_CODE)
+                    }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == ACCESS_PERMISSION_CODE) {
+            //带下标遍历数组
+            for ((index, grantResult) in grantResults.withIndex()) {
+                //未获得权限
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtil.toastLong(this, permissions[index].plus("未获得权限"))
+                }
+            }
+
+        }
+
     }
 
 }
