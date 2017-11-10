@@ -13,6 +13,7 @@ import android.view.View
 import android.view.Window
 import android.widget.Toast
 import com.guoxw.geekproject.R
+import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.ToastUtil
 import rx.subscriptions.CompositeSubscription
@@ -69,8 +70,6 @@ abstract class BaseActivity : AppCompatActivity() {
         var mActivities: ArrayList<AppCompatActivity> = ArrayList()
         //单例
         var activity: BaseActivity? = null
-
-        var ACCESS_PERMISSION_CODE = 0x01
     }
 
 

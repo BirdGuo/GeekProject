@@ -16,6 +16,7 @@ import com.amap.api.services.weather.WeatherSearch
 import com.amap.api.services.weather.WeatherSearchQuery
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
+import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
 import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -221,6 +222,15 @@ class MainActivity : BaseActivity(), AMapLocationListener {
         //一次只能查实时数据或者预报数据
         mweathersearch!!.query = mquery
         mweathersearch!!.searchWeatherAsyn() //异步搜索
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == AppConstants.ACCESS_PERMISSION_CODE) {
+            initLocation()
+        }
 
     }
 

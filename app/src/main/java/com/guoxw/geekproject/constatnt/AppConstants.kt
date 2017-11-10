@@ -15,4 +15,7 @@ object AppConstants {
     val STATE_EMPTY: Int = 3
     val STATE_SUCCESS: Int = 4
 
+    //权限请求
+    var ACCESS_PERMISSION_CODE = 0x01
+
 }
