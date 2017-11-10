@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentTransaction
 import android.view.Gravity
 import android.view.KeyEvent
 import android.widget.Toast
+import com.amap.api.location.AMapLocation
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
+import com.amap.api.location.AMapLocationListener
 import com.amap.api.services.weather.LocalWeatherForecastResult
 import com.amap.api.services.weather.LocalWeatherLiveResult
 import com.amap.api.services.weather.WeatherSearch
@@ -21,12 +25,22 @@ import kotlinx.android.synthetic.main.include_title_main.*
 import java.util.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), AMapLocationListener {
 
     private val fragmentGank: FragmentGank = FragmentGank()
     private val calendarFragment: CalendarFragment = CalendarFragment()
 
     private val mainFragments: MutableList<Fragment> = ArrayList<Fragment>()
+
+    /**
+     * 定位终端
+     */
+    private val mlocationClient: AMapLocationClient = AMapLocationClient(this)
+
+    /**
+     * 定位参数
+     */
+    private val mlocationOption: AMapLocationClientOption = AMapLocationClientOption()
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -57,8 +71,8 @@ class MainActivity : BaseActivity() {
         mweathersearch.setOnWeatherSearchListener(object : WeatherSearch.OnWeatherSearchListener {
             override fun onWeatherLiveSearched(result: LocalWeatherLiveResult?, rCode: Int) {
                 tv_main_city.text = result!!.liveResult.city
-                tv_main_temp.text = result!!.liveResult.temperature
-
+                tv_main_temp.text = result!!.liveResult.temperature.plus("℃")
+                tv_main_weather.text = result!!.liveResult.weather.plus(" | 风力").plus(result!!.liveResult.windPower).plus("级")
             }
 
             override fun onWeatherForecastSearched(localWeatherForecastResult: LocalWeatherForecastResult?, rCode: Int) {
@@ -139,6 +153,23 @@ class MainActivity : BaseActivity() {
         }
         return false
     }
+
+    fun initLocation() {
+
+        //设置定位监听
+        mlocationClient.setLocationListener(this)
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mlocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
+        // 设置定位间隔
+        mlocationOption.interval = 2000
+        //设置定位参数
+        mlocationClient.setLocationOption(mlocationOption)
+
+    }
+
+    override fun onLocationChanged(aMapLocation: AMapLocation?) {
+    }
+
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
