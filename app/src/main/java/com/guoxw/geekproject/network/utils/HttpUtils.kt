@@ -78,9 +78,9 @@ object HttpUtils {
 
 //        val result :Observable.Transformer<GankResponse<T>,T> = RxHe
 
-        val result: Observable.Transformer<in GankResponse<T>, out T> = RxHelper.handleResult()
+        val result: Observable.Transformer<T, GankResponse<T>> = RxHelper.handleResult()
 
-        val observable: Observable<T> = ob.compose<T>(result).doOnSubscribe(object : Action0 {
+        val observable: Observable<GankResponse<T>> = ob.compose<GankResponse<T>>(result).doOnSubscribe(object : Action0 {
             override fun call() {
 
 

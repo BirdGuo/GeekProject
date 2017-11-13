@@ -16,6 +16,7 @@ import com.guoxw.geekproject.R
 import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.ToastUtil
+import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 import java.util.*
 
@@ -30,6 +31,8 @@ import java.util.*
 abstract class BaseActivity : AppCompatActivity() {
 
     val BTAG: String = BaseActivity::class.java.name
+
+    val a = PublishSubject.create<>()
 
     /**
      * 要申请的权限
