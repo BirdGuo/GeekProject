@@ -133,4 +133,24 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        LogUtil.i("GXW","------------ beauty onResume ----------")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LogUtil.i("GXW","------------ beauty onPause ----------")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LogUtil.i("GXW","------------ beauty onStart ----------")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtil.i("GXW","------------ beauty onDestroy ----------")
+    }
+
 }// Required empty public constructor

@@ -1,20 +1,23 @@
 package com.guoxw.gankio.network.utils
 
-import android.util.Log
 import com.guoxw.gankio.network.LifeSubscription
+import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.network.RxHelper
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import rx.Observable
+import rx.functions.Action0
 
 /**
-* Created by guoxw on 2017/6/27 0027.
-* @auther guoxw
-* @date 2017/6/27 0027
-* @desciption
-* @package ${PACKAGE_NAME}
-*/
+ * Created by guoxw on 2017/6/27 0027.
+ * @auther guoxw
+ * @date 2017/6/27 0027
+ * @desciption
+ * @package ${PACKAGE_NAME}
+ */
 object HttpUtils {
 
     /**
@@ -47,5 +50,46 @@ object HttpUtils {
         lifeSubscription.bindCompositeDisposable(subscribe)
 
     }
+
+    /**
+     *     //添加线程管理并订阅
+    public void toSubscribe(Observable ob, final ProgressSubscriber subscriber,String cacheKey,boolean isSave, boolean forceRefresh) {
+    //数据预处理
+    Observable.Transformer<HttpResult<Object>, Object> result = RxHelper.handleResult();
+    //重用操作符
+    Observable observable = ob.compose(result)
+    .doOnSubscribe(new Action0() {
+    @Override
+    public void call() {
+    //显示Dialog和一些其他操作
+    subscriber.showProgressDialog();
+    }
+    });
+    //缓存
+    RetrofitCache.load(cacheKey,observable,isSave,forceRefresh).subscribe(subscriber);
+
+    }
+     */
+
+    /**
+     * 添加线程管理并订阅
+     */
+    fun <T> toSubscribe(ob: Observable<T>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
+
+//        val result :Observable.Transformer<GankResponse<T>,T> = RxHe
+
+        val result: Observable.Transformer<in GankResponse<T>, out T> = RxHelper.handleResult()
+
+        val observable: Observable<T> = ob.compose<T>(result).doOnSubscribe(object : Action0 {
+            override fun call() {
+
+
+
+            }
+
+        })
+
+    }
+
 
 }

@@ -136,5 +136,23 @@ class FragmentAndroid(val type: String) : BaseNetFragment(), IGankDataView, Swip
         gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
 
+    override fun onResume() {
+        super.onResume()
+        LogUtil.i("GXW", "------------ " + type + " onResume ----------")
+    }
 
+    override fun onPause() {
+        super.onPause()
+        LogUtil.i("GXW", "------------ " + type + " onPause ----------")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LogUtil.i("GXW", "------------ " + type + " onStart ----------")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtil.i("GXW", "------------ " + type + " onDestroy ----------")
+    }
 }

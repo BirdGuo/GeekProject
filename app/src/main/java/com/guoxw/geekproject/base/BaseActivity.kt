@@ -27,13 +27,6 @@ import java.util.*
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-/**
- * Created by guoxw on 2017/5/24.
- * @auther guoxw
- * @date 2017/5/24
- * @desciption
- * @package ${PACKAGE_NAME}
- */
 abstract class BaseActivity : AppCompatActivity() {
 
     val BTAG: String = BaseActivity::class.java.name
@@ -41,7 +34,8 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 要申请的权限
      */
-    val permissions: Array<String> = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    val permissions: Array<String> = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE)
 
     var decorView: View? = null
 
