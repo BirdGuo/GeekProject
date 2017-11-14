@@ -148,6 +148,12 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
         LogUtil.i("GXW","------------ beauty onStart ----------")
     }
 
+    override fun onStop() {
+        super.onStop()
+        LogUtil.i("GXW","------------ beauty onStop ----------")
+        //在这销毁retrofit线程
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         LogUtil.i("GXW","------------ beauty onDestroy ----------")

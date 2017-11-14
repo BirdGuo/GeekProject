@@ -14,6 +14,7 @@ import android.view.Window
 import android.widget.Toast
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
+import com.guoxw.geekproject.enums.ActivityLifeCycleEvent
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.ToastUtil
 import rx.subjects.PublishSubject
@@ -32,12 +33,24 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val BTAG: String = BaseActivity::class.java.name
 
-    val a = PublishSubject.create<>()
+    /**
+     * 生命周期状态接收者
+     *
+     * PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者。
+     * 需要注意的是，PublishSubject可能会一创建完成就立刻开始发射数据（除非你可以阻止它发生），
+     * 因此这里有一个风险：在Subject被创建后到有观察者订阅它之前这个时间段内，
+     * 一个或多个数据可能会丢失。如果要确保来自原始Observable的所有数据都被分发，
+     * 你需要这样做：或者使用Create创建那个Observable,
+     * 以便手动给它引入"冷"Observable的行为（当所有观察者都已经订阅时才开始发射数据），
+     * 或者改用ReplaySubject。
+     */
+    val lifecycleSubject: PublishSubject<ActivityLifeCycleEvent> = PublishSubject.create<ActivityLifeCycleEvent>()
 
     /**
      * 要申请的权限
      */
-    val permissions: Array<String> = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    val permissions: Array<String> = arrayOf(Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE)
 
     var decorView: View? = null
@@ -71,15 +84,16 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.CREATE)
+
         super.onCreate(savedInstanceState)
+        //去除原有的Titile
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-
+        //装载布局
         setContentView(getLayoutId())
-
-//        mBinding = DataBindingUtil.setContentView(this,getLayoutId())
-//        mBinding = createDataBinding(savedInstanceState)
         decorView = window.decorView
 
+        //初始化权限
         initPermission()
 
         initData()
@@ -114,22 +128,30 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun initListener()
 
     override fun onPause() {
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.PAUSE)
         super.onPause()
         activity = null
     }
 
     override fun onStart() {
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.START)
         super.onStart()
     }
 
     override fun onResume() {
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.RESUME)
         super.onResume()
         activity = this
     }
 
+    override fun onStop() {
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.STOP)
+        super.onStop()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-
+        lifecycleSubject.onNext(ActivityLifeCycleEvent.DESTROY)
         synchronized(mActivities) {
             mActivities.remove(this)
         }

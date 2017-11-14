@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.blankj.utilcode.utils.NetworkUtils
+import com.guoxw.geekproject.enums.FragmentLifeCycleEvent
+import rx.subjects.PublishSubject
 
 /**
  * Created by guoxw on 2017/9/6 0006.
@@ -17,6 +19,8 @@ import com.blankj.utilcode.utils.NetworkUtils
  * @package com.guoxw.geekproject.base
  */
 abstract class BaseFragment : Fragment() {
+
+    val lifecycleSubject: PublishSubject<FragmentLifeCycleEvent> = PublishSubject.create<FragmentLifeCycleEvent>()
 
     var mContext: Context? = null
 
@@ -30,6 +34,9 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.CREATE)
+
         super.onActivityCreated(savedInstanceState)
         initView()
         initData()
@@ -72,6 +79,31 @@ abstract class BaseFragment : Fragment() {
         intent.setClass(mContext, activity)
         startActivity(intent)
 //        overridePendingTransition(R.anim.screen_zoom_in, R.anim.screen_zoom_out)
+    }
+
+    override fun onStart() {
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.START)
+        super.onStart()
+    }
+
+    override fun onResume() {
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.RESUME)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.PAUSE)
+        super.onPause()
+    }
+
+    override fun onStop() {
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.STOP)
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        lifecycleSubject.onNext(FragmentLifeCycleEvent.DESTROY)
+        super.onDestroy()
     }
 
 }

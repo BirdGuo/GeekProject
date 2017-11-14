@@ -73,21 +73,33 @@ object HttpUtils {
 
     /**
      * 添加线程管理并订阅
+     *
+     * @param ob
+     * @param cacheKey
+     * @param isSave
+     * @param forceRefresh
      */
-    fun <T> toSubscribe(ob: Observable<T>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
+    fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
-//        val result :Observable.Transformer<GankResponse<T>,T> = RxHe
+        //数据预处理
+//        val result: Observable.Transformer<GankResponse<T>, T> = RxHelper.handleResult()
+//        //重用操作符
+//        val observable = ob.compose(result).doOnSubscribe(object : Action0 {
+//            override fun call() {
+//
+//                //一些其他操作
+//
+//            }
+//        })
 
-        val result: Observable.Transformer<T, GankResponse<T>> = RxHelper.handleResult()
-
-        val observable: Observable<GankResponse<T>> = ob.compose<GankResponse<T>>(result).doOnSubscribe(object : Action0 {
-            override fun call() {
-
-
-
-            }
-
-        })
+//        val observable: Observable<T> = ob.compose<GankResponse<T>>(result).doOnSubscribe(object : Action0 {
+//            override fun call() {
+//
+//
+//
+//            }
+//
+//        })
 
     }
 

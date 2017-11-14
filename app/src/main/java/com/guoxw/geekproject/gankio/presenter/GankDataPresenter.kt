@@ -1,13 +1,11 @@
 package com.guoxw.geekproject.gankio.presenter
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import com.blankj.utilcode.utils.NetworkUtils
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
-import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -26,7 +24,8 @@ class GankDataPresenter(val gankDataView: IGankDataView, val context: Context) {
     fun initGankData(gankDataParam: GankDataParam) {
 
         if (NetworkUtils.isConnected()) {
-            gankIOApi.getGankIOData(gankDataParam).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+            gankIOApi.getGankIOData(gankDataParam)
+                    .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                     .subscribe({ res ->
                         //成功
                         if (!res.error) {
