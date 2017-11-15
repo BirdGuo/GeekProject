@@ -2,7 +2,6 @@ package com.guoxw.geekproject.network
 
 import com.guoxw.geekproject.enums.ActivityLifeCycleEvent
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
-import io.reactivex.android.schedulers.AndroidSchedulers
 import rx.Observable
 import rx.Subscriber
 import rx.functions.Func1
@@ -40,7 +39,6 @@ object RxHelper {
                 return tObservable!!.flatMap(object : Func1<GankResponse<T>, Observable<out T>> {
                     override fun call(t: GankResponse<T>?): Observable<out T> {
                         if (t!!.error) {//无数据
-
                             return Observable.error(ApiException(0x0003))
                         } else {
                             return createData(t.results)

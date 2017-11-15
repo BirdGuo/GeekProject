@@ -4,8 +4,7 @@ buildscript {
     ext {
         versions = [
                 dokka_version        : '0.9.15',
-                kotlin_version       : '1.1.4',
-                kotlin_version_gradle: '1.1.4-1',
+                kotlin_version       : '1.1.60',
                 retrofit2            : '2.3.0',
                 rxandroid            : '2.0.1',
                 reactivex            : '2.1.5',

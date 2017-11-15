@@ -2,14 +2,12 @@ package com.guoxw.gankio.network.utils
 
 import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
-import com.guoxw.geekproject.network.RxHelper
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import rx.Observable
-import rx.functions.Action0
 
 /**
  * Created by guoxw on 2017/6/27 0027.
@@ -81,7 +79,7 @@ object HttpUtils {
      */
     fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
-        //数据预处理
+//        //数据预处理
 //        val result: Observable.Transformer<GankResponse<T>, T> = RxHelper.handleResult()
 //        //重用操作符
 //        val observable = ob.compose(result).doOnSubscribe(object : Action0 {
@@ -89,8 +87,11 @@ object HttpUtils {
 //
 //                //一些其他操作
 //
+//                Log.i("GXW", "--------toSubscribe-----------")
+//
 //            }
-//        })
+//        }).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
+
 
 //        val observable: Observable<T> = ob.compose<GankResponse<T>>(result).doOnSubscribe(object : Action0 {
 //            override fun call() {
