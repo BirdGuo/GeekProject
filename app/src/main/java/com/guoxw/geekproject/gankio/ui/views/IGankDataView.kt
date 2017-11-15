@@ -6,7 +6,7 @@ import com.guoxw.geekproject.gankio.bean.GankData
 /**
  * Created by guoxw on 2017/10/31 0031.
  */
-interface IGankDataView : BaseView<MutableList<GankData>> {
+interface IGankDataView<T> : BaseView<T> {
 
     /**
      * 获取历史日期

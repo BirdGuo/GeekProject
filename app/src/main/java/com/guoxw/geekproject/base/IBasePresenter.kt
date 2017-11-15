@@ -14,6 +14,12 @@ import io.reactivex.functions.Consumer
  */
 interface IBasePresenter<T> {
 
+    /**
+     * 绑定视图订阅
+     *
+     * @param lifeSubscription
+     *
+     */
     fun attachView(lifeSubscription: LifeSubscription)
 
     /**
@@ -27,14 +33,20 @@ interface IBasePresenter<T> {
      *
      * @hide
      */
-    @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<T>, consumer: Consumer<T>)"), level = DeprecationLevel.WARNING)
+    @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<T>, consumer: Consumer<T>)"), level = DeprecationLevel.HIDDEN)
     fun invoke(observable: Flowable<T>, callBack: Callback<T>)
 
     /**
+     * 添加绑定
+     *
      * @param observable
      * @param consumer
      */
     fun invoke(observable: Flowable<T>, consumer: Consumer<T>)
 
-    fun checkState(list: List<*>)
+    /**
+     * 检查状态
+     * @param
+     */
+    fun checkState(list: MutableList<*>)
 }

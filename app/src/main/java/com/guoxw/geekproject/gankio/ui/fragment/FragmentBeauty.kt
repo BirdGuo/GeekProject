@@ -12,6 +12,7 @@ import com.guoxw.geekproject.base.BaseNetFragment
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
+import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, SwipeRefreshLayout.OnRefreshListener {
+class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener {
 
     /**
      * 当前页
@@ -43,7 +44,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
     /**
      * 数据接口
      */
-    var gankDataPresenter: GankDataPresenter? = null
+//    var gankDataPresenter: GankDataPresenter? = null
 
     override fun initUI() {
 
@@ -61,8 +62,8 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
     override fun getContentLayoutId(): Int = R.layout.fragment_beauty
 
     override fun initData() {
-        gankDataPresenter = GankDataPresenter(this, context)
-        gankDataPresenter!!.initGankHistory()
+//        gankDataPresenter = GankDataPresenter(this, context)
+//        gankDataPresenter!!.initGankHistory()
     }
 
     private fun initPage(currentPage: Int) {
@@ -88,7 +89,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView, S
     override fun onItemLongClickListener(view: View, postion: Int) {
     }
 
-    override fun reflashView(mData: MutableList<GankData>) {
+    override fun reflashView(mData: GankResponse<MutableList<GankData>>) {
     }
 
     override fun getDataFail(error: String) {

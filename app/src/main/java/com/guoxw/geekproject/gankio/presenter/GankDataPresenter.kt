@@ -4,7 +4,9 @@ import android.content.Context
 import com.blankj.utilcode.utils.NetworkUtils
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
+import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
+import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by guoxw on 2017/10/31 0031.
  */
-class GankDataPresenter(val gankDataView: IGankDataView, val context: Context) {
+class GankDataPresenter(val gankDataView: IGankDataView<GankResponse<MutableList<GankData>>>, val context: Context) {
 
     //网络请求
     private val gankIOApi = GankIOResetApi
@@ -29,7 +31,7 @@ class GankDataPresenter(val gankDataView: IGankDataView, val context: Context) {
                     .subscribe({ res ->
                         //成功
                         if (!res.error) {
-                            gankDataView.reflashView(res.results)
+                            gankDataView.reflashView(res)
                         } else {//无数据
                             gankDataView.getDataFail(context.getString(R.string.error_no_data))
                         }

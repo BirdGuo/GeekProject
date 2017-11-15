@@ -29,16 +29,6 @@ object HttpUtils {
         ////callback.target = target
         //}
 
-        /**
-         * 先判断网络连接状态和网络是否可用，放在回调那里好呢，还是放这里每次请求都去判断下网络是否可用好呢？
-         * 如果放在请求前面太耗时了，如果放回掉提示的速度慢，要10秒钟请求超时后才提示。
-         * 最后采取的方法是判断网络是否连接放在外面，网络是否可用放在回掉。
-         */
-        //        if (!NetworkUtils.isAvailableByPing()) {
-//            ToastUtils.showLongToast(R.string.error_wifi)
-//            //target!!.setState(AppConstants.STATE_ERROR)
-//            return
-//        }
         val subscribe: Disposable = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,26 +40,6 @@ object HttpUtils {
     }
 
     /**
-     *     //添加线程管理并订阅
-    public void toSubscribe(Observable ob, final ProgressSubscriber subscriber,String cacheKey,boolean isSave, boolean forceRefresh) {
-    //数据预处理
-    Observable.Transformer<HttpResult<Object>, Object> result = RxHelper.handleResult();
-    //重用操作符
-    Observable observable = ob.compose(result)
-    .doOnSubscribe(new Action0() {
-    @Override
-    public void call() {
-    //显示Dialog和一些其他操作
-    subscriber.showProgressDialog();
-    }
-    });
-    //缓存
-    RetrofitCache.load(cacheKey,observable,isSave,forceRefresh).subscribe(subscriber);
-
-    }
-     */
-
-    /**
      * 添加线程管理并订阅
      *
      * @param ob
@@ -77,6 +47,7 @@ object HttpUtils {
      * @param isSave
      * @param forceRefresh
      */
+    @Deprecated("这个方法暂时还不会写",replaceWith = ReplaceWith("使用invoke代替","com.guoxw.gankio.network.utils.HttpUtils.invoke"),level = DeprecationLevel.HIDDEN)
     fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
 //        //数据预处理
@@ -92,15 +63,6 @@ object HttpUtils {
 //            }
 //        }).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
 
-
-//        val observable: Observable<T> = ob.compose<GankResponse<T>>(result).doOnSubscribe(object : Action0 {
-//            override fun call() {
-//
-//
-//
-//            }
-//
-//        })
 
     }
 

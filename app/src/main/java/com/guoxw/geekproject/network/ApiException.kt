@@ -39,7 +39,7 @@ open class ApiException : RuntimeException {
          *
          * @return
          */
-        fun getApiExceptionMessage(code: Int): String {
+        private fun getApiExceptionMessage(code: Int): String {
 
             detailMessage = "未知错误"
             when (code) {
