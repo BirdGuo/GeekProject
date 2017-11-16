@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.enums.FragmentLifeCycleEvent
+import com.guoxw.geekproject.utils.LogUtil
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import rx.subjects.PublishSubject
 
 /**
@@ -17,11 +21,13 @@ import rx.subjects.PublishSubject
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<R, T : BasePresenter<R, BaseView<R>>> : Fragment(), LifeSubscription {
 
     val lifecycleSubject: PublishSubject<FragmentLifeCycleEvent> = PublishSubject.create<FragmentLifeCycleEvent>()
 
     var mContext: Context? = null
+
+    var basePresenter: T? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -98,11 +104,43 @@ abstract class BaseFragment : Fragment() {
     override fun onStop() {
         lifecycleSubject.onNext(FragmentLifeCycleEvent.STOP)
         super.onStop()
+        LogUtil.i("GXW", "--------onStop---------")
+        if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
+            LogUtil.i("GXW", "--------onStop-----1----")
+            compositeDisposable!!.dispose()
+        }
+
     }
 
     override fun onDestroy() {
         lifecycleSubject.onNext(FragmentLifeCycleEvent.DESTROY)
         super.onDestroy()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        LogUtil.i("GXW", "--------onDetach---------")
+        if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
+            LogUtil.i("GXW", "--------onDetach-----1----")
+            compositeDisposable!!.dispose()
+        }
+
+        if (basePresenter!=null){
+            basePresenter!!.detachView()
+        }
+
+    }
+
+    /**
+     * 线程
+     */
+    var compositeDisposable: CompositeDisposable? = null
+
+    override fun bindCompositeDisposable(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
+        }
+        compositeDisposable!!.add(disposable)
     }
 
 }

@@ -1,13 +1,12 @@
 package com.guoxw.geekproject.base
 
 import android.view.LayoutInflater
-import com.guoxw.geekproject.R
-import kotlinx.android.synthetic.main.fragment_base.*
+import com.guoxw.geekproject.R.id.fl_fragment_base
 
 /**
  * Created by guoxw on 2017/11/3 0003.
  */
-abstract class BaseNetFragment : BaseFragment() {
+abstract class BaseNetFragment<R, T : BasePresenter<R, BaseView<R>>> : BaseFragment<R, T>() {
 
     /**
      * 初始化页面

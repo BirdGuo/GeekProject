@@ -4,9 +4,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseFragment
+import com.guoxw.geekproject.base.BasePresenter
+import com.guoxw.geekproject.base.BaseView
+import com.guoxw.geekproject.gankio.bean.GankData
 import kotlinx.android.synthetic.main.fragment_gank.*
 
-class FragmentGank : BaseFragment() {
+class FragmentGank : BaseFragment<GankData, BasePresenter<GankData, BaseView<GankData>>>() {
 
     /**
      * fragment列表

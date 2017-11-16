@@ -7,15 +7,21 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
+import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
+import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
+import com.guoxw.geekproject.gankio.presenter.dao.GankDataInfoDao
+import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.fragment_beauty.*
 
@@ -23,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener {
+class FragmentBeauty : BaseNetFragment(), GankDataDao.view, RCVItemClickListener, SwipeRefreshLayout.OnRefreshListener, LifeSubscription {
 
     /**
      * 当前页
@@ -33,7 +39,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
     /**
      * 日期列表
      */
-    var dates: MutableList<String> = ArrayList()
+    var dates: MutableList<String> = ArrayList<String>()
 
     /**
      * 瀑布流适配器
@@ -44,6 +50,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
      * 数据接口
      */
 //    var gankDataPresenter: GankDataPresenter? = null
+    var gankDataInfoDao: GankDataDaoImpl? = null
 
     override fun initUI() {
 
@@ -63,6 +70,10 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
     override fun initData() {
 //        gankDataPresenter = GankDataPresenter(this, context)
 //        gankDataPresenter!!.initGankHistory()
+
+        gankDataInfoDao = GankDataDaoImpl(this)
+        gankDataInfoDao!!.fetchGankHistory()
+
     }
 
     private fun initPage(currentPage: Int) {
@@ -88,20 +99,12 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
     override fun onItemLongClickListener(view: View, postion: Int) {
     }
 
-    override fun reflashView(mData: GankResponse<MutableList<GankData>>) {
-    }
-
-    override fun getDataFail(error: String) {
-        fl_beauty.visibility = View.GONE
-        tv_error_msg.visibility = View.VISIBLE
-        tv_error_msg.text = error
-    }
-
-    override fun getHisSuccess(result: MutableList<String>) {
+    override fun getHisSuccess(dates: MutableList<String>) {
+        LogUtil.i("GXW", dates[0] + "   " + dates[1])
         fl_beauty.visibility = View.VISIBLE
         tv_error_msg.visibility = View.GONE
 
-        dates.addAll(result)
+        this.dates.addAll(dates)
         initPage(currentPage)
 
         //滑动监听
@@ -122,41 +125,31 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
         })
     }
 
-    override fun getDataComplete() {
+    override fun reflashView(mData: GankResponse<MutableList<GankData>>) {
+    }
+
+    override fun getDataFail(error: String) {
     }
 
     override fun getHisFail(error: String) {
+        fl_beauty.visibility = View.GONE
+        tv_error_msg.visibility = View.VISIBLE
+        tv_error_msg.text = error
     }
+
+    override fun getDataComplete() {
+    }
+
+    override fun bindCompositeDisposable(disposable: Disposable) {
+
+        LogUtil.i("GXW", "------------beauty bindCompositeDisposable---------")
+
+    }
+
 
     override fun onRefresh() {
 
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        LogUtil.i("GXW","------------ beauty onResume ----------")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        LogUtil.i("GXW","------------ beauty onPause ----------")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        LogUtil.i("GXW","------------ beauty onStart ----------")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        LogUtil.i("GXW","------------ beauty onStop ----------")
-        //在这销毁retrofit线程
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        LogUtil.i("GXW","------------ beauty onDestroy ----------")
-    }
 
 }// Required empty public constructor
