@@ -1,7 +1,5 @@
 package com.guoxw.geekproject.gankio.presenter.dao
 
-import com.guoxw.geekproject.base.BaseView
-import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.data.responses.GankResponse

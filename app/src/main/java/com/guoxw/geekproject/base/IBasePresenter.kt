@@ -42,11 +42,17 @@ interface IBasePresenter<T> {
      * @param observable
      * @param consumer
      */
-    fun invoke(observable: Flowable<T>, consumer: Consumer<T>)
+    fun <D> invoke(observable: Flowable<D>, consumer: Consumer<D>)
 
     /**
      * 检查状态
-     * @param
+     * @param list
      */
     fun checkState(list: MutableList<*>)
+
+    /**
+     * 检查状态
+     * @param any
+     */
+    fun checkState(any: Any)
 }

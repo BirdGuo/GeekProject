@@ -18,10 +18,8 @@ import com.guoxw.geekproject.gankio.adapter.AndroidAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
-import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
-import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil
 import io.reactivex.disposables.Disposable

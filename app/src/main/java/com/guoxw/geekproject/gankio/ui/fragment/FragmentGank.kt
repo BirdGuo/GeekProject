@@ -2,7 +2,6 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_gank.*

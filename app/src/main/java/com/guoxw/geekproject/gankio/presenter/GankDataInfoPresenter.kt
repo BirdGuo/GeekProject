@@ -1,14 +1,12 @@
 package com.guoxw.geekproject.gankio.presenter
 
 import android.content.Context
-import android.util.Log
 import com.blankj.utilcode.utils.NetworkUtils
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
-import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

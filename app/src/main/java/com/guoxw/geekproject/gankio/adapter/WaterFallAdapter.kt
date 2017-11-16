@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.CardView
@@ -26,7 +25,6 @@ import com.guoxw.geekproject.gankio.presenter.GankDataInfoPresenter
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
 import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
-import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.Serializable

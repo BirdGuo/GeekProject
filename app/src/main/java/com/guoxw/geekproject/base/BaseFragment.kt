@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.blankj.utilcode.utils.NetworkUtils
 import com.guoxw.geekproject.enums.FragmentLifeCycleEvent
 import rx.subjects.PublishSubject
 

@@ -1,6 +1,5 @@
 package com.guoxw.geekproject.gankio.bean
 
-import android.os.Parcelable
 import java.io.Serializable
 
 /**

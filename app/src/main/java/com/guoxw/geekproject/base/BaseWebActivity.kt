@@ -1,7 +1,7 @@
 package com.guoxw.geekproject.base
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.presenter.WebPresenter
 import com.guoxw.geekproject.gankio.ui.views.IWebView

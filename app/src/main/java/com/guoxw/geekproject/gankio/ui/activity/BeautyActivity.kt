@@ -8,7 +8,6 @@ import com.guoxw.geekproject.gankio.GankConfig
 import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.bean.GankData
 import kotlinx.android.synthetic.main.activity_beauty.*
-import kotlinx.android.synthetic.main.activity_gank_day_info.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 
 class BeautyActivity : BaseToolbarActivity() {

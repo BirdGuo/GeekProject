@@ -17,6 +17,7 @@ import java.lang.ref.WeakReference
  */
 open class BasePresenter<R, T : BaseView<R>> : IBasePresenter<R> {
 
+
     /**
      * 具体页面
      */
@@ -52,13 +53,15 @@ open class BasePresenter<R, T : BaseView<R>> : IBasePresenter<R> {
             compositeDisposable!!.clear()
     }
 
-    /**
-     * 检查状态
-     * @param list
-     */
     override fun checkState(list: MutableList<*>) {
         //列表为空并且页面线程处于安全状态
         if (list.isEmpty() && view is Stateful) {
+            (view as Stateful).setState(AppConstants.STATE_EMPTY)
+        }
+    }
+
+    override fun checkState(any: Any) {
+        if (any != null) {
             (view as Stateful).setState(AppConstants.STATE_EMPTY)
         }
     }
@@ -86,7 +89,7 @@ open class BasePresenter<R, T : BaseView<R>> : IBasePresenter<R> {
     override fun invoke(observable: Flowable<R>, callBack: Callback<R>) {
     }
 
-    override fun invoke(observable: Flowable<R>, consumer: Consumer<R>) {
+    override fun <D> invoke(observable: Flowable<D>, consumer: Consumer<D>) {
 
         HttpUtils.invoke(view as LifeSubscription, observable, consumer)
 

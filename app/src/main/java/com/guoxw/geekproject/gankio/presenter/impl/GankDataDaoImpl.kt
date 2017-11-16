@@ -19,6 +19,19 @@ class GankDataDaoImpl(val lifeSubscription: LifeSubscription)
     val gankIOResetApi = GankIOResetApi
 
     override fun fetchGankHistory() {
+        attachView(lifeSubscription)
+        invoke(gankIOResetApi.getGankHistoryDate(), Consumer {
+
+            data ->
+            val result = data.results
+            checkState(result)
+            if (data.error) {
+                view!!.getHisFail(ApiException(0x0003).message!!)
+            } else {
+                view!!.getHisSuccess(data.results)
+            }
+
+        })
     }
 
     override fun fetchGankData(gankDataParam: GankDataParam) {

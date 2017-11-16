@@ -13,7 +13,6 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
-import com.guoxw.geekproject.gankio.presenter.GankDataPresenter
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom

@@ -3,7 +3,6 @@ package com.guoxw.geekproject.calendar.ui.fargment
 
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseFragment
 import com.guoxw.geekproject.calendar.ui.adapter.CalBadAdapter
