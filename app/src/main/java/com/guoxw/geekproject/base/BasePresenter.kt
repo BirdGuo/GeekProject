@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference
 /**
  * Created by gxw on 17-11-13.
  */
-open class BasePresenter<R, T : BaseView<R>> : IBasePresenter<R> {
+open abstract class BasePresenter<in D, out T : BaseView<D>> : IBasePresenter {
 
 
     /**
@@ -86,10 +86,8 @@ open class BasePresenter<R, T : BaseView<R>> : IBasePresenter<R> {
         unDisposable()
     }
 
-    override fun invoke(observable: Flowable<R>, callBack: Callback<R>) {
-    }
 
-    override fun <D> invoke(observable: Flowable<D>, consumer: Consumer<D>) {
+    override fun <A> invoke(observable: Flowable<A>, consumer: Consumer<A>) {
 
         HttpUtils.invoke(view as LifeSubscription, observable, consumer)
 

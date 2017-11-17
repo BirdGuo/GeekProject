@@ -14,12 +14,12 @@ interface GankDataDao {
     /**
      * 页面绑定数据
      */
-    interface view : IGankDataView<GankResponse<MutableList<GankData>>>
+    interface View : IGankDataView<GankResponse<MutableList<GankData>>>
 
     /**
      * 数据接口
      */
-    interface presenter {
+    interface Presenter {
 
         /**
          * 分类请求数据

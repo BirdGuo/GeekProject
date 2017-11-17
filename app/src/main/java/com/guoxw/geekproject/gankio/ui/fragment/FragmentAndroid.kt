@@ -31,13 +31,13 @@ import kotlinx.android.synthetic.main.fragment_base.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentAndroid(val type: String) : BaseNetFragment(), GankDataDao.view, SwipeRefreshLayout.OnRefreshListener, LifeSubscription {
+class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableList<GankData>>, GankDataDaoImpl>(), GankDataDao.View, SwipeRefreshLayout.OnRefreshListener, LifeSubscription {
 
 
     //适配器
     var androidAdapter: AndroidAdapter? = null
 
-    //presenter
+    //Presenter
 //    var gankDataPresenter: GankDataPresenter? = null
 
     var gankDataDao: GankDataDaoImpl? = null

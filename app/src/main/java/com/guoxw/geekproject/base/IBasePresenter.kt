@@ -12,7 +12,7 @@ import io.reactivex.functions.Consumer
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-interface IBasePresenter<T> {
+interface IBasePresenter {
 
     /**
      * 绑定视图订阅
@@ -27,14 +27,14 @@ interface IBasePresenter<T> {
      */
     fun detachView()
 
-    /**
-     * @param observable
-     * @param callBack
-     *
-     * @hide
-     */
-    @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<T>, consumer: Consumer<T>)"), level = DeprecationLevel.HIDDEN)
-    fun invoke(observable: Flowable<T>, callBack: Callback<T>)
+//    /**
+//     * @param observable
+//     * @param callBack
+//     *
+//     * @hide
+//     */
+//    @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<T>, consumer: Consumer<T>)"), level = DeprecationLevel.HIDDEN)
+//    fun invoke(observable: Flowable<T>, callBack: Callback<T>)
 
     /**
      * 添加绑定

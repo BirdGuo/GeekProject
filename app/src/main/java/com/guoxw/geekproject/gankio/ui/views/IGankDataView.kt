@@ -5,7 +5,7 @@ import com.guoxw.geekproject.base.BaseView
 /**
  * Created by guoxw on 2017/10/31 0031.
  */
-interface IGankDataView<T> : BaseView<T> {
+interface IGankDataView<in T> : BaseView<T> {
 
     /**
      * 获取历史日期

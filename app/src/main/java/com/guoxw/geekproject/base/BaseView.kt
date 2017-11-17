@@ -7,7 +7,7 @@ package com.guoxw.geekproject.base
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-interface BaseView<T> {
+interface BaseView<in T> {
 
     /**
      * 刷新页面
