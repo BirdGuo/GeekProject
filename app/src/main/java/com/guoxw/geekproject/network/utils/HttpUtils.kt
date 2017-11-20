@@ -2,6 +2,11 @@ package com.guoxw.gankio.network.utils
 
 import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.network.ApiException
+import com.guoxw.geekproject.network.ApiThrowable
+import com.guoxw.geekproject.network.retrofit.MyAction
+import com.guoxw.geekproject.network.retrofit.MySubscription
+import com.guoxw.geekproject.network.utils.MySubscriber
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,7 +26,8 @@ object HttpUtils {
     /**
      * @define 你好
      */
-    fun <T> invoke(lifeSubscription: LifeSubscription, observable: Flowable<T>, consumer: Consumer<T>) {
+    fun <T> invoke(lifeSubscription: LifeSubscription, observable: Flowable<T>,
+                   next: Consumer<T>) {
         //var target: Stateful? = null
         //做类型检查，我们需要用到 is 关键字，其实跟 Java 里的 instanceOf 一样。
         //if (lifeSubscription is Stateful) {
@@ -32,7 +38,29 @@ object HttpUtils {
         val subscribe: Disposable = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(consumer)
+                .subscribe(next)
+        //subscribe.dispose()//这句话不能加，加了后就直接cancel了
+
+        lifeSubscription.bindCompositeDisposable(subscribe)
+
+    }
+
+    /**
+     * @define 你好
+     */
+    fun <T> invoke(lifeSubscription: LifeSubscription, observable: Flowable<T>,
+                   next: Consumer<T>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription) {
+        //var target: Stateful? = null
+        //做类型检查，我们需要用到 is 关键字，其实跟 Java 里的 instanceOf 一样。
+        //if (lifeSubscription is Stateful) {
+        //target = lifeSubscription
+        ////callback.target = target
+        //}
+
+        val subscribe: Disposable = observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(next, error, complete, subscription)
         //subscribe.dispose()//这句话不能加，加了后就直接cancel了
 
         lifeSubscription.bindCompositeDisposable(subscribe)
@@ -47,7 +75,7 @@ object HttpUtils {
      * @param isSave
      * @param forceRefresh
      */
-    @Deprecated("这个方法暂时还不会写",replaceWith = ReplaceWith("使用invoke代替","com.guoxw.gankio.network.utils.HttpUtils.invoke"),level = DeprecationLevel.HIDDEN)
+    @Deprecated("这个方法暂时还不会写", replaceWith = ReplaceWith("使用invoke代替", "com.guoxw.gankio.network.utils.HttpUtils.invoke"), level = DeprecationLevel.HIDDEN)
     fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
 //        //数据预处理

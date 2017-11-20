@@ -78,7 +78,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         androidAdapter!!.datas.clear()
         //初始化Presenter
 //        gankDataPresenter = GankDataPresenter(this, context)
-        gankDataDao = GankDataDaoImpl(this)
+        gankDataDao = GankDataDaoImpl(this, this)
         //获取第一页数据
         gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
 //        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
@@ -159,26 +159,29 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
 
     override fun onResume() {
         super.onResume()
-        LogUtil.i("GXW", "------------ " + type + " onResume ----------")
     }
 
     override fun onPause() {
         super.onPause()
-        LogUtil.i("GXW", "------------ " + type + " onPause ----------")
     }
 
     override fun onStart() {
         super.onStart()
-        LogUtil.i("GXW", "------------ " + type + " onStart ----------")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.i("GXW", "------------ " + type + " onDestroy ----------")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (type == "iOS") {
+            LogUtil.i("GXW", "------------ios onStop-------------")
+        }
     }
 
     override fun bindCompositeDisposable(disposable: Disposable) {
-        LogUtil.i("GXW", "-----------bindCompositeDisposable----------")
+        gankDataDao!!.addDisposable(disposable)
     }
 
 }

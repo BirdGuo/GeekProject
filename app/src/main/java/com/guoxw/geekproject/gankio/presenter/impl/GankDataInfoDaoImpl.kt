@@ -11,7 +11,7 @@ import io.reactivex.functions.Consumer
 /**
  * Created by guoxw on 2017/11/16 0016.
  */
-class GankDataInfoDaoImpl(val lifeSubscription: LifeSubscription) : BasePresenter<GankDayData, GankDataInfoDao.View>(), GankDataInfoDao.Presenter {
+class GankDataInfoDaoImpl(val lifeSubscription: LifeSubscription) : BasePresenter<GankDayData>(), GankDataInfoDao.Presenter {
 
     val gankIOResetApi = GankIOResetApi
 

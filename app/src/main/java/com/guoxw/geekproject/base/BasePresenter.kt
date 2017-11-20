@@ -5,6 +5,8 @@ import com.guoxw.gankio.network.Stateful
 import com.guoxw.gankio.network.utils.Callback
 import com.guoxw.gankio.network.utils.HttpUtils
 import com.guoxw.geekproject.constatnt.AppConstants
+import com.guoxw.geekproject.network.retrofit.MyAction
+import com.guoxw.geekproject.network.retrofit.MySubscription
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -15,17 +17,17 @@ import java.lang.ref.WeakReference
 /**
  * Created by gxw on 17-11-13.
  */
-open abstract class BasePresenter<in D, out T : BaseView<D>> : IBasePresenter {
+open abstract class BasePresenter<D> : IBasePresenter {
 
 
     /**
      * 具体页面
      */
-    protected var mReferenceView: Reference<T>? = null
+    protected var mReferenceView: Reference<BaseView<D>>? = null
     /**
      * 添加监听页面
      */
-    protected var view: T? = null
+    var view: BaseView<D>? = null
     /**
      * CompositeDisposable管理订阅
      */
@@ -38,7 +40,7 @@ open abstract class BasePresenter<in D, out T : BaseView<D>> : IBasePresenter {
      *（2）使用b?.length的形式调用，如果b为null，返回null，否则返回b.length
      *（3）使用b!!.length()的形式调用，如果b为null，抛出空指针异常，否则返回b.length
      */
-    protected fun addDisposable(disposable: Disposable) {
+    public fun addDisposable(disposable: Disposable) {
         if (compositeDisposable == null)
             compositeDisposable = CompositeDisposable()
         compositeDisposable!!.add(disposable)
@@ -76,7 +78,7 @@ open abstract class BasePresenter<in D, out T : BaseView<D>> : IBasePresenter {
          * 一旦系统内存回收，无论内存是否紧张，弱引用指向的对象都会被回收。
          * 弱引用也可以避免 Heap 内存不足所导致的异常。
          */
-        mReferenceView = WeakReference(lifeSubscription as T)
+        mReferenceView = WeakReference(lifeSubscription as BaseView<D>)
         //获取页面对象
         view = mReferenceView!!.get()
     }
@@ -86,11 +88,15 @@ open abstract class BasePresenter<in D, out T : BaseView<D>> : IBasePresenter {
         unDisposable()
     }
 
+    override fun <A> invoke(observable: Flowable<A>, next: Consumer<A>) {
+        HttpUtils.invoke(view as LifeSubscription, observable, next)
+    }
 
-    override fun <A> invoke(observable: Flowable<A>, consumer: Consumer<A>) {
+    override fun <A> invoke(observable: Flowable<A>, next: Consumer<A>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription) {
 
-        HttpUtils.invoke(view as LifeSubscription, observable, consumer)
+        HttpUtils.invoke(view as LifeSubscription, observable, next, error, complete, subscription)
 
     }
+
 
 }

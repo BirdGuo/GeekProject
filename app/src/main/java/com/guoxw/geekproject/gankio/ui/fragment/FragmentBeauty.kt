@@ -9,13 +9,17 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
+import com.guoxw.geekproject.base.BasePresenter
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
+import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.fragment_beauty.*
 
@@ -23,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener {
+class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, BasePresenter<GankResponse<MutableList<GankData>>>>(), RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener, GankDataDao.View {
 
     /**
      * 当前页
@@ -44,6 +48,7 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
      * 数据接口
      */
 //    var gankDataPresenter: GankDataPresenter? = null
+    var gankDataDaoImpl: GankDataDaoImpl? = null
 
     override fun initUI() {
 
@@ -63,17 +68,19 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
     override fun initData() {
 //        gankDataPresenter = GankDataPresenter(this, context)
 //        gankDataPresenter!!.initGankHistory()
+        gankDataDaoImpl = GankDataDaoImpl(this, this)
+        gankDataDaoImpl!!.fetchGankHistory()
     }
 
     private fun initPage(currentPage: Int) {
 
-        for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
-            waterFullAdapter!!.dates.add(dates[i])
+        if (dates.size > 0) {
+            for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
+                waterFullAdapter!!.dates.add(dates[i])
+            }
+            waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
+            waterFullAdapter!!.notifyDataSetChanged()
         }
-
-        waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
-        waterFullAdapter!!.notifyDataSetChanged()
-
     }
 
     override fun initListener() {
@@ -126,6 +133,8 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
     }
 
     override fun getHisFail(error: String) {
+
+
     }
 
     override fun onRefresh() {
@@ -135,28 +144,34 @@ class FragmentBeauty : BaseNetFragment(), RCVItemClickListener, IGankDataView<Ga
 
     override fun onResume() {
         super.onResume()
-        LogUtil.i("GXW","------------ beauty onResume ----------")
+        LogUtil.i("GXW", "------------ beauty onResume ----------")
+
+        LogUtil.i("GXW", "dates size:" + dates.size)
+//        initPage(currentPage)
     }
 
     override fun onPause() {
         super.onPause()
-        LogUtil.i("GXW","------------ beauty onPause ----------")
+        LogUtil.i("GXW", "------------ beauty onPause ----------")
     }
 
     override fun onStart() {
         super.onStart()
-        LogUtil.i("GXW","------------ beauty onStart ----------")
+        LogUtil.i("GXW", "------------ beauty onStart ----------")
     }
 
     override fun onStop() {
         super.onStop()
-        LogUtil.i("GXW","------------ beauty onStop ----------")
+        LogUtil.i("GXW", "------------ beauty onStop ----------")
         //在这销毁retrofit线程
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.i("GXW","------------ beauty onDestroy ----------")
+        LogUtil.i("GXW", "------------ beauty onDestroy ----------")
     }
 
+    override fun bindCompositeDisposable(disposable: Disposable) {
+        gankDataDaoImpl!!.addDisposable(disposable)
+    }
 }// Required empty public constructor

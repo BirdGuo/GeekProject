@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_base.*
 /**
  * Created by guoxw on 2017/11/3 0003.
  */
-abstract class BaseNetFragment<D, T : BasePresenter<D, BaseView<D>>> : BaseFragment(), LifeSubscription {
+abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSubscription {
 
     var presenter: T? = null
 
@@ -44,28 +44,30 @@ abstract class BaseNetFragment<D, T : BasePresenter<D, BaseView<D>>> : BaseFragm
 
     override fun onStop() {
         super.onStop()
+        LogUtil.i("GXW","---------onStop----1----")
         if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
-            LogUtil.i("GXW", "--------onStop-----1----")
+            LogUtil.i("GXW","---------onStop----2----")
             compositeDisposable!!.dispose()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
+            compositeDisposable!!.dispose()
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
-            LogUtil.i("GXW", "--------onDetach-----1----")
+            LogUtil.i("GXW","---------onDetach--------")
             compositeDisposable!!.dispose()
         }
-
-//        if (basePresenter!=null){
-//            basePresenter!!.detachView()
-//        }
-
     }
 
 

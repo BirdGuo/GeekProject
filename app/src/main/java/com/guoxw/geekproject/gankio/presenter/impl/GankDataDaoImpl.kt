@@ -8,15 +8,19 @@ import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.data.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.network.ApiException
+import com.guoxw.geekproject.network.retrofit.MyAction
+import com.guoxw.geekproject.network.retrofit.MySubscription
+import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.functions.Consumer
 
 /**
  * Created by guoxw on 2017/11/15 0015.
  */
-class GankDataDaoImpl(val lifeSubscription: LifeSubscription)
-    : BasePresenter<GankResponse<MutableList<GankData>>, GankDataDao.View>(), GankDataDao.Presenter {
+class GankDataDaoImpl(val lifeSubscription: LifeSubscription, val mView: GankDataDao.View)
+    : BasePresenter<GankResponse<MutableList<GankData>>>(), GankDataDao.Presenter {
 
     val gankIOResetApi = GankIOResetApi
+
 
     override fun fetchGankHistory() {
         attachView(lifeSubscription)
@@ -26,12 +30,14 @@ class GankDataDaoImpl(val lifeSubscription: LifeSubscription)
             val result = data.results
             checkState(result)
             if (data.error) {
-                view!!.getHisFail(ApiException(0x0003).message!!)
+                mView.getHisFail(ApiException(0x0003).message!!)
             } else {
-                view!!.getHisSuccess(data.results)
+                mView.getHisSuccess(data.results)
             }
 
-        })
+        }, Consumer { throwable ->
+            LogUtil.e("GXW", "message:".plus(throwable.message))
+        }, MyAction(), MySubscription())
     }
 
     override fun fetchGankData(gankDataParam: GankDataParam) {
@@ -40,9 +46,9 @@ class GankDataDaoImpl(val lifeSubscription: LifeSubscription)
             val result = data.results
             checkState(result)
             if (data.error) {//无数据
-                view!!.getDataFail(ApiException(0x0003).message!!)
+                mView.getDataFail(ApiException(0x0003).message!!)
             } else {//正常
-                view!!.reflashView(data)
+                mView.reflashView(data)
             }
         })
     }

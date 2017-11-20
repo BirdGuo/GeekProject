@@ -1,5 +1,6 @@
 package com.guoxw.gankio.network.utils
 
+import com.guoxw.gankio.network.Stateful
 import io.reactivex.functions.Consumer
 
 
@@ -10,8 +11,14 @@ import io.reactivex.functions.Consumer
  * @desciption
  * @package com.guoxw.gankio.network.utils
  */
-interface MyConsumer<T> : Consumer<T> {
+class MyNext<T> : Consumer<T> {
+
+    private var target: Stateful? = null
 
     override fun accept(t: T) {
+
+
+
     }
+
 }
