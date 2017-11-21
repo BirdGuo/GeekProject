@@ -1,5 +1,6 @@
 package com.guoxw.geekproject.network.retrofit
 
+import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.functions.Action
 
 /**
@@ -7,5 +8,8 @@ import io.reactivex.functions.Action
  */
 class MyAction : Action {
     override fun run() {
+
+        LogUtil.i("GXW", "----------MyAction--------")
+
     }
 }

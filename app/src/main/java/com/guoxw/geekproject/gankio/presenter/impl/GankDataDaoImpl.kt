@@ -50,7 +50,9 @@ class GankDataDaoImpl(val lifeSubscription: LifeSubscription, val mView: GankDat
             } else {//正常
                 mView.reflashView(data)
             }
-        })
+        }, Consumer { throwable ->
+            LogUtil.e("GXW", "message:".plus(throwable.message))
+        }, MyAction(), MySubscription())
     }
 
 }

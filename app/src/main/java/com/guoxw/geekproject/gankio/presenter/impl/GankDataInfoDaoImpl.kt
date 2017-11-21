@@ -6,6 +6,9 @@ import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataInfoDao
+import com.guoxw.geekproject.network.retrofit.MyAction
+import com.guoxw.geekproject.network.retrofit.MySubscription
+import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.functions.Consumer
 
 /**
@@ -26,7 +29,9 @@ class GankDataInfoDaoImpl(val lifeSubscription: LifeSubscription) : BasePresente
 
             view!!.reflashView(result)
 
-        })
+        }, Consumer { throwable ->
+            LogUtil.e("GXW", "message:".plus(throwable.message))
+        }, MyAction(), MySubscription())
 
     }
 }
