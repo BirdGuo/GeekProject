@@ -44,9 +44,7 @@ abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSu
 
     override fun onStop() {
         super.onStop()
-        LogUtil.i("GXW","---------onStop----1----")
         if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
-            LogUtil.i("GXW","---------onStop----2----")
             compositeDisposable!!.dispose()
         }
     }
@@ -65,7 +63,6 @@ abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSu
     override fun onDetach() {
         super.onDetach()
         if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
-            LogUtil.i("GXW","---------onDetach--------")
             compositeDisposable!!.dispose()
         }
     }

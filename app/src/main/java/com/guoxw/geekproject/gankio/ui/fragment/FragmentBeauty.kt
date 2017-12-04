@@ -68,8 +68,10 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
     override fun initData() {
 //        gankDataPresenter = GankDataPresenter(this, context)
 //        gankDataPresenter!!.initGankHistory()
-        gankDataDaoImpl = GankDataDaoImpl(this, this)
+        gankDataDaoImpl = GankDataDaoImpl(context,this, this)
         gankDataDaoImpl!!.fetchGankHistory()
+
+        presenter =  GankDataDaoImpl(context,this, this)
     }
 
     private fun initPage(currentPage: Int) {
@@ -105,6 +107,8 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
     }
 
     override fun getHisSuccess(result: MutableList<String>) {
+
+
         fl_beauty.visibility = View.VISIBLE
         tv_error_msg.visibility = View.GONE
 
@@ -133,8 +137,6 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
     }
 
     override fun getHisFail(error: String) {
-
-
     }
 
     override fun onRefresh() {
@@ -144,31 +146,25 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
 
     override fun onResume() {
         super.onResume()
-        LogUtil.i("GXW", "------------ beauty onResume ----------")
 
-        LogUtil.i("GXW", "dates size:" + dates.size)
 //        initPage(currentPage)
     }
 
     override fun onPause() {
         super.onPause()
-        LogUtil.i("GXW", "------------ beauty onPause ----------")
     }
 
     override fun onStart() {
         super.onStart()
-        LogUtil.i("GXW", "------------ beauty onStart ----------")
     }
 
     override fun onStop() {
         super.onStop()
-        LogUtil.i("GXW", "------------ beauty onStop ----------")
         //在这销毁retrofit线程
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.i("GXW", "------------ beauty onDestroy ----------")
     }
 
     override fun bindCompositeDisposable(disposable: Disposable) {

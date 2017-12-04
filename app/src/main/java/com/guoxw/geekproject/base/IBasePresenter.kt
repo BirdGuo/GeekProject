@@ -57,6 +57,14 @@ interface IBasePresenter {
     fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription)
 
     /**
+     * 添加绑定
+     *
+     * @param observable
+     * @param consumer
+     */
+    fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction)
+
+    /**
      * 检查状态
      * @param list
      */

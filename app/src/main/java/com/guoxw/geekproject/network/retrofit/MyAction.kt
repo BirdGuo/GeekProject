@@ -9,7 +9,6 @@ import io.reactivex.functions.Action
 class MyAction : Action {
     override fun run() {
 
-        LogUtil.i("GXW", "----------MyAction--------")
 
     }
 }

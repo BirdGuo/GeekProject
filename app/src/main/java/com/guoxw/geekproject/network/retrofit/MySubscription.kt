@@ -10,7 +10,6 @@ import org.reactivestreams.Subscription
 class MySubscription : Consumer<Subscription> {
     override fun accept(t: Subscription?) {
 
-        LogUtil.i("GXW", "----------MySubscription--------")
 
     }
 }

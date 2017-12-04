@@ -3,6 +3,7 @@ package com.guoxw.geekproject.gankio.ui.activity
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.gankio.GankConfig
@@ -12,19 +13,24 @@ import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.bean.GankListData
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
-import com.guoxw.geekproject.gankio.presenter.GankDataInfoPresenter
+import com.guoxw.geekproject.gankio.presenter.dao.GankDataInfoDao
+import com.guoxw.geekproject.gankio.presenter.impl.GankDataInfoDaoImpl
 import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
+import com.guoxw.geekproject.utils.LogUtil
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_gank_day_info.*
 
-class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
+class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.View {
 
     //查询日期
     var date: String = ""
 
     //初始化接口
-    val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this, this)
+//    val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this, this)
     //初始化适配器
     var dataAdapter: DataAdapter = DataAdapter(this)
+
+    var gankDataInfoDao: GankDataInfoDaoImpl? = null
 
     override fun getLayoutId(): Int = R.layout.activity_gank_day_info
 
@@ -40,6 +46,8 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
 
     override fun initData() {
 
+        gankDataInfoDao = GankDataInfoDaoImpl(this, this,this)
+
         //传值
         val meizi: GankData = intent.getSerializableExtra(GankConfig.MEIZI) as GankData
         //获取日期
@@ -49,7 +57,8 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
         //拆分日期
         val dateSP = date.split("-")
         //获取当日信息
-        presenter.initDayData(GankDayDataParam(dateSP[0], dateSP[1], dateSP[2]))
+//        presenter.initDayData(GankDayDataParam(dateSP[0], dateSP[1], dateSP[2]))
+        gankDataInfoDao!!.fetchDayData(GankDayDataParam(dateSP[0], dateSP[1], dateSP[2]))
 
     }
 
@@ -62,14 +71,44 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
         BeautyPic.beauty = null
     }
 
+//    override fun reflashView(mData: GankDayData) {
+//
+//
+//        Glide.with(this)
+//                .load(mData.福利[0].url)
+//                .into(img_gdi)
+//
+//        val gankListDatas: MutableList<GankListData> = ArrayList<GankListData>()
+//
+//        if (mData.Android != null)
+//            gankListDatas.add(GankListData("Android", mData.Android))
+//        if (mData.iOS != null)
+//            gankListDatas.add(GankListData("iOS", mData.iOS))
+//        if (mData.前端 != null)
+//            gankListDatas.add(GankListData("前端", mData.前端))
+//        if (mData.拓展资源 != null)
+//            gankListDatas.add(GankListData("拓展资源", mData.拓展资源))
+//
+//        dataAdapter.dataList.clear()
+//        dataAdapter.dataList.addAll(gankListDatas)
+//        dataAdapter.notifyDataSetChanged()
+//
+//    }
+//
+//    override fun getDataFail(error: String) {
+//    }
+//
+//    override fun getDataComplete() {
+//    }
+
     override fun reflashView(mData: GankDayData) {
-
-
         Glide.with(this)
                 .load(mData.福利[0].url)
                 .into(img_gdi)
 
         val gankListDatas: MutableList<GankListData> = ArrayList<GankListData>()
+
+        LogUtil.i("GXW","-------GankDayInfoActivity reflashView-----")
 
         if (mData.Android != null)
             gankListDatas.add(GankListData("Android", mData.Android))
@@ -83,7 +122,10 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView {
         dataAdapter.dataList.clear()
         dataAdapter.dataList.addAll(gankListDatas)
         dataAdapter.notifyDataSetChanged()
+    }
 
+    override fun bindCompositeDisposable(disposable: Disposable) {
+        gankDataInfoDao!!.addDisposable(disposable)
     }
 
     override fun getDataFail(error: String) {

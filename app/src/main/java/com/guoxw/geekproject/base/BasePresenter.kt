@@ -40,7 +40,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
      *（2）使用b?.length的形式调用，如果b为null，返回null，否则返回b.length
      *（3）使用b!!.length()的形式调用，如果b为null，抛出空指针异常，否则返回b.length
      */
-    public fun addDisposable(disposable: Disposable) {
+    fun addDisposable(disposable: Disposable) {
         if (compositeDisposable == null)
             compositeDisposable = CompositeDisposable()
         compositeDisposable!!.add(disposable)
@@ -57,7 +57,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
 
     override fun checkState(list: MutableList<*>) {
         //列表为空并且页面线程处于安全状态
-        if (list.isEmpty() && view is Stateful) {
+        if (list.isEmpty()) {
             (view as Stateful).setState(AppConstants.STATE_EMPTY)
         }
     }
@@ -98,5 +98,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
 
     }
 
-
+    override fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction) {
+        HttpUtils.invoke(view as LifeSubscription, observable, next, error, complete)
+    }
 }

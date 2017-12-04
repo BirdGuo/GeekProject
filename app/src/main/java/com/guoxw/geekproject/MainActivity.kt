@@ -194,10 +194,8 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     }
 
     override fun onLocationChanged(aMapLocation: AMapLocation?) {
-        LogUtil.i("GXW", "-------------onLocationChanged-----1-----")
 
         if (aMapLocation!!.errorCode == 0) {
-            LogUtil.i("GXW", "-------------onLocationChanged---2-------")
             aMapLocation.city//获取定位城市
             tv_main_city.text = aMapLocation.city
 

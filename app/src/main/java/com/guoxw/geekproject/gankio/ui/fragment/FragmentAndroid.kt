@@ -78,7 +78,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         androidAdapter!!.datas.clear()
         //初始化Presenter
 //        gankDataPresenter = GankDataPresenter(this, context)
-        gankDataDao = GankDataDaoImpl(this, this)
+        gankDataDao = GankDataDaoImpl(context,this, this)
         //获取第一页数据
         gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
 //        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
@@ -100,6 +100,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
                     currentPage++
                     //查询新数据
 //                    gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
+                    gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
                 }
             }
         })
@@ -176,7 +177,6 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
     override fun onStop() {
         super.onStop()
         if (type == "iOS") {
-            LogUtil.i("GXW", "------------ios onStop-------------")
         }
     }
 

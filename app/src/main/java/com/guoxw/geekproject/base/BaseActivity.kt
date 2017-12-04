@@ -11,10 +11,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
 import android.widget.Toast
+import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
 import com.guoxw.geekproject.enums.ActivityLifeCycleEvent
 import com.guoxw.geekproject.utils.ToastUtil
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 import java.util.*
@@ -27,7 +30,7 @@ import java.util.*
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), LifeSubscription {
 
     val BTAG: String = BaseActivity::class.java.name
 
@@ -61,6 +64,10 @@ abstract class BaseActivity : AppCompatActivity() {
     var isExit = false
 
     var mCompositeSubscription: CompositeSubscription? = null
+    /**
+     * 线程
+     */
+    var compositeDisposable: CompositeDisposable? = null
 
     //用于从左边滑动到右边关闭的变量
     var endX: Int = 0
@@ -145,6 +152,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onStop() {
         lifecycleSubject.onNext(ActivityLifeCycleEvent.STOP)
         super.onStop()
+        if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
+            compositeDisposable!!.dispose()
+        }
     }
 
     override fun onDestroy() {
@@ -154,8 +164,8 @@ abstract class BaseActivity : AppCompatActivity() {
             mActivities.remove(this)
         }
 
-        if (mCompositeSubscription != null && mCompositeSubscription!!.hasSubscriptions()) {
-            mCompositeSubscription!!.unsubscribe()
+        if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
+            compositeDisposable!!.dispose()
         }
 
     }
@@ -269,4 +279,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
+
+    override fun bindCompositeDisposable(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
+        }
+        compositeDisposable!!.add(disposable)
+    }
 }
