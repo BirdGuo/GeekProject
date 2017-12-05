@@ -27,7 +27,8 @@ import kotlinx.android.synthetic.main.fragment_beauty.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, BasePresenter<GankResponse<MutableList<GankData>>>>(), RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener, GankDataDao.View {
+class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, GankDataDaoImpl>(),
+        RCVItemClickListener, IGankDataView<GankResponse<MutableList<GankData>>>, SwipeRefreshLayout.OnRefreshListener, GankDataDao.View {
 
     /**
      * 当前页
@@ -48,7 +49,7 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
      * 数据接口
      */
 //    var gankDataPresenter: GankDataPresenter? = null
-    var gankDataDaoImpl: GankDataDaoImpl? = null
+//    var gankDataDaoImpl: GankDataDaoImpl? = null
 
     override fun initUI() {
 
@@ -68,10 +69,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
     override fun initData() {
 //        gankDataPresenter = GankDataPresenter(this, context)
 //        gankDataPresenter!!.initGankHistory()
-        gankDataDaoImpl = GankDataDaoImpl(context,this, this)
-        gankDataDaoImpl!!.fetchGankHistory()
+//        gankDataDaoImpl = GankDataDaoImpl(context,this, this)
+//        gankDataDaoImpl!!.fetchGankHistory()
 
+        //这个方法点不出来
         presenter =  GankDataDaoImpl(context,this, this)
+        presenter!!.fetchGankHistory()
     }
 
     private fun initPage(currentPage: Int) {
@@ -167,7 +170,7 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Base
         super.onDestroy()
     }
 
-    override fun bindCompositeDisposable(disposable: Disposable) {
-        gankDataDaoImpl!!.addDisposable(disposable)
-    }
+//    override fun bindCompositeDisposable(disposable: Disposable) {
+//        presenter!!.addDisposable(disposable)
+//    }
 }// Required empty public constructor

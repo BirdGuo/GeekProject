@@ -69,10 +69,11 @@ abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSu
 
 
     override fun bindCompositeDisposable(disposable: Disposable) {
-        if (compositeDisposable == null) {
-            compositeDisposable = CompositeDisposable()
-        }
-        compositeDisposable!!.add(disposable)
+//        if (compositeDisposable == null) {
+//            compositeDisposable = CompositeDisposable()
+//        }
+//        compositeDisposable!!.add(disposable)
+        presenter!!.addDisposable(disposable)
     }
 
 

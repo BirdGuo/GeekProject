@@ -12,6 +12,7 @@ import android.view.View
 import android.view.Window
 import android.widget.Toast
 import com.guoxw.gankio.network.LifeSubscription
+import com.guoxw.gankio.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
 import com.guoxw.geekproject.enums.ActivityLifeCycleEvent
@@ -30,7 +31,7 @@ import java.util.*
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-abstract class BaseActivity : AppCompatActivity(), LifeSubscription {
+abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
 
     val BTAG: String = BaseActivity::class.java.name
 
@@ -281,9 +282,12 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription {
 
 
     override fun bindCompositeDisposable(disposable: Disposable) {
-        if (compositeDisposable == null) {
-            compositeDisposable = CompositeDisposable()
-        }
-        compositeDisposable!!.add(disposable)
+//        if (compositeDisposable == null) {
+//            compositeDisposable = CompositeDisposable()
+//        }
+//        compositeDisposable!!.add(disposable)
+    }
+
+    override fun setState(state: Int) {
     }
 }

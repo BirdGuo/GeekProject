@@ -31,7 +31,8 @@ import kotlinx.android.synthetic.main.fragment_base.*
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableList<GankData>>, GankDataDaoImpl>(), GankDataDao.View, SwipeRefreshLayout.OnRefreshListener, LifeSubscription {
+class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableList<GankData>>, GankDataDaoImpl>(),
+        GankDataDao.View, SwipeRefreshLayout.OnRefreshListener {
 
 
     //适配器
@@ -40,7 +41,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
     //Presenter
 //    var gankDataPresenter: GankDataPresenter? = null
 
-    var gankDataDao: GankDataDaoImpl? = null
+//    var gankDataDao: GankDataDaoImpl? = null
 
     //当前页
     var currentPage: Int = 1
@@ -78,9 +79,11 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         androidAdapter!!.datas.clear()
         //初始化Presenter
 //        gankDataPresenter = GankDataPresenter(this, context)
-        gankDataDao = GankDataDaoImpl(context,this, this)
+//        gankDataDao = GankDataDaoImpl(context,this, this)
         //获取第一页数据
-        gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
+//        gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
+        presenter =  GankDataDaoImpl(context,this, this)
+        presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
 //        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
 
@@ -100,7 +103,8 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
                     currentPage++
                     //查询新数据
 //                    gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
-                    gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
+//                    gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
+                    presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
                 }
             }
         })
@@ -180,8 +184,8 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         }
     }
 
-    override fun bindCompositeDisposable(disposable: Disposable) {
-        gankDataDao!!.addDisposable(disposable)
-    }
+//    override fun bindCompositeDisposable(disposable: Disposable) {
+//        presenter!!.addDisposable(disposable)
+//    }
 
 }

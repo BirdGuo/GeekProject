@@ -21,8 +21,6 @@ interface BaseView<in T> {
      */
     fun getDataFail(error: String)
 
-
-
     /**
      * 获取数据完成
      */

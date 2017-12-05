@@ -4,6 +4,7 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.guoxw.gankio.network.LifeSubscription
+import com.guoxw.gankio.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.gankio.GankConfig
@@ -20,7 +21,7 @@ import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_gank_day_info.*
 
-class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.View {
+class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.View  {
 
     //查询日期
     var date: String = ""
@@ -124,9 +125,9 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.Vi
         dataAdapter.notifyDataSetChanged()
     }
 
-    override fun bindCompositeDisposable(disposable: Disposable) {
-        gankDataInfoDao!!.addDisposable(disposable)
-    }
+//    override fun bindCompositeDisposable(disposable: Disposable) {
+//        gankDataInfoDao!!.addDisposable(disposable)
+//    }
 
     override fun getDataFail(error: String) {
     }
