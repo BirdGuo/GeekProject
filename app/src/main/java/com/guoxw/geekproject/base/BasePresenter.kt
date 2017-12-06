@@ -98,7 +98,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
 
     }
 
-    override fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction) {
+    override fun <A> invoke(observable: Flowable<A>, next: Consumer<A>, error: Consumer<Throwable>, complete: MyAction) {
         HttpUtils.invoke(view as LifeSubscription, observable, next, error, complete)
     }
 }

@@ -4,29 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@android:color/darker_gray"
+    android:fitsSystemWindows="true"
     tools:context="com.guoxw.geekproject.base.BaseWebActivity">
-    <com.smartalk.gank.ui.widget.LoveVideoView
+
+    <com.guoxw.geekproject.widget.LoveVideoView
         android:id="@+id/web_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include layout="@layout/view_toolbar" />
-    </LinearLayout>
 
-
-    <com.daimajia.numberprogressbar.NumberProgressBar
-        android:id="@+id/progressbar"
+  <!--  <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/npb_video"
         style="@style/NumberProgressBar_Funny_Orange"
         android:layout_width="match_parent"
         app:progress_reached_bar_height="2dp"
         app:progress_text_size="0sp"
         app:progress_text_visibility="invisible"
-        app:progress_unreached_bar_height="2dp" />
+        app:progress_unreached_bar_height="2dp" />-->
 
 </RelativeLayout>

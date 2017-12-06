@@ -35,7 +35,8 @@ class GankDataInfoDaoImpl(val mContext: Context, val lifeSubscription: LifeSubsc
 
             }, Consumer { throwable ->
                 LogUtil.e("GXW", "11111message:".plus(throwable.message))
-            }, MyAction())
+                mView.getDataFail(throwable.message!!)
+            }, MyAction(mView))
         } else {
             mView!!.getDataFail(mContext.getString(R.string.error_wifi))
         }

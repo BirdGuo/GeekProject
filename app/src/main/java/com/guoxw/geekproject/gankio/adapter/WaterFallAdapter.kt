@@ -78,7 +78,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val layoutParams = holder!!.img_item_gank!!.layoutParams
-        layoutParams.height = mHeights[position]
+        layoutParams.height = 400
         holder.img_item_gank!!.layoutParams = layoutParams
 //        val gankData = mImages[position]
 

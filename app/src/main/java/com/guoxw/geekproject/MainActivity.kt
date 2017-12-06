@@ -95,6 +95,10 @@ class MainActivity : BaseActivity(), AMapLocationListener {
             tv_title_menu.text = "程序猿老黄历"
         }
 
+        fl_theme_map.setOnClickListener {
+            openActivity(MapActivity::class.java, Bundle())
+        }
+
         //退出
         fl_exit_app.setOnClickListener {
             exitApp()

@@ -7,7 +7,7 @@ package com.guoxw.geekproject.base
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-interface BaseView<in T> {
+interface BaseView<in T> : BaseBaseView {
 
     /**
      * 刷新页面
@@ -15,14 +15,16 @@ interface BaseView<in T> {
      */
     fun reflashView(mData: T)
 
+    /* */
     /**
      * 获取获取数据失败
      * @param error 错误提示语
-     */
+     *//*
     fun getDataFail(error: String)
 
+    */
     /**
      * 获取数据完成
-     */
-    fun getDataComplete()
+     *//*
+    fun getDataComplete()*/
 }

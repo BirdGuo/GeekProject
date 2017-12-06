@@ -78,6 +78,16 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_theme_map"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/theme_color"
+                android:text="@string/tv_header_map" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/fl_about_us"
             style="@style/home.fragment">
 
