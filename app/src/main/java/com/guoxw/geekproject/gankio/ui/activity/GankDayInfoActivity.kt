@@ -49,7 +49,7 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.Vi
 
     override fun getLayoutId(): Int = R.layout.activity_gank_day_info
 
-    override fun initView() {
+    override fun initView(savedInstanceState: Bundle?) {
 
         img_gdi.setImageDrawable(BeautyPic.beauty)
         ViewCompat.setTransitionName(img_gdi, GankConfig.TRANSLATE_GIRL_VIEW)

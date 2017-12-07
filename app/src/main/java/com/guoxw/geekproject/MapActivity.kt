@@ -1,17 +1,27 @@
 package com.guoxw.geekproject
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import com.guoxw.geekproject.base.BaseToolbarActivity
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.include_toolbar.*
 
-class MapActivity : AppCompatActivity() {
+class MapActivity : BaseToolbarActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
+    override fun getContentLayoutId(): Int = R.layout.activity_map
 
+    override fun initUI(savedInstanceState: Bundle?) {
         amap_map.onCreate(savedInstanceState)
+        setToolBar(tb_toolbar_base, "地图")
 
+
+
+    }
+
+    override fun initData() {
+
+    }
+
+    override fun initListener() {
     }
 
     override fun onDestroy() {

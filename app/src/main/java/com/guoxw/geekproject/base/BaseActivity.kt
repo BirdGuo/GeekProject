@@ -103,7 +103,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
         initPermission()
 
         initData()
-        initView()
+        initView(savedInstanceState)
         initListener()
 
         synchronized(mActivities) {
@@ -121,7 +121,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
     /**
      * 初始化页面
      */
-    abstract fun initView()
+    abstract fun initView(savedInstanceState: Bundle?)
 
     /**
      * 初始化数据

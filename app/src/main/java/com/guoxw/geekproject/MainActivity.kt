@@ -59,7 +59,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     override fun getLayoutId(): Int = R.layout.activity_main
 
 
-    override fun initView() {
+    override fun initView(savedInstanceState: Bundle?) {
 
         tv_title_menu.text = "首页"
 

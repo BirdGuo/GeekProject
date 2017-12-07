@@ -2,6 +2,7 @@ package com.guoxw.geekproject.base
 
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
     /**
      * 初始化试图
      */
-    protected abstract fun initUI()
+    protected abstract fun initUI(savedInstanceState: Bundle?)
 
     /**
      * 绑定视图
@@ -41,7 +42,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_toolbar_base
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun initView() {
+    override fun initView(savedInstanceState: Bundle?) {
         //找寻视图
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
         //添加到Fragment中
@@ -51,7 +52,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
         //设置标题颜色
         window.statusBarColor = Color.RED
 
-        initUI()
+        initUI(savedInstanceState)
     }
 
     /**

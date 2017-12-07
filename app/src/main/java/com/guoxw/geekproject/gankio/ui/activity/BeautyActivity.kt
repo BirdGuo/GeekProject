@@ -1,5 +1,6 @@
 package com.guoxw.geekproject.gankio.ui.activity
 
+import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.guoxw.geekproject.R
@@ -14,7 +15,7 @@ class BeautyActivity : BaseToolbarActivity() {
 
     var url: String? = ""
 
-    override fun initUI() {
+    override fun initUI(savedInstanceState: Bundle?) {
         setToolBar(tb_toolbar_base, "福利")
         //设置打开方式
         ViewCompat.setTransitionName(img_beauty, GankConfig.TRANSLATE_GIRL_VIEW)
