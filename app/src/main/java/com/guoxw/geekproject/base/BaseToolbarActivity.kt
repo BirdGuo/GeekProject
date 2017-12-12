@@ -41,7 +41,6 @@ abstract class BaseToolbarActivity : BaseActivity() {
      */
     override fun getLayoutId(): Int = R.layout.activity_toolbar_base
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initView(savedInstanceState: Bundle?) {
         //找寻视图
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
@@ -50,7 +49,11 @@ abstract class BaseToolbarActivity : BaseActivity() {
         //设置toolbar标题
         setToolBar(tb_toolbar_base, "")
         //设置标题颜色
-        window.statusBarColor = Color.RED
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = Color.RED
+        }else{
+            window.setBackgroundDrawableResource(R.color.colorRateRed)
+        }
 
         initUI(savedInstanceState)
     }

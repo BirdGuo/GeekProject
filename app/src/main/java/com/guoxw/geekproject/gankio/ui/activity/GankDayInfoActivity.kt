@@ -82,10 +82,15 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.Vi
         fab_gdi.setOnClickListener {//点击播放按钮
             if (loadState == 3 && gankDayData!!.休息视频.isNotEmpty()) {//判断页面是否加载完成是否有视频
                 if (NetWorkUtil.isWifiConnect(this)) {//WiFi连接
-                    openActivity(WebVideoActivity::class.java, Bundle())
+                    val bundle = Bundle()
+                    bundle.putString("url",gankDayData!!.休息视频[0].url)
+                    openActivity(WebVideoActivity::class.java, bundle)
                 } else {
                     TipsUtil.showTipWithAction(fab_gdi, "你使用的不是wifi网络，要继续吗？", "继续", View.OnClickListener {
-                        openActivity(WebVideoActivity::class.java, Bundle())
+
+                        val bundle = Bundle()
+                        bundle.putString("url",gankDayData!!.休息视频[0].url)
+                        openActivity(WebVideoActivity::class.java, bundle)
                     })
                 }
             } else {

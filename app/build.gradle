@@ -106,5 +106,5 @@ dependencies {
     compile 'com.amap.api:search:latest.integration'
 
     //进度条
-    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+//    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 }

@@ -73,10 +73,14 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 //        gankDataDaoImpl!!.fetchGankHistory()
 
         //这个方法点不出来
-        presenter =  GankDataDaoImpl(context,this, this)
+        presenter = GankDataDaoImpl(context, this, this)
         presenter!!.fetchGankHistory()
     }
 
+    /**
+     * 分页查询新的妹子照片
+     * @param currentPage 页码
+     */
     private fun initPage(currentPage: Int) {
 
         if (dates.size > 0) {

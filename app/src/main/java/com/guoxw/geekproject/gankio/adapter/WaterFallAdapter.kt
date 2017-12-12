@@ -78,7 +78,8 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val layoutParams = holder!!.img_item_gank!!.layoutParams
-        layoutParams.height = 400
+//        layoutParams.height = this.mHeights[position]
+        layoutParams.height = 400 //效果比随机好点
         holder.img_item_gank!!.layoutParams = layoutParams
 //        val gankData = mImages[position]
 
@@ -123,6 +124,10 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                 })
     }
 
+    /**
+     * 随机生成照片高度
+     * @param mList 需要的是长度
+     */
     fun getRandomHeight(mList: MutableList<String>) {
 
         for (i in mList.indices) {

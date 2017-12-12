@@ -199,7 +199,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
         //结束所有
         copy.forEach { it.finish() }
         //杀死当前进程
-        android.os.Process.killProcess(android.os.Process.myPid())
+//        android.os.Process.killProcess(android.os.Process.myPid())
 
     }
 
@@ -224,7 +224,8 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
      */
     fun exitApp() {
         finishAll()
-        android.os.Process.killProcess(android.os.Process.myPid())
+        //这句话是否需要
+//        android.os.Process.killProcess(android.os.Process.myPid())
     }
 
     /**
