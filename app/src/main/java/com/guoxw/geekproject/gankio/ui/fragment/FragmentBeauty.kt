@@ -9,17 +9,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
-import com.guoxw.geekproject.base.BasePresenter
 import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
-import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.fragment_beauty.*
 
@@ -38,12 +35,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
     /**
      * 日期列表
      */
-    var dates: MutableList<String> = ArrayList()
+    private var dates: MutableList<String> = ArrayList()
 
     /**
      * 瀑布流适配器
      */
-    var waterFullAdapter: WaterFallAdapter? = null
+    private var waterFullAdapter: WaterFallAdapter? = null
 
     /**
      * 数据接口

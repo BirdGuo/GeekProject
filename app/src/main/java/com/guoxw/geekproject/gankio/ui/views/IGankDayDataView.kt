@@ -10,8 +10,4 @@ import com.guoxw.geekproject.gankio.bean.GankDayData
  * @desciption
  * @package com.guoxw.geekproject.gankio.ui.views
  */
-interface IGankDayDataView : BaseView<GankDayData> {
-
-
-
-}
+interface IGankDayDataView : BaseView<GankDayData>

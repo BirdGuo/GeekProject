@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
  * @desciption
  * @package com.guoxw.geekproject.gankio.presenter
  */
-class GankDataInfoPresenter(val gankDayDataView: IGankDayDataView, val mContext: Context) {
+class GankDataInfoPresenter(private val gankDayDataView: IGankDayDataView, val mContext: Context) {
 
     //接口
     private val gankIOApi: GankIOApi = GankIOResetApi

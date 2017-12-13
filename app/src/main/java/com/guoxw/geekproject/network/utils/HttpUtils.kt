@@ -1,12 +1,9 @@
-package com.guoxw.gankio.network.utils
+package com.guoxw.geekproject.network.utils
 
-import com.guoxw.gankio.network.LifeSubscription
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
-import com.guoxw.geekproject.network.ApiException
-import com.guoxw.geekproject.network.ApiThrowable
+import com.guoxw.geekproject.network.LifeSubscription
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.network.retrofit.MyAction
 import com.guoxw.geekproject.network.retrofit.MySubscription
-import com.guoxw.geekproject.network.utils.MySubscriber
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -96,7 +93,7 @@ object HttpUtils {
      * @param isSave
      * @param forceRefresh
      */
-    @Deprecated("这个方法暂时还不会写", replaceWith = ReplaceWith("使用invoke代替", "com.guoxw.gankio.network.utils.HttpUtils.invoke"), level = DeprecationLevel.HIDDEN)
+    @Deprecated("这个方法暂时还不会写", replaceWith = ReplaceWith("使用invoke代替", "com.guoxw.geekproject.network.utils.HttpUtils.invoke"), level = DeprecationLevel.HIDDEN)
     fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
 //        //数据预处理

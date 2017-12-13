@@ -4,8 +4,11 @@ import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
 
 /**
- * Created by guoxw on 2017/11/16 0016.
- */
+* @auther guoxw
+* @date 2017/11/16 0016
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 interface GankDataInfoDao {
 
     /**

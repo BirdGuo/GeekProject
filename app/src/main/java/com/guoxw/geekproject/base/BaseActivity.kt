@@ -1,6 +1,7 @@
 package com.guoxw.geekproject.base
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -11,8 +12,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
 import android.widget.Toast
-import com.guoxw.gankio.network.LifeSubscription
-import com.guoxw.gankio.network.Stateful
+import com.guoxw.geekproject.network.LifeSubscription
+import com.guoxw.geekproject.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.constatnt.AppConstants.ACCESS_PERMISSION_CODE
 import com.guoxw.geekproject.enums.ActivityLifeCycleEvent
@@ -31,7 +32,7 @@ import java.util.*
  * @desciption
  * @package com.guoxw.geekproject.base
  */
-abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
+abstract class BaseActivity : AppCompatActivity(), LifeSubscription, Stateful {
 
     val BTAG: String = BaseActivity::class.java.name
 
@@ -46,16 +47,16 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
      * 以便手动给它引入"冷"Observable的行为（当所有观察者都已经订阅时才开始发射数据），
      * 或者改用ReplaySubject。
      */
-    val lifecycleSubject: PublishSubject<ActivityLifeCycleEvent> = PublishSubject.create<ActivityLifeCycleEvent>()
+    private val lifecycleSubject: PublishSubject<ActivityLifeCycleEvent> = PublishSubject.create<ActivityLifeCycleEvent>()
 
     /**
      * 要申请的权限
      */
-    val permissions: Array<String> = arrayOf(Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE,
+    private val permissions: Array<String> = arrayOf(Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE)
 
-    var decorView: View? = null
+    private var decorView: View? = null
 
     /**
      * 双击退出标识
@@ -68,7 +69,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
     /**
      * 线程
      */
-    var compositeDisposable: CompositeDisposable? = null
+    private var compositeDisposable: CompositeDisposable? = null
 
     //用于从左边滑动到右边关闭的变量
     var endX: Int = 0
@@ -84,7 +85,8 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
     companion object {
         //管理运行的所有activity
         var mActivities: ArrayList<AppCompatActivity> = ArrayList()
-        //单例
+        @SuppressLint("StaticFieldLeak")
+//单例
         var activity: BaseActivity? = null
     }
 
@@ -178,7 +180,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
      * @param bundle 传的值
      */
     fun openActivity(activity: Class<*>, bundle: Bundle?) {
-        val intent: Intent = Intent()
+        val intent = Intent()
         if (bundle != null) {
             intent.putExtra("data", bundle)
         }
@@ -190,7 +192,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
     /**
      * 关闭所有Activity
      */
-    fun finishAll() {
+    private fun finishAll() {
         //复制一份mActivities
         var copy: List<AppCompatActivity> = ArrayList()
         synchronized(mActivities) {
@@ -255,7 +257,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription ,Stateful{
     /**
      * 判断权限
      */
-    fun initPermission() {
+    private fun initPermission() {
         //判断权限是否大于6.0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             permissions.asSequence()

@@ -1,4 +1,4 @@
-package com.guoxw.gankio.network
+package com.guoxw.geekproject.network
 
 /**
 * Created by guoxw on 2017/6/14 0014.

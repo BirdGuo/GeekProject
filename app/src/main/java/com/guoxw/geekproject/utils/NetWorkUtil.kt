@@ -4,8 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 
 /**
- * Created by guoxw on 2017/12/6 0006.
- */
+* @auther guoxw
+* @date 2017/12/6 0006
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 object NetWorkUtil {
 
     /**

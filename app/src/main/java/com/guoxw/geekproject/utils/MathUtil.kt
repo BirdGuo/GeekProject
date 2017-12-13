@@ -3,8 +3,11 @@ package com.guoxw.geekproject.utils
 import java.util.*
 
 /**
- * Created by gxw on 17-9-7.
- */
+* @auther gxw
+* @date 17-9-7
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 object MathUtil {
 
     fun randomInt(range: Int): Int {
@@ -14,7 +17,6 @@ object MathUtil {
 
     fun randomDouble(): Double {
         val random = Random()
-        val index = random.nextDouble() * 10
-        return index
+        return random.nextDouble() * 10
     }
 }

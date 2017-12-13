@@ -12,32 +12,21 @@ import kotlin.collections.ArrayList
  * @desciption
  * @package com.guoxw.geekproject.calendar.utils
  */
-class CalendarUtil {
+class CalendarUtil() {
 
-    var iday: Int = 0
-    var eventArr: List<Map<String, String>>? = null
-    var pickedEvents: MutableList<Map<String, String>>? = null
-    var picked_events: MutableList<Map<String, String>>? = null
+    private var iday: Int = 0
+    private var eventArr: List<Map<String, String>>? = null
+    private var pickedEvents: MutableList<Map<String, String>>? = null
+    private var picked_events: MutableList<Map<String, String>>? = null
 
-    val goodList: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
-    val badList: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
-
-    constructor() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        iday = year * 10000 + month * 100 + day
-
-        pickTodaysLuck()
-
-    }
+    val goodList: MutableList<Map<String, String>> = ArrayList()
+    val badList: MutableList<Map<String, String>> = ArrayList()
 
     private fun random(dayseed: Int, indexseed: Int): Int {
         var n = dayseed % 11117
-        for (i in 0..100 + indexseed - 1) {
-            n = n * n
-            n = n % 11117
+        for (i in 0 until 100 + indexseed) {
+            n *= n
+            n %= 11117
         }
         return n
     }
@@ -48,18 +37,21 @@ class CalendarUtil {
 
         eventArr = pickRandomActivity(numGood + numBad)
 
-        for (i in 0 until numGood - 1) {
-            goodList.add(eventArr!![i])
-        }
-        for (i in 0 until numBad - 1) {
-            badList.add(eventArr!![numGood + i])
-        }
+//        for (i in 0 until numGood - 1) {
+//            goodList.add(eventArr!![i])
+//        }
+
+        /**
+         *for循环变种写法
+         */
+        (0 until numGood - 1).mapTo(goodList) { eventArr!![it] }
+        (0 until numBad - 1).mapTo(badList) { eventArr!![numGood + it] }
 
     }
 
     private fun pickRandomActivity(size: Int): MutableList<Map<String, String>> {
         picked_events = pickRandom(CalenderConstant.getActivities(), size)
-        pickedEvents = ArrayList<Map<String, String>>()
+        pickedEvents = ArrayList()
 
         var map: Map<String, String>? = null
 
@@ -78,17 +70,17 @@ class CalendarUtil {
         result.put("bad", pickRes["bad"]!!)
         val rName = result["name"]
         if (rName!!.indexOf("%v") != -1) {
-            val name = rName!!.replace("%v", CalenderConstant.varNames[random(iday, 12) % CalenderConstant.varNames.size])
+            val name = rName.replace("%v", CalenderConstant.varNames[random(iday, 12) % CalenderConstant.varNames.size])
             result.put("name", name)
         }
 
-        if (rName!!.indexOf("%t") != -1) {
-            val name = rName!!.replace("%t", CalenderConstant.tools[random(iday, 11) % CalenderConstant.tools.size])
+        if (rName.indexOf("%t") != -1) {
+            val name = rName.replace("%t", CalenderConstant.tools[random(iday, 11) % CalenderConstant.tools.size])
             result.put("name", name)
         }
 
-        if (rName!!.indexOf("%l") != -1) {
-            val name = rName!!.replace("%l", (random(iday, 12) % 247 + 30).toString())
+        if (rName.indexOf("%l") != -1) {
+            val name = rName.replace("%l", (random(iday, 12) % 247 + 30).toString())
             result.put("name", name)
         }
         return result
@@ -96,27 +88,23 @@ class CalendarUtil {
 
     private fun pickRandom(array: MutableList<Map<String, String>>, size: Int): MutableList<Map<String, String>> {
         val result = ArrayList<Map<String, String>>()
-        for (map in array) {
-            result.add(map)
-        }
+        result += array
 
-        for (j in 0..array.size - size - 1) {
-            val index = random(iday, j) % result.size
-            result.removeAt(index)
-        }
+        (0 until array.size - size)
+                .asSequence()
+                .map { random(iday, it) % result.size }
+                .forEach { result.removeAt(it) }
         return result
     }
 
     private fun pickRandomList(array: Array<String>, size: Int): List<String> {
         val result = ArrayList<String>()
-        for (str in array) {
-            result.add(str)
-        }
+        result += array
 
-        for (j in 0..array.size - size - 1) {
-            val index = random(iday, j) % result.size
-            result.removeAt(index)
-        }
+        (0 until array.size - size)
+                .asSequence()
+                .map { random(iday, it) % result.size }
+                .forEach { result.removeAt(it) }
         return result
     }
 
@@ -135,6 +123,15 @@ class CalendarUtil {
      */
     fun getGirlValue(): Double {
         return random(iday, 6) % 50 / 10.0
+    }
+
+    init {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        iday = year * 10000 + month * 100 + day
+        pickTodaysLuck()
     }
 
 }

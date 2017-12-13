@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.network
 
 /**
- * Created by guoxw on 2017/11/20 0020.
- */
+* @auther guoxw
+* @date 2017/11/20 0020
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 class ApiThrowable : Throwable {
 
     constructor(message: String?, cause: Throwable?) : super(message, cause)
@@ -18,7 +21,7 @@ class ApiThrowable : Throwable {
         /**
          * 错误详情
          */
-        var detailMessage: String = ""
+        private var detailMessage: String = ""
 
         /**
          * 用户不存在
@@ -32,12 +35,12 @@ class ApiThrowable : Throwable {
         /**
          * 无数据
          */
-        val NO_DATA: Int = 0x0003
+        private val NO_DATA: Int = 0x0003
 
         /**
          * 无网络
          */
-        val NO_NETWORK: Int = 0x0004
+        private val NO_NETWORK: Int = 0x0004
 
         /**
          * 由于服务器传递过来的错误信息直接给用户看的话，用户未必能够理解

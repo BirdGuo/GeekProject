@@ -4,8 +4,11 @@ import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
 /**
- * Created by guoxw on 2017/11/20 0020.
- */
+* @auther guoxw
+* @date 2017/11/20 0020
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 class MySubscriber<T> : Subscriber<T> {
     override fun onNext(t: T) {
     }

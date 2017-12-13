@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_calendar.*
  */
 class CalendarFragment : BaseFragment() {
 
-    var adapterGood: CalGoodAdapter? = null
-    var adapterBad: CalBadAdapter? = null
+    private var adapterGood: CalGoodAdapter? = null
+    private var adapterBad: CalBadAdapter? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_calendar
 

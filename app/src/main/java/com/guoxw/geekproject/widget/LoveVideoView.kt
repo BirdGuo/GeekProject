@@ -1,12 +1,13 @@
 package com.guoxw.geekproject.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.util.Base64
 import android.webkit.WebResourceRequest
-import android.webkit.WebView
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import java.io.InputStream
 
@@ -25,13 +26,14 @@ class LoveVideoView : WebView {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.mContext = context
-        init()
+        init()//已经初始化过了
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, privateBrowsing: Boolean) : super(context, attrs, defStyleAttr, privateBrowsing)
 
-    fun init() {
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun init() {
 
         webViewClient = LoveClient(this, mContext!!)
         val webSettings = settings
@@ -47,7 +49,7 @@ class LoveVideoView : WebView {
     }
 
 
-    class LoveClient(val loveVideoView: LoveVideoView, val context: Context) : WebViewClient() {
+    class LoveClient(private val loveVideoView: LoveVideoView, val context: Context) : WebViewClient() {
 
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -58,12 +60,10 @@ class LoveVideoView : WebView {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            if (url!!.contains("www.vmovier.com")) {
-                loveVideoView.injectCSS("vmovier.css")
-            } else if (url.contains("video.weibo.com")) {
-                loveVideoView.injectCSS("weibo.css")
-            } else if (url.contains("m.miaopai.com")) {
-                loveVideoView.injectCSS("miaopai.css")
+            when {
+                url!!.contains("www.vmovier.com") -> loveVideoView.injectCSS("vmovier.css")
+                url.contains("video.weibo.com") -> loveVideoView.injectCSS("weibo.css")
+                url.contains("m.miaopai.com") -> loveVideoView.injectCSS("miaopai.css")
             }
         }
     }

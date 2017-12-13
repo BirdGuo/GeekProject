@@ -3,7 +3,6 @@ package com.guoxw.geekproject.base
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.animation.DecelerateInterpolator
@@ -23,7 +22,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
     /**
      * 显示标识
      */
-    protected var isToolBarHiding = false
+    private var isToolBarHiding = false
 
     /**
      * 初始化试图

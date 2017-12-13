@@ -1,4 +1,4 @@
-package com.guoxw.geekproject.gankio.data.responses
+package com.guoxw.geekproject.gankio.bean.responses
 
 /**
  * Created by guoxw on 2017/5/25.
@@ -7,7 +7,7 @@ package com.guoxw.geekproject.gankio.data.responses
  * @desciption
  * @package ${PACKAGE_NAME}
  */
-class GankResponse<T>(val error: Boolean, val results: T) {
+class GankResponse<out T>(val error: Boolean, val results: T) {
     override fun toString(): String {
         return "GankResponse(error=$error, result=$results)"
     }

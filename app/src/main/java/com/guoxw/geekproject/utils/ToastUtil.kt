@@ -4,8 +4,11 @@ import android.content.Context
 import android.widget.Toast
 
 /**
- * Created by guoxw on 2017/11/7 0007.
- */
+* @auther guoxw
+* @date 2017/11/7 0007
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 object ToastUtil {
 
     fun toastLong(context: Context, content: String) {

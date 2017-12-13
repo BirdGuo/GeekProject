@@ -12,8 +12,11 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.bean.GankListData
 
 /**
- * Created by guoxw on 2017/10/31 0031.
- */
+* @auther guoxw
+* @date 2017/10/31 0031
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 class DataAdapter(val mContext: Context) : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
 //    val datas: MutableList<MutableList<GankData>> = ArrayList<MutableList<GankData>>()
@@ -40,7 +43,7 @@ class DataAdapter(val mContext: Context) : RecyclerView.Adapter<DataAdapter.View
         val data = dataList[position]
         holder!!.tv_data_title!!.text = data.name
 
-        val contentAdapter: AndroidAdapter = AndroidAdapter(mContext, object : RCVItemClickListener {
+        val contentAdapter = AndroidAdapter(mContext, object : RCVItemClickListener {
             override fun onItemClickListener(view: View, postion: Int) {
             }
 
@@ -55,18 +58,19 @@ class DataAdapter(val mContext: Context) : RecyclerView.Adapter<DataAdapter.View
 
     }
 
-    class ViewHolder : RecyclerView.ViewHolder {
+    class ViewHolder//            lin_item_android = itemView!!.findViewById<LinearLayout>(R.id.lin_item_android)
+    (itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var tv_data_title: TextView? = null
-        var itemClickListener: RCVItemClickListener? = null
+        private var itemClickListener: RCVItemClickListener? = null
 
         var rcv_item_data: RecyclerView? = null
 
-        constructor(itemView: View?) : super(itemView) {
-            tv_data_title = itemView!!.findViewById<TextView>(R.id.tv_data_title)
-            rcv_item_data = itemView!!.findViewById<RecyclerView>(R.id.rcv_item_data)
-//            lin_item_android = itemView!!.findViewById<LinearLayout>(R.id.lin_item_android)
+        init {
+            tv_data_title = itemView!!.findViewById(R.id.tv_data_title)
+            rcv_item_data = itemView.findViewById(R.id.rcv_item_data)
             this.itemClickListener = itemClickListener
         }
+
     }
 
 }

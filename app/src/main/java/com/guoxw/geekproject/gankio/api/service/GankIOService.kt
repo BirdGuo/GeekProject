@@ -2,7 +2,7 @@ package com.guoxw.geekproject.gankio.api.service
 
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.GankDayData
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,16 +1,18 @@
 package com.guoxw.geekproject.base
 
 import android.view.LayoutInflater
-import com.guoxw.gankio.network.LifeSubscription
+import com.guoxw.geekproject.network.LifeSubscription
 import com.guoxw.geekproject.R
-import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_base.*
 
 /**
- * Created by guoxw on 2017/11/3 0003.
- */
+* @auther guoxw
+* @date 2017/11/3 0003
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSubscription {
 
     var presenter: T? = null
@@ -18,7 +20,7 @@ abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSu
     /**
      * 线程
      */
-    var compositeDisposable: CompositeDisposable? = null
+    private var compositeDisposable: CompositeDisposable? = null
 
     /**
      * 初始化页面
@@ -47,10 +49,6 @@ abstract class BaseNetFragment<D, T : BasePresenter<D>> : BaseFragment(), LifeSu
         if (compositeDisposable != null && compositeDisposable!!.size() > 0) {
             compositeDisposable!!.dispose()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onDestroy() {

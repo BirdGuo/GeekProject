@@ -9,6 +9,7 @@
     <ImageView
         android:id="@+id/img_beauty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="妹纸" />
 
 </RelativeLayout>

@@ -1,6 +1,6 @@
-package com.guoxw.gankio.network.utils
+package com.guoxw.geekproject.network.retrofit
 
-import com.guoxw.gankio.network.Stateful
+import com.guoxw.geekproject.network.Stateful
 import io.reactivex.functions.Consumer
 
 

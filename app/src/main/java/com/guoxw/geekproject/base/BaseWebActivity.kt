@@ -12,7 +12,7 @@ class BaseWebActivity : AppCompatActivity(), IWebView {
     /**
      * 数据层接口
      */
-    var webPresenter: WebPresenter? = null
+    private var webPresenter: WebPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

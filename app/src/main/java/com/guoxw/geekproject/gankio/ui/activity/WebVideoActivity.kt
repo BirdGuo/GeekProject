@@ -1,7 +1,6 @@
 package com.guoxw.geekproject.gankio.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseToolbarActivity
 import com.guoxw.geekproject.gankio.presenter.impl.WebViewDaoImpl
@@ -31,7 +30,7 @@ class WebVideoActivity : BaseToolbarActivity(), IWebView {
         setToolBar(tb_toolbar_base, "视频")
 //        npb_video.progress = 50
 //        web_video.init()
-
+//        web_video.init()
         val webViewDaoImpl = WebViewDaoImpl(this, this)
         webViewDaoImpl.loadWebVideo(web_video, videoUrl)
 

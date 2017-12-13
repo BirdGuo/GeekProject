@@ -3,8 +3,11 @@ package com.guoxw.geekproject.gankio.ui.views
 import com.guoxw.geekproject.base.BaseView
 
 /**
- * Created by guoxw on 2017/10/31 0031.
- */
+* @auther guoxw
+* @date 2017/10/31 0031
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 interface IGankDataView<in T> : BaseView<T> {
 
     /**

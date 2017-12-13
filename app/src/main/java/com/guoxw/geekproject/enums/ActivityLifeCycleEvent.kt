@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.enums
 
 /**
- * Created by guoxw on 2017/11/13 0013.
- */
+* @auther guoxw
+* @date 2017/11/13 0013
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 enum class ActivityLifeCycleEvent {
     CREATE,
     START,

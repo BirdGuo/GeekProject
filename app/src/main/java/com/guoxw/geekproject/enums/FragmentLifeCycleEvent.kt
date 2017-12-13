@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.enums
 
 /**
- * Created by guoxw on 2017/11/14 0014.
- */
+* @auther guoxw
+* @date 2017/11/14 0014
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 enum class FragmentLifeCycleEvent {
     CREATE,
     START,

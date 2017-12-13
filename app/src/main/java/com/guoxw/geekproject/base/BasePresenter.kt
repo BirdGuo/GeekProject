@@ -1,9 +1,8 @@
 package com.guoxw.geekproject.base
 
-import com.guoxw.gankio.network.LifeSubscription
-import com.guoxw.gankio.network.Stateful
-import com.guoxw.gankio.network.utils.Callback
-import com.guoxw.gankio.network.utils.HttpUtils
+import com.guoxw.geekproject.network.LifeSubscription
+import com.guoxw.geekproject.network.Stateful
+import com.guoxw.geekproject.network.utils.HttpUtils
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.network.retrofit.MyAction
 import com.guoxw.geekproject.network.retrofit.MySubscription
@@ -15,15 +14,18 @@ import java.lang.ref.Reference
 import java.lang.ref.WeakReference
 
 /**
- * Created by gxw on 17-11-13.
- */
+* @auther gxw
+* @date 17-11-13
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 open abstract class BasePresenter<D> : IBasePresenter {
 
 
     /**
      * 具体页面
      */
-    protected var mReferenceView: Reference<BaseView<D>>? = null
+    private var mReferenceView: Reference<BaseView<D>>? = null
     /**
      * 添加监听页面
      */
@@ -31,7 +33,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
     /**
      * CompositeDisposable管理订阅
      */
-    protected var compositeDisposable: CompositeDisposable? = null
+    private var compositeDisposable: CompositeDisposable? = null
 
     /**
      *  1、Kotlin有两种类型：一个是非空引用类型，一个是可空引用类型。
@@ -49,7 +51,7 @@ open abstract class BasePresenter<D> : IBasePresenter {
     /**
      * 取消订阅
      */
-    protected fun unDisposable() {
+    private fun unDisposable() {
         //它的返回值有两种可能，如果b不为null，返回b.length()，否则，抛出一个空指针异常，如果b为null，你不想返回null，而是抛出一个空指针异常，你就可以使用它。
         if (compositeDisposable != null)
             compositeDisposable!!.clear()

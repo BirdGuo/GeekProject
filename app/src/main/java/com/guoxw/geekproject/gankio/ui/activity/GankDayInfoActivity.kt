@@ -5,8 +5,6 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.bumptech.glide.Glide
-import com.guoxw.gankio.network.LifeSubscription
-import com.guoxw.gankio.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.gankio.GankConfig
@@ -23,7 +21,6 @@ import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.NetWorkUtil
 import com.guoxw.geekproject.utils.TipsUtil
 import com.guoxw.geekproject.utils.ToastUtil
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_gank_day_info.*
 
 class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.View {
@@ -34,18 +31,18 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.Vi
 
     //    val presenter: GankDataInfoPresenter = GankDataInfoPresenter(this, this)
     //初始化适配器
-    var dataAdapter: DataAdapter = DataAdapter(this)
+    private var dataAdapter: DataAdapter = DataAdapter(this)
 
     //初始化接口
-    var gankDataInfoDao: GankDataInfoDaoImpl? = null
+    private var gankDataInfoDao: GankDataInfoDaoImpl? = null
 
-    var gankDayData: GankDayData? = null
+    private var gankDayData: GankDayData? = null
 
     /**
      * 接口获取状态
      * 1：未连接 ；2：连接中；3:获取成功；4：获取失败
      */
-    var loadState: Int = 1
+    private var loadState: Int = 1
 
     override fun getLayoutId(): Int = R.layout.activity_gank_day_info
 
@@ -113,7 +110,7 @@ class GankDayInfoActivity : BaseActivity(), IGankDayDataView, GankDataInfoDao.Vi
 
         gankDayData = mData
 
-        val gankListDatas: MutableList<GankListData> = ArrayList<GankListData>()
+        val gankListDatas: MutableList<GankListData> = ArrayList()
 
         if (mData.Android != null)
             gankListDatas.add(GankListData("Android", mData.Android))

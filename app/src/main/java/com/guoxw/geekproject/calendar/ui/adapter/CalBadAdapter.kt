@@ -15,14 +15,9 @@ import com.guoxw.geekproject.R
  * @desciption
  * @package com.guoxw.geekproject.calendar.ui.adapter
  */
-class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
+class CalBadAdapter(var mContext: Context?) : RecyclerView.Adapter<CalBadAdapter.ViewHolder>() {
 
-    var calendars: MutableList<Map<String, String>> = ArrayList<Map<String, String>>()
-    var mContext: Context? = null
-
-    constructor(mContext: Context?) : super() {
-        this.mContext = mContext
-    }
+    var calendars: MutableList<Map<String, String>> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -34,7 +29,7 @@ class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val myCalendar = calendars[position]
         holder!!.tv_item_good_title!!.text = myCalendar["name"]
-        holder!!.tv_item_good_content!!.text = myCalendar["bad"]
+        holder.tv_item_good_content!!.text = myCalendar["bad"]
     }
 
     override fun getItemCount(): Int {
@@ -42,17 +37,18 @@ class CalBadAdapter : RecyclerView.Adapter<CalBadAdapter.ViewHolder> {
     }
 
 
-    class ViewHolder : RecyclerView.ViewHolder {
+    class ViewHolder//            tv_item_good_content = itemView!!.findViewById(R.id.tv_item_good_content) as TextView 过时了
+    //使用
+    (itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         var tv_item_good_title: TextView? = null
         var tv_item_good_content: TextView? = null
 
-        constructor(itemView: View?) : super(itemView) {
-            tv_item_good_title = itemView!!.findViewById<TextView>(R.id.tv_item_good_title)
-//            tv_item_good_content = itemView!!.findViewById(R.id.tv_item_good_content) as TextView 过时了
-            //使用
-            tv_item_good_content = itemView!!.findViewById<TextView>(R.id.tv_item_good_content)
+        init {
+            tv_item_good_title = itemView!!.findViewById(R.id.tv_item_good_title)
+            tv_item_good_content = itemView.findViewById(R.id.tv_item_good_content)
         }
+
     }
 
 

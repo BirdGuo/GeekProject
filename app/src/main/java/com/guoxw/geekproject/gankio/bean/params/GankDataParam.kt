@@ -4,8 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
- * Created by guoxw on 2017/10/31 0031.
- */
+* @auther guoxw
+* @date 2017/10/31 0031
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 data class GankDataParam(val type: String, val number: Int, val page: Int) : Parcelable {
     constructor(source: Parcel) : this(
             source.readString(),

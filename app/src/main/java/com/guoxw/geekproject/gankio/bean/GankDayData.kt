@@ -15,7 +15,4 @@ data class GankDayData(
         var iOS: MutableList<GankData>,
         var 休息视频: MutableList<GankData>,
         var 前端: MutableList<GankData>,
-        var 福利: MutableList<GankData>) : Serializable {
-
-
-}
+        var 福利: MutableList<GankData>) : Serializable

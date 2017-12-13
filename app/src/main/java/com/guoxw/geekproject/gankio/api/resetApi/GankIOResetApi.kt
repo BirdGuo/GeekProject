@@ -6,7 +6,7 @@ import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.GankDayData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.network.ApiClient
 import io.reactivex.Flowable
 
@@ -23,12 +23,7 @@ object GankIOResetApi : GankIOApi {
     /**
      * 分类请求数据
      *
-     * @param type
-     * 数据类型： 福利 | Android | iOS | 休息视频 | 拓展资源 | 前端 | all
-     * @param number
-     * 请求个数： 数字，大于0
-     * @param page
-     * 第几页：数字，大于0
+     * @param gankDataParam 分页请求参数
      */
     override fun getGankIOData(gankDataParam: GankDataParam): Flowable<GankResponse<MutableList<GankData>>>
             = ApiClient.retrofit.create(GankIOService::class.java).getGankIOData(gankDataParam.type, gankDataParam.number, gankDataParam.page)
@@ -36,9 +31,7 @@ object GankIOResetApi : GankIOApi {
     /**
      * 每日数据： http://gank.io/api/day/年/月/日
      *
-     * @param year  年
-     * @param month 月
-     * @param date  日
+     * @param gankDayDataParam 每日数据请求参数
      *
      */
     override fun getGankDayData(gankDayDataParam: GankDayDataParam): Flowable<GankResponse<GankDayData>>

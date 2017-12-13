@@ -12,14 +12,17 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.bean.GankData
 
 /**
- * Created by guoxw on 2017/10/30 0030.
- */
+* @auther guoxw
+* @date 2017/10/30 0030
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 class AndroidAdapter : RecyclerView.Adapter<AndroidAdapter.ViewHolder> {
 
-    val datas: MutableList<GankData> = ArrayList<GankData>()
+    val datas: MutableList<GankData> = ArrayList()
     var mContext: Context? = null
 
-    var rcvItemClickListener: RCVItemClickListener? = null
+    private var rcvItemClickListener: RCVItemClickListener? = null
 
     constructor(mContext: Context?) : super() {
         this.mContext = mContext
@@ -49,21 +52,23 @@ class AndroidAdapter : RecyclerView.Adapter<AndroidAdapter.ViewHolder> {
     }
 
 
-    class ViewHolder : RecyclerView.ViewHolder {
+    /**
+     * init 是这样用的 当默认构造参数是使用init初始化
+     */
+    class ViewHolder(itemView: View?, private var itemClickListener: RCVItemClickListener?) : RecyclerView.ViewHolder(itemView) {
 
         var tv_android_name: TextView? = null
-        var itemClickListener: RCVItemClickListener? = null
 
-        var lin_item_android: LinearLayout? = null
+        private var lin_item_android: LinearLayout? = null
 
-        constructor(itemView: View?, itemClickListener: RCVItemClickListener?) : super(itemView) {
-            tv_android_name = itemView!!.findViewById<TextView>(R.id.tv_android_name)
-            lin_item_android = itemView!!.findViewById<LinearLayout>(R.id.lin_item_android)
-            this.itemClickListener = itemClickListener
+        init {
+            tv_android_name = itemView!!.findViewById(R.id.tv_android_name)
+            lin_item_android = itemView.findViewById(R.id.lin_item_android)
             lin_item_android!!.setOnClickListener { view ->
                 itemClickListener!!.onItemClickListener(view, adapterPosition)
             }
         }
+
     }
 
 }

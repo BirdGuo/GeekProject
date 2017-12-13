@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
  */
 abstract class BaseFragment : Fragment() {
 
-    val lifecycleSubject: PublishSubject<FragmentLifeCycleEvent> = PublishSubject.create<FragmentLifeCycleEvent>()
+    private val lifecycleSubject: PublishSubject<FragmentLifeCycleEvent> = PublishSubject.create<FragmentLifeCycleEvent>()
 
     var mContext: Context? = null
 
@@ -71,7 +71,7 @@ abstract class BaseFragment : Fragment() {
      * @param bundle 传的值
      */
     fun openActivity(activity: Class<*>, bundle: Bundle?) {
-        val intent: Intent = Intent()
+        val intent = Intent()
         if (bundle != null) {
             intent.putExtra("data", bundle)
         }

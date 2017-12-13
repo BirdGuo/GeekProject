@@ -1,5 +1,6 @@
 package com.guoxw.geekproject.gankio.presenter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,11 +14,15 @@ import com.guoxw.geekproject.utils.StringUtil
 
 
 /**
- * Created by guoxw on 2017/11/7 0007.
- */
+* @auther guoxw
+* @date 2017/11/7 0007
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 class WebPresenter(val mContext: Context, val iView: IWebView) {
 
-    /**
+    @SuppressLint("SetJavaScriptEnabled")
+            /**
      * 设置wifi默认设置
      */
     fun setWebViewSettings(webView: WebView, url: String) {

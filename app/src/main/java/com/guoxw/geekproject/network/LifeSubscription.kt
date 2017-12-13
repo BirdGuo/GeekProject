@@ -1,4 +1,4 @@
-package com.guoxw.gankio.network
+package com.guoxw.geekproject.network
 
 import io.reactivex.disposables.Disposable
 

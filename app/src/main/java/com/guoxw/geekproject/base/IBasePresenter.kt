@@ -1,7 +1,6 @@
 package com.guoxw.geekproject.base
 
-import com.guoxw.gankio.network.LifeSubscription
-import com.guoxw.gankio.network.utils.Callback
+import com.guoxw.geekproject.network.LifeSubscription
 import com.guoxw.geekproject.network.retrofit.MyAction
 import com.guoxw.geekproject.network.retrofit.MySubscription
 import io.reactivex.Flowable
@@ -42,7 +41,7 @@ interface IBasePresenter {
      * 添加绑定
      *
      * @param observable
-     * @param consumer
+     * @param next
      *
      */
     @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription)"), level = DeprecationLevel.HIDDEN)
@@ -52,7 +51,10 @@ interface IBasePresenter {
      * 添加绑定
      *
      * @param observable
-     * @param consumer
+     * @param next
+     * @param error
+     * @param complete
+     * @param subscription
      */
     fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription)
 
@@ -60,7 +62,10 @@ interface IBasePresenter {
      * 添加绑定
      *
      * @param observable
-     * @param consumer
+     * @param next
+     * @param error
+     * @param complete
+     *
      */
     fun <D> invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction)
 

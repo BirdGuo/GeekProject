@@ -1,4 +1,4 @@
-package com.guoxw.geekproject.gankio.network.retrofit
+package com.guoxw.geekproject.network.retrofit
 
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter

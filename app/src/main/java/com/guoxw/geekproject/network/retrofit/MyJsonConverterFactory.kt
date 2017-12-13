@@ -1,4 +1,4 @@
-package com.guoxw.geekproject.gankio.network.retrofit
+package com.guoxw.geekproject.network.retrofit
 
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
@@ -18,7 +18,7 @@ import java.lang.reflect.Type
  */
 class MyJsonConverterFactory : Converter.Factory() {
 
-    val gson: Gson = Gson()
+    private val gson: Gson = Gson()
 
     /**
      * 部分是静态方法的情况 : 将方法用 companion object { } 包裹即可

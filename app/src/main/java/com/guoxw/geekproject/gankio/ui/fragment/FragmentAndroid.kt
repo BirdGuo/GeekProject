@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.guoxw.gankio.network.LifeSubscription
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
 import com.guoxw.geekproject.base.BaseWebActivity
@@ -17,12 +16,10 @@ import com.guoxw.geekproject.events.RCVItemClickListener
 import com.guoxw.geekproject.gankio.adapter.AndroidAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
-import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_android.*
 import kotlinx.android.synthetic.main.fragment_base.*
 

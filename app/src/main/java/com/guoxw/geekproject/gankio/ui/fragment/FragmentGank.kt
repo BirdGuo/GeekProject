@@ -11,20 +11,20 @@ class FragmentGank : BaseFragment() {
     /**
      * fragment列表
      */
-    var gankFragments: MutableList<Fragment> = ArrayList<Fragment>()
+    var gankFragments: MutableList<Fragment> = ArrayList()
 
     /**
      * 妹纸页面
      */
-    val beauty: FragmentBeauty = FragmentBeauty()
+    private val beauty: FragmentBeauty = FragmentBeauty()
     /**
      * Android页面
      */
-    val andFragment: FragmentAndroid = FragmentAndroid("Android")
+    private val andFragment: FragmentAndroid = FragmentAndroid("Android")
     /**
      * iOS页面
      */
-    val iosFragment: FragmentAndroid = FragmentAndroid("iOS")
+    private val iosFragment: FragmentAndroid = FragmentAndroid("iOS")
 
     override fun getLayoutId(): Int = R.layout.fragment_gank
 
@@ -32,12 +32,13 @@ class FragmentGank : BaseFragment() {
 
         vp_gank.adapter = object : FragmentPagerAdapter(fragmentManager) {
 
+            /**
+             * 设置每页的标题
+             * @param position
+             * @return title
+             */
             override fun getPageTitle(position: Int): CharSequence {
-                /**
-                 * 设置每页的标题
-                 * @param position
-                 * @return title
-                 */
+
                 var title: CharSequence = ""
                 when (position) {
                     0 -> title = "妹汁"

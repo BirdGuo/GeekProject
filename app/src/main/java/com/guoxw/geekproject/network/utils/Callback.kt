@@ -1,8 +1,8 @@
-package com.guoxw.gankio.network.utils
+package com.guoxw.geekproject.network.utils
 
 import com.blankj.utilcode.utils.NetworkUtils
 import com.blankj.utilcode.utils.ToastUtils
-import com.guoxw.gankio.network.Stateful
+import com.guoxw.geekproject.network.Stateful
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseView
 import com.guoxw.geekproject.constatnt.AppConstants
@@ -49,9 +49,9 @@ open class Callback<T> : Subscriber<T> {
         (target as BaseView<T>).reflashView(data)
     }
 
-    fun onResponse() {}
+    private fun onResponse() {}
 
-    fun onFail() {
+    private fun onFail() {
         if (NetworkUtils.isAvailableByPing()) {
             ToastUtils.showLongToast(R.string.error_wifi)
             target!!.setState(AppConstants.STATE_ERROR)

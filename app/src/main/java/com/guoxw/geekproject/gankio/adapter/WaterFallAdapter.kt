@@ -41,13 +41,13 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
 //    var mImages: MutableList<GankData> = ArrayList<GankData>()
 
-    var dates: MutableList<String> = ArrayList<String>()
+    var dates: MutableList<String> = ArrayList()
 
-    var mHeights: MutableList<Int> = ArrayList<Int>()
+    private var mHeights: MutableList<Int> = ArrayList()
 
     var mContext: Context? = null
 
-    var rcvItemClickListener: RCVItemClickListener? = null
+    private var rcvItemClickListener: RCVItemClickListener? = null
 
     var gankDataInfoPresenter: GankDataInfoPresenter? = null
 
@@ -95,12 +95,12 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         val url = res.results.福利[0].url
                         Glide.with(mContext)
                                 .load(url)
-                                .into(holder!!.img_item_gank)
+                                .into(holder.img_item_gank)
 
                         holder.cv_item_gank!!.tag = res.results.福利[0]
 
                         holder.img_item_gank!!.setOnClickListener {
-                            BeautyPic.beauty = holder!!.img_item_gank!!.drawable
+                            BeautyPic.beauty = holder.img_item_gank!!.drawable
                             val intent = Intent(mContext, BeautyActivity::class.java)
                             intent.putExtra(GankConfig.MEIZI, holder.cv_item_gank!!.tag as Serializable)
                             val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext as Activity, holder.img_item_gank, GankConfig.TRANSLATE_GIRL_VIEW)
@@ -108,9 +108,9 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         }
 
                         if (res.results.休息视频 != null && res.results.休息视频.isNotEmpty()) {
-                            holder!!.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus(res.results.休息视频[0].desc)
+                            holder.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus(res.results.休息视频[0].desc)
                         } else {
-                            holder!!.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus("今天木有小视频")
+                            holder.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus("今天木有小视频")
                         }
                     } else {//无数据
                         dates.clear()
@@ -132,26 +132,22 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         for (i in mList.indices) {
             //随机的获取一个范围为200-600直接的高度
-            mHeights!!.add((300 + Math.random() * 400).toInt())
+            mHeights.add((300 + Math.random() * 400).toInt())
         }
     }
 
 
-    class ViewHolder : RecyclerView.ViewHolder {
+    class ViewHolder(itemView: View?, private var itemClickListener: RCVItemClickListener?, date: MutableList<String>) : RecyclerView.ViewHolder(itemView) {
 
         var img_item_gank: ImageView? = null
         var tv_item_gank: TextView? = null
-        var itemClickListener: RCVItemClickListener? = null
 
         var cv_item_gank: CardView? = null
 
-        constructor(itemView: View?, itemClickListener: RCVItemClickListener?, date: MutableList<String>) : super(itemView) {
-            this.itemClickListener = itemClickListener
-            img_item_gank = itemView!!.findViewById<ImageView>(R.id.img_item_gank)
-            tv_item_gank = itemView!!.findViewById<TextView>(R.id.tv_item_gank)
-
-            cv_item_gank = itemView!!.findViewById<CardView>(R.id.cv_item_gank)
-
+        init {
+            img_item_gank = itemView!!.findViewById(R.id.img_item_gank)
+            tv_item_gank = itemView.findViewById(R.id.tv_item_gank)
+            cv_item_gank = itemView.findViewById(R.id.cv_item_gank)
             tv_item_gank!!.setOnClickListener { view ->
                 BeautyPic.beauty = img_item_gank!!.drawable
 
@@ -164,7 +160,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                 ActivityCompat.startActivity(itemView.context, intent, optionsCompat.toBundle())
 
             }
-
             tv_item_gank!!.setOnLongClickListener { view ->
                 itemClickListener!!.onItemLongClickListener(view, adapterPosition)
                 false

@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.gankio.ui.views
 
 /**
- * Created by guoxw on 2017/11/7 0007.
- */
+* @auther guoxw
+* @date 2017/11/7 0007
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 interface IWebView {
 
     /**

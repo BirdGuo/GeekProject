@@ -3,8 +3,11 @@ package com.guoxw.geekproject.utils
 import android.support.v7.widget.RecyclerView
 
 /**
- * Created by guoxw on 2017/10/31 0031.
- */
+* @auther guoxw
+* @date 2017/10/31 0031
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 object RecyclerViewUtil {
 
     /**
@@ -15,12 +18,8 @@ object RecyclerViewUtil {
     fun isSlideToBottom(recyclerView: RecyclerView?): Boolean {
         if (recyclerView == null)
             return false
-        var isBottom: Boolean = false
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
-            isBottom = true
-        } else {
-            isBottom = false
-        }
+        var isBottom = false
+        isBottom = recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()
 
         return isBottom
     }

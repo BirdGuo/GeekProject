@@ -6,15 +6,18 @@ import com.guoxw.geekproject.R
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by guoxw on 2017/10/31 0031.
- */
-class GankDataPresenter(val gankDataView: IGankDataView<GankResponse<MutableList<GankData>>>, val context: Context) {
+* @auther guoxw
+* @date 2017/10/31 0031
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
+class GankDataPresenter(private val gankDataView: IGankDataView<GankResponse<MutableList<GankData>>>, val context: Context) {
 
     //网络请求
     private val gankIOApi = GankIOResetApi

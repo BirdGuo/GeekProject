@@ -1,8 +1,11 @@
 package com.guoxw.geekproject.base
 
 /**
- * Created by guoxw on 2017/12/6 0006.
- */
+* @auther guoxw
+* @date 2017/12/6 0006
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 interface BaseBaseView {
 
     /**

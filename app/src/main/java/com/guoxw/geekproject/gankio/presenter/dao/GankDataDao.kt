@@ -2,12 +2,15 @@ package com.guoxw.geekproject.gankio.presenter.dao
 
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.params.GankDataParam
-import com.guoxw.geekproject.gankio.data.responses.GankResponse
+import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
 
 /**
- * Created by guoxw on 2017/11/15 0015.
- */
+* @auther guoxw
+* @date 2017/11/15 0015
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 interface GankDataDao {
 
 

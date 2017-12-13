@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     /**
      * 页面列表
      */
-    private val mainFragments: MutableList<Fragment> = ArrayList<Fragment>()
+    private val mainFragments: MutableList<Fragment> = ArrayList()
 
     /**
      * 定位终端
@@ -54,7 +54,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     /**
      * 天气接口
      */
-    var mweathersearch: WeatherSearch? = null
+    private var mweathersearch: WeatherSearch? = null
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -130,8 +130,8 @@ class MainActivity : BaseActivity(), AMapLocationListener {
         mweathersearch!!.setOnWeatherSearchListener(object : WeatherSearch.OnWeatherSearchListener {
             override fun onWeatherLiveSearched(result: LocalWeatherLiveResult?, rCode: Int) {
                 tv_main_city.text = result!!.liveResult.city
-                tv_main_temp.text = result!!.liveResult.temperature.plus("℃")
-                tv_main_weather.text = result!!.liveResult.weather.plus(" | 风力").plus(result!!.liveResult.windPower).plus("级")
+                tv_main_temp.text = result.liveResult.temperature.plus("℃")
+                tv_main_weather.text = result.liveResult.weather.plus(" | 风力").plus(result.liveResult.windPower).plus("级")
             }
 
             override fun onWeatherForecastSearched(localWeatherForecastResult: LocalWeatherForecastResult?, rCode: Int) {
@@ -145,7 +145,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
      * 显示要展示的页面
      * @param fragment
      */
-    fun showNewPage(fragment: Fragment) {
+    private fun showNewPage(fragment: Fragment) {
 
         val beginTransaction = supportFragmentManager.beginTransaction()
         hideAllPage(beginTransaction)
@@ -158,7 +158,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     /**
      * 隐藏所有fragment
      */
-    fun hideAllPage(transaction: FragmentTransaction) {
+    private fun hideAllPage(transaction: FragmentTransaction) {
 
         mainFragments.forEach { fragment ->
             transaction.hide(fragment)
@@ -176,7 +176,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
     /**
      * 初始化定位
      */
-    fun initLocation() {
+    private fun initLocation() {
 
         //实例化定位终端
         mlocationClient = AMapLocationClient(this)
@@ -215,7 +215,7 @@ class MainActivity : BaseActivity(), AMapLocationListener {
      * 查询天气
      * @param city 查询的城市
      */
-    fun initWeatherSearch(city: String) {
+    private fun initWeatherSearch(city: String) {
 
         //检索参数为城市和天气类型，实况天气为WEATHER_TYPE_LIVE、天气预报为WEATHER_TYPE_FORECAST
         val mquery = WeatherSearchQuery(city, WeatherSearchQuery.WEATHER_TYPE_LIVE)

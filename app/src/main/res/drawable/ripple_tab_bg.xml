@@ -3,7 +3,7 @@
     >
     <item android:state_enabled="false">
         <shape>
-            <color android:color="@color/colorPageBg" />
+            <solid android:color="@color/colorPageBg" />
         </shape>
     </item>
     <item android:state_pressed="true">

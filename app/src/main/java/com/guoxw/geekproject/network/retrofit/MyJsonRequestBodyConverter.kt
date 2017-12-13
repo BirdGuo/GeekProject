@@ -1,4 +1,4 @@
-package com.guoxw.geekproject.gankio.network.retrofit
+package com.guoxw.geekproject.network.retrofit
 
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
@@ -17,15 +17,15 @@ import java.io.Writer
  * @desciption
  * @package com.guoxw.gankio.network.retrofit
  */
-class MyJsonRequestBodyConverter<T>(val gson: Gson, val adapter: TypeAdapter<T>) : Converter<T, RequestBody> {
+class MyJsonRequestBodyConverter<T>(private val gson: Gson, val adapter: TypeAdapter<T>) : Converter<T, RequestBody> {
 
     val TAG = MyJsonRequestBodyConverter::class.java.name.toString()
 
-    val MEDIA_TYPE: MediaType = MediaType.parse("application/json;charset=UTF-8")!!
+    private val MEDIA_TYPE: MediaType = MediaType.parse("application/json;charset=UTF-8")!!
 
     override fun convert(value: T): RequestBody {
 
-        val buffer: Buffer = Buffer()
+        val buffer = Buffer()
         //Charsets kotlin 中Charset的包装类
         val writer: Writer = OutputStreamWriter(buffer.outputStream(), Charsets.UTF_8)
 

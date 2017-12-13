@@ -1,7 +1,7 @@
 package com.guoxw.geekproject.network
 
 import com.guoxw.geekproject.BuildConfig
-import com.guoxw.geekproject.gankio.network.retrofit.MyJsonConverterFactory
+import com.guoxw.geekproject.network.retrofit.MyJsonConverterFactory
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
