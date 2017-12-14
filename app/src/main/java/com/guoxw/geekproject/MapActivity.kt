@@ -15,6 +15,8 @@ class MapActivity : BaseToolbarActivity() {
         setToolBar(tb_toolbar_base, "地图")
 
         initLocation()
+
+
     }
 
     fun initLocation() {
