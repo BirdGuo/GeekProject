@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdk
@@ -105,6 +106,19 @@ dependencies {
     //搜索功能
     compile 'com.amap.api:search:latest.integration'
 
+    // Use if Kotlin user.
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${versions.dbflow_version}"
+
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${versions.dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${versions.dbflow_version}"
+
+    // sql-cipher database encryption (optional)
+    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${versions.dbflow_version}"
+    compile "net.zetetic:android-database-sqlcipher:${versions.sqlcipher_version}@aar"
+    // kotlin extensions
+    compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${versions.dbflow_version}"
+    // DBFlow RXJava 2 Kotlin Extensions Support
+    compile "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${versions.dbflow_version}"
     //进度条
 //    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 }

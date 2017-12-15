@@ -1,12 +1,17 @@
 package com.guoxw.geekproject
 
 import android.os.Bundle
+import android.util.Log
 import com.amap.api.maps.model.MyLocationStyle
 import com.guoxw.geekproject.base.BaseToolbarActivity
+import com.guoxw.geekproject.map.presenter.daoimpl.MapDaoImpl
+import com.guoxw.geekproject.map.viewInterfaces.IFileView
+import com.guoxw.geekproject.map.viewInterfaces.IMapView
+import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 
-class MapActivity : BaseToolbarActivity() {
+class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
 
     override fun getContentLayoutId(): Int = R.layout.activity_map
 
@@ -16,6 +21,8 @@ class MapActivity : BaseToolbarActivity() {
 
         initLocation()
 
+        val mapDaoImpl = MapDaoImpl(this, this)
+        mapDaoImpl.readStationsFromAsset(this, "json_station.txt")
 
     }
 
@@ -83,5 +90,21 @@ class MapActivity : BaseToolbarActivity() {
     override fun onRestart() {
         super.onRestart()
     }
+
+    override fun readFileToStringSuccess(save: Boolean) {
+        LogUtil.i("GXW", "readFileToStringSuccess:".plus(save))
+    }
+
+    override fun readFileToStringFail(error: String) {
+        Log.i("GXW","-------------readFileToStringFail-----------:".plus(error))
+    }
+
+    override fun readFileToStringComplete() {
+        Log.i("GXW","-------------readFileToStringComplete-----------")
+    }
+
+    override fun addStations() {
+    }
+
 
 }

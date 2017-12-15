@@ -11,11 +11,17 @@ interface IFileView {
     /**
      * 读取文件成功
      */
-    fun readFileToStringSuccess(content: String)
+    fun readFileToStringSuccess(save: Boolean)
 
     /**
-     * 保存地点成功
+     * 读取文件失败
      */
-    fun saveStationToDBSuccess()
+    fun readFileToStringFail(error: String)
+
+    /**
+     * 读取文件完成
+     */
+    fun readFileToStringComplete()
+
 
 }

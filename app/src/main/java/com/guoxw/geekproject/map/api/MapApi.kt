@@ -1,7 +1,7 @@
 package com.guoxw.geekproject.map.api
 
 import android.content.Context
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * @auther guoxw
