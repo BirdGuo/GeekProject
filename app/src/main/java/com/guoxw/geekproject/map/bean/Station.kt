@@ -12,5 +12,5 @@ import java.io.Serializable
  * @package com.guoxw.geekproject.map.bean
  * @desciption
  */
-@Table(database = AppDataBase::class,name = "Station")
+@Table(database = AppDataBase::class, name = "Station")
 data class Station(@PrimaryKey var id: Int = 0, @Column var lat: Double = 0.0, @Column var lon: Double = 0.0, @Column var address: String = "") : Serializable

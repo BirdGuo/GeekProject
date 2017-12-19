@@ -11,4 +11,4 @@ import com.raizlabs.android.dbflow.annotation.Table
  * @desciption DBFlow 不支持List的存储
  */
 @Table(database = AppDataBase::class, name = "MyStations")
-data class MyStations(var stations: ArrayList<Any> = arrayListOf(), @PrimaryKey var version: Int = 1)
+data class MyStations(var stations: ArrayList<Station> = arrayListOf(), @PrimaryKey var version: Int = 1)

@@ -2,18 +2,30 @@ package com.guoxw.geekproject
 
 import android.os.Bundle
 import android.util.Log
+import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.MarkerOptions
 import com.amap.api.maps.model.MyLocationStyle
 import com.guoxw.geekproject.base.BaseToolbarActivity
+import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.presenter.daoimpl.MapDaoImpl
 import com.guoxw.geekproject.map.viewInterfaces.IFileView
 import com.guoxw.geekproject.map.viewInterfaces.IMapView
+import com.guoxw.geekproject.utils.DistancesUtil
 import com.guoxw.geekproject.utils.LogUtil
+import com.raizlabs.android.dbflow.kotlinextensions.select
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 
 class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
 
     override fun getContentLayoutId(): Int = R.layout.activity_map
+
+    var lastLoc: LatLng = LatLng(0.0, 0.0)
 
     override fun initUI(savedInstanceState: Bundle?) {
         amap_map.onCreate(savedInstanceState)
@@ -50,6 +62,31 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
 
         amap_map.map.setOnMyLocationChangeListener { location ->
             //从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取（获取地址描述数据章节有介绍）
+
+            var newLoc = LatLng(location.latitude, location.longitude)
+            if (lastLoc.latitude != 0.0 && lastLoc.longitude != 0.0) {
+
+                val distance = DistancesUtil.getDistance(lastLoc, newLoc)
+                //判断前后定位距离
+                if (distance > 0.1) {//前后定位超过50米
+                    //重新搜索
+                    //一种写法
+                    //val stations = SQLite.select().from(Station::class.java).where(Station_Table.id.eq(1)).queryList()
+                    //val stations = (select from Station::class where Station_Table.id.eq(1)).list
+
+//                    (select from Station::class).list
+                    selectStations()
+
+                } else {//未超过
+                    //不做处理
+
+                }
+
+            } else {//第一次定位
+                //搜索附件
+                selectStations()
+            }
+            lastLoc = LatLng(location.latitude, location.longitude)
         }
 
     }
@@ -96,15 +133,69 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
     }
 
     override fun readFileToStringFail(error: String) {
-        Log.i("GXW","-------------readFileToStringFail-----------:".plus(error))
+        Log.i("GXW", "-------------readFileToStringFail-----------:".plus(error))
     }
 
     override fun readFileToStringComplete() {
-        Log.i("GXW","-------------readFileToStringComplete-----------")
+        Log.i("GXW", "-------------readFileToStringComplete-----------")
     }
 
     override fun addStations() {
     }
 
+    /**
+     * 添加单个点到地图上
+     * @param station 单个点
+     */
+    private fun addStationToMap(station: Station) {
+        LogUtil.i("GXW", "it".plus(station.address))
+        val markerOptions = MarkerOptions()
+        markerOptions.position(LatLng(station.lat, station.lon))//设置坐标
+                .title(station.address)//设置标题
+                .snippet("DefaultMarker")//
+                .draggable(false).isFlat = false
+        amap_map.map.addMarker(markerOptions)
+    }
+
+    /**
+     * 异步添加点集合到地图上
+     * @param list 点集合
+     */
+    private fun addStationsListAsycn(list: MutableList<Station>) {
+
+        val create = Observable.create<MutableList<Station>> { t ->
+            try {
+                list.asSequence()
+                        .forEach {
+                            addStationToMap(it)
+                        }
+                t.onNext(list)
+            } catch (e: Exception) {
+                t.onError(e)
+            } finally {
+                t.onComplete()
+            }
+        }
+
+        create.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe({ list ->
+            LogUtil.i("GXW", "list size:".plus(list.size))
+        }, { error ->
+            LogUtil.e("GXW", error.message!!)
+        }, {
+            //完成
+            LogUtil.i("GXW", "-------complete------")
+        })
+
+
+    }
+
+    /**
+     * 从数据库中筛选点
+     */
+    private fun selectStations() {
+        select.from(Station::class.java).rx().list { list ->
+            addStationsListAsycn(list)
+        }
+    }
 
 }

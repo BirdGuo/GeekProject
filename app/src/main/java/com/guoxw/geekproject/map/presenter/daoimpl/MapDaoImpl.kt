@@ -1,13 +1,10 @@
 package com.guoxw.geekproject.map.presenter.daoimpl
 
 import android.content.Context
-import com.google.gson.Gson
 import com.guoxw.geekproject.map.api.MapResetApi
-import com.guoxw.geekproject.map.bean.MyStations
 import com.guoxw.geekproject.map.presenter.dao.MapDao
 import com.guoxw.geekproject.map.viewInterfaces.IFileView
 import com.guoxw.geekproject.map.viewInterfaces.IMapView
-import com.raizlabs.android.dbflow.kotlinextensions.save
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -25,12 +22,10 @@ class MapDaoImpl(val viewFile: IFileView, val viewMap: IMapView) : MapDao.Presen
 
         mapRestApi.readStationsFromAsset(mContext, name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
-
-                    val gson = Gson()
-                    val myStations = gson.fromJson(res, MyStations::class.java)
-                    val save = myStations.save()
+                    //这儿相当于主线程了
+                    //在这儿做save操作会卡主线程
                     //完成读取
-                    viewFile.readFileToStringSuccess(save)
+                    viewFile.readFileToStringSuccess(true)
                 }, { error ->
                     //读取失败
                     viewFile.readFileToStringFail(error.message!!)
