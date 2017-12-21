@@ -18,12 +18,12 @@ class MyApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        //不然无法使用工具类
+        //初始化工具类不然无法使用工具类
         Utils.init(this)
 
+        //初始化数据库
         FlowManager.init(FlowConfig.builder(this)
-                .addDatabaseConfig(DatabaseConfig.builder(AppDataBase::class.java)
-                        .build())
+                .addDatabaseConfig(DatabaseConfig.builder(AppDataBase::class.java).build())
                 .build())
     }
 

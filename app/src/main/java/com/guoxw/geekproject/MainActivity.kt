@@ -63,12 +63,18 @@ class MainActivity : BaseActivity(), AMapLocationListener {
 
         tv_title_menu.text = "首页"
 
+        //fragment操作器
         val beginTransaction = supportFragmentManager.beginTransaction()
+        //添加gank页面
         beginTransaction.add(R.id.fl_main_content, mainFragments[0], "main")
+        //添加日历页面
         beginTransaction.add(R.id.fl_main_content, mainFragments[1], "cale")
 //        beginTransaction.addToBackStack(null)
+        //显示gank页面
         beginTransaction.show(mainFragments[0])
+        //隐藏日历页面
         beginTransaction.hide(mainFragments[1])
+        //提交操作
         beginTransaction.commit()
     }
 
@@ -77,8 +83,8 @@ class MainActivity : BaseActivity(), AMapLocationListener {
         initLocation()
 
         //注意顺序
-        mainFragments.add(fragmentGank)
-        mainFragments.add(calendarFragment)
+        mainFragments.add(fragmentGank)//添加gank页面
+        mainFragments.add(calendarFragment)//添加日历页面
     }
 
     override fun initListener() {

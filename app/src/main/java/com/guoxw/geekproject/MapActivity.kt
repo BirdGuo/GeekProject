@@ -45,8 +45,14 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
      */
     val markers: MutableList<Marker> = ArrayList()
 
+    /**
+     * 点击的marker
+     */
     var clickedMarker: Marker? = null
 
+    /**
+     * marker绘制线程
+     */
     var create: Observable<MutableList<Station>>? = null
 
     var handler: Handler = object : Handler() {
