@@ -28,10 +28,11 @@ object CluterUtil {
      * @param clickedMarker
      */
     fun resetMarks(mContext: Context, amap: AMap,
-                   markerOptionsListInView: MutableList<MarkerOptions>,
+//                   markerOptionsListInView: MutableList<MarkerOptions>,
                    markerOptionsListAll: MutableList<MarkerOptions>,
-                   markers: MutableList<Marker>, clickedMarker: Marker) {
+                   markers: MutableList<Marker>, clickedMarker: Marker?) {
 
+        val markerOptionsListInView:MutableList<MarkerOptions> = ArrayList()
         val screenHeight = ScreenUtil.getScreenHeight(mContext)
         val screenWidth = ScreenUtil.getScreenWidth(mContext)
 
@@ -98,7 +99,6 @@ object CluterUtil {
                 val addMarker = amap.addMarker(options)
                 addMarker.setToTop()//显示在最上层
                 markers.add(addMarker)
-
             } else {
                 addMarkers(amap, myClusterMarkers, markers)
             }

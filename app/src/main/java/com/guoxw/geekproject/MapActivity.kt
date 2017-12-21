@@ -1,13 +1,15 @@
 package com.guoxw.geekproject
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
-import com.amap.api.maps.model.LatLng
-import com.amap.api.maps.model.MarkerOptions
-import com.amap.api.maps.model.MyLocationStyle
+import com.amap.api.maps.AMap
+import com.amap.api.maps.model.*
 import com.guoxw.geekproject.base.BaseToolbarActivity
 import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.presenter.daoimpl.MapDaoImpl
+import com.guoxw.geekproject.map.utils.CluterUtil
 import com.guoxw.geekproject.map.viewInterfaces.IFileView
 import com.guoxw.geekproject.map.viewInterfaces.IMapView
 import com.guoxw.geekproject.utils.DistancesUtil
@@ -20,12 +22,44 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.include_toolbar.*
+import java.util.ArrayList
 
-class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
+class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraChangeListener {
 
-    override fun getContentLayoutId(): Int = R.layout.activity_map
 
     var lastLoc: LatLng = LatLng(0.0, 0.0)
+
+    /**
+     * 视图内的marker参数
+     */
+//    val markerOptionsListInView: MutableList<MarkerOptions> = ArrayList()
+
+    /**
+     * 所有marker参数
+     */
+    val markerOptionsListAll: MutableList<MarkerOptions> = ArrayList()
+
+    /**
+     * 地图上所有marker
+     */
+    val markers: MutableList<Marker> = ArrayList()
+
+    var clickedMarker: Marker? = null
+
+    var handler: Handler = object : Handler() {
+
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when (msg!!.what) {
+
+                0x0001 -> selectStations()
+
+            }
+        }
+
+    }
+
+    override fun getContentLayoutId(): Int = R.layout.activity_map
 
     override fun initUI(savedInstanceState: Bundle?) {
         amap_map.onCreate(savedInstanceState)
@@ -60,6 +94,15 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         amap_map.map.isMyLocationEnabled = true
 
+
+    }
+
+    override fun initData() {
+
+    }
+
+    override fun initListener() {
+
         amap_map.map.setOnMyLocationChangeListener { location ->
             //从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取（获取地址描述数据章节有介绍）
 
@@ -75,7 +118,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
                     //val stations = (select from Station::class where Station_Table.id.eq(1)).list
 
 //                    (select from Station::class).list
-                    selectStations()
+                    LogUtil.i("GXW", "------------- setOnMyLocationChangeListener ------------")
+//                    selectStations()
 
                 } else {//未超过
                     //不做处理
@@ -84,18 +128,13 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
 
             } else {//第一次定位
                 //搜索附件
-                selectStations()
+//                selectStations()
             }
             lastLoc = LatLng(location.latitude, location.longitude)
         }
 
-    }
+        amap_map.map.setOnCameraChangeListener(this)
 
-    override fun initData() {
-
-    }
-
-    override fun initListener() {
     }
 
     override fun onDestroy() {
@@ -143,6 +182,21 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
     override fun addStations() {
     }
 
+    override fun onCameraChangeFinish(cameraPosition: CameraPosition?) {
+
+//        selectStations()
+        handler.sendEmptyMessage(0x0001)
+    }
+
+    override fun onCameraChange(cameraPosition: CameraPosition?) {
+
+        LogUtil.i("GXW", "------------- onCameraChange ------------")
+//        selectStations()
+//        handler.sendEmptyMessage(0x0001)
+
+
+    }
+
     /**
      * 添加单个点到地图上
      * @param station 单个点
@@ -165,10 +219,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
 
         val create = Observable.create<MutableList<Station>> { t ->
             try {
-                list.asSequence()
-                        .forEach {
-                            addStationToMap(it)
-                        }
+                //如果放在进行点的绘制固然不会卡主线程，但是由于异步的操作下可能会对List造成同时访问，产生异常
                 t.onNext(list)
             } catch (e: Exception) {
                 t.onError(e)
@@ -177,14 +228,31 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView {
             }
         }
 
-        create.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe({ list ->
-            LogUtil.i("GXW", "list size:".plus(list.size))
-        }, { error ->
-            LogUtil.e("GXW", error.message!!)
-        }, {
-            //完成
-            LogUtil.i("GXW", "-------complete------")
-        })
+        create.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe({ list ->
+                    //放到这会卡顿主线程，但是不会产生同时访问的异常
+                    markerOptionsListAll.clear()
+                    list.forEach {
+                        //遍历所有station
+//                    addStationToMap(it)
+
+                        //把筛选出来的数据转换为marker参数
+                        val markerOptions: MarkerOptions = MarkerOptions()
+                        markerOptions.position(LatLng(it.lat, it.lon))
+                        markerOptionsListAll.add(markerOptions)
+
+                    }
+                    //聚合
+                    CluterUtil.resetMarks(this, amap_map.map,
+                            markerOptionsListAll, markers, clickedMarker)
+
+                    LogUtil.i("GXW", "list size:".plus(list.size))
+                }, { error ->
+                    LogUtil.e("GXW", error.message!!)
+                }, {
+                    //完成
+                    LogUtil.i("GXW", "-------complete------")
+                })
 
 
     }
