@@ -22,7 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.include_toolbar.*
-import java.util.ArrayList
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraChangeListener {
 
@@ -46,13 +47,15 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
     var clickedMarker: Marker? = null
 
+    var create: Observable<MutableList<Station>>? = null
+
     var handler: Handler = object : Handler() {
 
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             when (msg!!.what) {
 
-                0x0001 -> selectStations()
+                0x0001 -> refreshMapMarkers()
 
             }
         }
@@ -72,7 +75,10 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
     }
 
-    fun initLocation() {
+    /**
+     * 地图定位初始化
+     */
+    private fun initLocation() {
         //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
         //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。
         //（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
@@ -90,19 +96,22 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
         //设置定位蓝点style
         amap_map.map.myLocationStyle = myLocationStyle
         //设置默认定位按钮是否显示，非必需设置。
-        amap_map.map.uiSettings.isMyLocationButtonEnabled = true
+        amap_map.map.uiSettings.isMyLocationButtonEnabled = false
+        amap_map.map.uiSettings.isZoomControlsEnabled = false
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         amap_map.map.isMyLocationEnabled = true
-
 
     }
 
     override fun initData() {
 
+        selectStations()
+
     }
 
     override fun initListener() {
 
+        //定位监听
         amap_map.map.setOnMyLocationChangeListener { location ->
             //从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取（获取地址描述数据章节有介绍）
 
@@ -110,8 +119,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
             if (lastLoc.latitude != 0.0 && lastLoc.longitude != 0.0) {
 
                 val distance = DistancesUtil.getDistance(lastLoc, newLoc)
-                //判断前后定位距离
-                if (distance > 0.1) {//前后定位超过50米
+                //判断前后定位距离 单位km
+                if (distance > 0.5) {//前后定位超过500米
                     //重新搜索
                     //一种写法
                     //val stations = SQLite.select().from(Station::class.java).where(Station_Table.id.eq(1)).queryList()
@@ -120,6 +129,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 //                    (select from Station::class).list
                     LogUtil.i("GXW", "------------- setOnMyLocationChangeListener ------------")
 //                    selectStations()
+                    handler.sendEmptyMessage(0x0001)
 
                 } else {//未超过
                     //不做处理
@@ -129,11 +139,21 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
             } else {//第一次定位
                 //搜索附件
 //                selectStations()
+                handler.sendEmptyMessage(0x0001)
             }
             lastLoc = LatLng(location.latitude, location.longitude)
         }
-
+        //地图视图变化监听
         amap_map.map.setOnCameraChangeListener(this)
+        //marker点击监听
+        amap_map.map.setOnMarkerClickListener { marker ->
+            clickedMarker = marker
+            false
+        }
+        //地图加载成功监听事件
+        amap_map.map.setOnMapLoadedListener {
+
+        }
 
     }
 
@@ -176,24 +196,23 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     }
 
     override fun readFileToStringComplete() {
-        Log.i("GXW", "-------------readFileToStringComplete-----------")
     }
 
     override fun addStations() {
     }
 
+    /**
+     * 视图变化完成
+     */
     override fun onCameraChangeFinish(cameraPosition: CameraPosition?) {
-
 //        selectStations()
         handler.sendEmptyMessage(0x0001)
     }
 
+    /**
+     * 视图变化中
+     */
     override fun onCameraChange(cameraPosition: CameraPosition?) {
-
-        LogUtil.i("GXW", "------------- onCameraChange ------------")
-//        selectStations()
-//        handler.sendEmptyMessage(0x0001)
-
 
     }
 
@@ -217,20 +236,13 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
      */
     private fun addStationsListAsycn(list: MutableList<Station>) {
 
-        val create = Observable.create<MutableList<Station>> { t ->
+        create = Observable.create<MutableList<Station>> { t ->
             try {
                 //如果放在进行点的绘制固然不会卡主线程，但是由于异步的操作下可能会对List造成同时访问，产生异常
-                t.onNext(list)
-            } catch (e: Exception) {
-                t.onError(e)
-            } finally {
-                t.onComplete()
-            }
-        }
+                //放到这会卡顿主线程，但是不会产生同时访问的异常
+                //通过synchronized锁定List,不能同时修改
+                synchronized(markerOptionsListAll, {
 
-        create.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe({ list ->
-                    //放到这会卡顿主线程，但是不会产生同时访问的异常
                     markerOptionsListAll.clear()
                     list.forEach {
                         //遍历所有station
@@ -238,7 +250,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
                         //把筛选出来的数据转换为marker参数
                         val markerOptions: MarkerOptions = MarkerOptions()
-                        markerOptions.position(LatLng(it.lat, it.lon))
+                        markerOptions.position(LatLng(it.lat, it.lon))//设置位置
+                        markerOptions.title(it.address)//设置标题
                         markerOptionsListAll.add(markerOptions)
 
                     }
@@ -246,14 +259,15 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
                     CluterUtil.resetMarks(this, amap_map.map,
                             markerOptionsListAll, markers, clickedMarker)
 
-                    LogUtil.i("GXW", "list size:".plus(list.size))
-                }, { error ->
-                    LogUtil.e("GXW", error.message!!)
-                }, {
-                    //完成
-                    LogUtil.i("GXW", "-------complete------")
                 })
 
+                t.onNext(list)
+            } catch (e: Exception) {
+                t.onError(e)
+            } finally {
+                t.onComplete()
+            }
+        }
 
     }
 
@@ -264,6 +278,22 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
         select.from(Station::class.java).rx().list { list ->
             addStationsListAsycn(list)
         }
+    }
+
+    /**
+     * 刷新地图点
+     */
+    private fun refreshMapMarkers() {
+        create!!.throttleLast(5, TimeUnit.SECONDS)//防止重复 在每次事件触发后的一定时间间隔内丢弃旧的事件。常用作去抖动过滤
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe({ list ->
+                    LogUtil.i("GXW", "list size:".plus(list.size))
+                }, { error ->
+                    LogUtil.e("GXW", error.message!!)
+                }, {
+                    //完成
+                    LogUtil.i("GXW", "-------complete------")
+                })
     }
 
 }
