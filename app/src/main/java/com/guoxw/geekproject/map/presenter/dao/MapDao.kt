@@ -31,7 +31,7 @@ interface MapDao {
          * 添加定位点到地图上
          */
         fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
-                             mContext: Context, amap: AMap, clickedMarker: Marker)
+                             mContext: Context, amap: AMap, clickedMarker: Marker?)
 
         /**
          * 保存定位点到数据库

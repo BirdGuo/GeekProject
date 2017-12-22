@@ -23,8 +23,9 @@ import kotlinx.android.synthetic.main.activity_map.*
  * @desciption
  */
 object MapResetApi : MapApi {
+
     override fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
-                                  mContext: Context, amap: AMap, clickedMarker: Marker): Observable<MutableList<Station>> {
+                                  mContext: Context, amap: AMap, clickedMarker: Marker?): Observable<MutableList<Station>> {
 
         return Observable.create { t ->
 
@@ -47,7 +48,7 @@ object MapResetApi : MapApi {
 
                     }
                     //聚合
-                    CluterUtil.resetMarks(mContext, amap,markerOptionsListAll, clickedMarker)
+                    CluterUtil.resetMarks(mContext, amap, markerOptionsListAll, clickedMarker)
                 })
 
                 t.onNext(list)
