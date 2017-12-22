@@ -10,6 +10,7 @@ import com.guoxw.geekproject.base.BaseToolbarActivity
 import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.presenter.daoimpl.MapDaoImpl
 import com.guoxw.geekproject.map.utils.CluterUtil
+import com.guoxw.geekproject.map.utils.MapUtil
 import com.guoxw.geekproject.map.viewInterfaces.IFileView
 import com.guoxw.geekproject.map.viewInterfaces.IMapView
 import com.guoxw.geekproject.utils.DistancesUtil
@@ -68,6 +69,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
     }
 
+    var newZoom = 12.0f
+
     override fun getContentLayoutId(): Int = R.layout.activity_map
 
     override fun initUI(savedInstanceState: Bundle?) {
@@ -93,9 +96,9 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)//定位一次，且将视角移动到地图中心点。
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW)//连续定位、且将视角移动到地图中心点，定位蓝点跟随设备移动。（1秒1次定位）
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_MAP_ROTATE)//连续定位、且将视角移动到地图中心点，地图依照设备方向旋转，定位点会跟随设备移动。（1秒1次定位）
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE)//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）默认执行此种模式。
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE)//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）默认执行此种模式。
 //以下三种模式从5.1.0版本开始提供
-//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)//连续定位、蓝点不会移动到地图中心点，定位点依照设备方向旋转，并且蓝点会跟随设备移动。
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)//连续定位、蓝点不会移动到地图中心点，定位点依照设备方向旋转，并且蓝点会跟随设备移动。
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER)//连续定位、蓝点不会移动到地图中心点，并且蓝点会跟随设备移动。
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER)//连续定位、蓝点不会移动到地图中心点，地图依照设备方向旋转，并且蓝点会跟随设备移动。
         myLocationStyle.interval(2000)//设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
@@ -153,8 +156,49 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
         amap_map.map.setOnCameraChangeListener(this)
         //marker点击监听
         amap_map.map.setOnMarkerClickListener { marker ->
-            clickedMarker = marker
-            false
+            //            clickedMarker = marker
+
+            if (marker.title == null) {//其他
+
+                LogUtil.i("GXW", "-------------1----------")
+//                MapUtil.moveToPosition(amap_map.map,
+//                        marker.position.latitude, marker.position.longitude,
+//                        amap_map.map.maxZoomLevel)
+                newZoom = amap_map.map.maxZoomLevel
+//                true
+            } else if (marker.title == "-1") {//聚合点
+                LogUtil.i("GXW", "-------------2----------")
+                if (newZoom > 15.0F) {
+                    newZoom = 15.0F
+                } else if (newZoom > 13.0F && newZoom <= 15.0F) {
+                    newZoom += 16.0F - newZoom
+                } else if ((newZoom >= 10.0F) && (newZoom < 13.0F)) {
+                    newZoom += 14.0F - newZoom
+                } else if ((newZoom >= 7.0F) && (newZoom < 10.0F)) {
+                    newZoom += 10.0F - newZoom
+                } else if ((newZoom >= 5.0F) && (newZoom < 7.0F)) {
+                    newZoom += 7.0F - newZoom
+                } else if (newZoom < 5.0F) {
+                    newZoom += 5.0F - newZoom
+                }
+
+//                MapUtil.moveToPosition(amap_map.map, marker.position.latitude,
+//                        marker.position.longitude, newZoom)
+
+                clickedMarker = marker
+
+//                true
+            } else {//单个点
+                LogUtil.i("GXW", "-------------3----------")
+                newZoom = amap_map.map.maxZoomLevel
+
+            }
+
+            MapUtil.moveToPosition(amap_map.map, marker.position.latitude,
+                    marker.position.longitude, newZoom)
+
+
+            true
         }
         //地图加载成功监听事件
         amap_map.map.setOnMapLoadedListener {

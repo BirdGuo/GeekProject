@@ -53,7 +53,7 @@ object CluterUtil {
         markerOptionsListInView.forEach { it ->
             //遍历屏幕内的所有点
             if (myClusterMarkers.size == 0) {//第一个聚合点，也是聚合中心点
-                myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 60))
+                myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 100))
             } else {
                 var isIn: Boolean = false
                 myClusterMarkers.filter { mit ->
