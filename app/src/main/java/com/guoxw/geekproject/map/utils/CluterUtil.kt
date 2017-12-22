@@ -32,7 +32,7 @@ object CluterUtil {
                    markerOptionsListAll: MutableList<MarkerOptions>,
                    markers: MutableList<Marker>, clickedMarker: Marker?) {
 
-        val markerOptionsListInView:MutableList<MarkerOptions> = ArrayList()
+        val markerOptionsListInView: MutableList<MarkerOptions> = ArrayList()
         val screenHeight = ScreenUtil.getScreenHeight(mContext)
         val screenWidth = ScreenUtil.getScreenWidth(mContext)
 
@@ -40,6 +40,10 @@ object CluterUtil {
         var point: Point? = null
         //清除视野内所有点
         markerOptionsListInView.clear()
+        /**
+         *聚合点集合
+         */
+        val myClusterMarkers: MutableList<MyMarkerCluster> = ArrayList()
         //把所有
         markerOptionsListAll.filter {
             //判断是否超出边界
@@ -47,13 +51,9 @@ object CluterUtil {
             point!!.x > 0 && point!!.y > 0 && point!!.x < screenWidth && point!!.y < screenHeight
         }.forEach {
             markerOptionsListInView.add(it)
-        }
-
-        val myClusterMarkers: MutableList<MyMarkerCluster> = ArrayList()
-        markerOptionsListInView.forEach { it ->
             //遍历屏幕内的所有点
             if (myClusterMarkers.size == 0) {//第一个聚合点，也是聚合中心点
-                myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 100))
+                myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 100))//添加聚合点，范围为100
             } else {
                 var isIn: Boolean = false
                 myClusterMarkers.filter { mit ->
@@ -65,10 +65,11 @@ object CluterUtil {
                 }
                 if (!isIn) {//不在范围内
                     //新建一个聚合点
-                    myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 60))
+                    myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 100))
                 }
 
             }
+
         }
 
         myClusterMarkers.forEach {
