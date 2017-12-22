@@ -44,7 +44,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     /**
      * 地图上所有marker
      */
-    val markers: MutableList<Marker> = ArrayList()
+//    val markers: MutableList<Marker> = ArrayList()
 
     /**
      * 点击的marker
@@ -55,6 +55,11 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
      * marker绘制线程
      */
     var create: Observable<MutableList<Station>>? = null
+
+    /**
+     * 地图操作接口
+     */
+    var mapDaoImpl: MapDaoImpl? = null
 
     var handler: Handler = object : Handler() {
 
@@ -79,8 +84,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
         initLocation()
 
-        val mapDaoImpl = MapDaoImpl(this, this)
-        mapDaoImpl.readStationsFromAsset(this, "json_station.txt")
+        mapDaoImpl = MapDaoImpl(this, this)
+        mapDaoImpl!!.readStationsFromAsset(this, "json_station.txt")
 
     }
 
@@ -251,6 +256,15 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     override fun addStations() {
     }
 
+    override fun selectStationFromDBSuccess(stations: MutableList<Station>) {
+
+
+    }
+
+    override fun selectStationFromDBFail(error: String) {
+    }
+
+
     /**
      * 视图变化完成
      */
@@ -296,7 +310,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
                     markerOptionsListAll.clear()
                     list.forEach {
                         //遍历所有station
-//                    addStationToMap(it)
+//                      addStationToMap(it)
 
                         //把筛选出来的数据转换为marker参数
                         val markerOptions: MarkerOptions = MarkerOptions()
@@ -306,9 +320,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
                     }
                     //聚合
-                    CluterUtil.resetMarks(this, amap_map.map,
-                            markerOptionsListAll, markers, clickedMarker)
-
+//                    CluterUtil.resetMarks(this, amap_map.map,
+//                            markerOptionsListAll, markers, clickedMarker)
                 })
 
                 t.onNext(list)
@@ -325,9 +338,10 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
      * 从数据库中筛选点
      */
     private fun selectStations() {
-        select.from(Station::class.java).rx().list { list ->
-            addStationsListAsycn(list)
-        }
+//        select.from(Station::class.java).rx().list { list ->
+//            addStationsListAsycn(list)
+//        }
+        mapDaoImpl!!.selectStationAllFromDB()
     }
 
     /**

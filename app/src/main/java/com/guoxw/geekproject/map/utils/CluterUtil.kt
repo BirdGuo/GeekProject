@@ -30,10 +30,24 @@ object CluterUtil {
     fun resetMarks(mContext: Context, amap: AMap,
 //                   markerOptionsListInView: MutableList<MarkerOptions>,
                    markerOptionsListAll: MutableList<MarkerOptions>,
-                   markers: MutableList<Marker>, clickedMarker: Marker?) {
+//                   markers: MutableList<Marker>,
+                   clickedMarker: Marker?) {
+
 
         val markerOptionsListInView: MutableList<MarkerOptions> = ArrayList()
+
+        /**
+         * marker集合
+         */
+        val markers:MutableList<Marker> = ArrayList()
+
+        /**
+         * 屏幕高度
+         */
         val screenHeight = ScreenUtil.getScreenHeight(mContext)
+        /**
+         * 屏幕宽度
+         */
         val screenWidth = ScreenUtil.getScreenWidth(mContext)
 
         val projection = amap.projection
@@ -41,7 +55,7 @@ object CluterUtil {
         //清除视野内所有点
         markerOptionsListInView.clear()
         /**
-         *聚合点集合
+         *聚合点参数集合
          */
         val myClusterMarkers: MutableList<MyMarkerCluster> = ArrayList()
         //把所有

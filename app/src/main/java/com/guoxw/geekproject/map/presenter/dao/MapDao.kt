@@ -1,6 +1,10 @@
 package com.guoxw.geekproject.map.presenter.dao
 
 import android.content.Context
+import com.amap.api.maps.AMap
+import com.amap.api.maps.model.Marker
+import com.amap.api.maps.model.MarkerOptions
+import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.viewInterfaces.IFileView
 import com.guoxw.geekproject.map.viewInterfaces.IMapView
 
@@ -26,12 +30,18 @@ interface MapDao {
         /**
          * 添加定位点到地图上
          */
-        fun addStationsToMap()
+        fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
+                             mContext: Context, amap: AMap, clickedMarker: Marker)
 
         /**
          * 保存定位点到数据库
          */
         fun saveStationsToDB()
+
+        /**
+         * 从数据库选取定位点
+         */
+        fun selectStationAllFromDB()
 
     }
 
