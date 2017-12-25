@@ -38,7 +38,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     /**
      * 地图上所有marker
      */
-//    val markers: MutableList<Marker> = ArrayList()
+    val markers: MutableList<Marker> = ArrayList()
 
     /**
      * 点击的marker
@@ -112,7 +112,7 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
         mapDaoImpl = MapDaoImpl(this, this)
         mapDaoImpl!!.readStationsFromAsset(this, "json_station.txt")
 
-        selectStations()
+
     }
 
     override fun initListener() {
@@ -156,15 +156,9 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
             //            clickedMarker = marker
 
             if (marker.title == null) {//其他
-
-                LogUtil.i("GXW", "-------------1----------")
-//                MapUtil.moveToPosition(amap_map.map,
-//                        marker.position.latitude, marker.position.longitude,
-//                        amap_map.map.maxZoomLevel)
                 newZoom = amap_map.map.maxZoomLevel
 //                true
             } else if (marker.title == "-1") {//聚合点
-                LogUtil.i("GXW", "-------------2----------")
                 if (newZoom > 15.0F) {
                     newZoom = 15.0F
                 } else if (newZoom > 13.0F && newZoom <= 15.0F) {
@@ -178,17 +172,9 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
                 } else if (newZoom < 5.0F) {
                     newZoom += 5.0F - newZoom
                 }
-
-//                MapUtil.moveToPosition(amap_map.map, marker.position.latitude,
-//                        marker.position.longitude, newZoom)
-
                 clickedMarker = marker
-
-//                true
             } else {//单个点
-                LogUtil.i("GXW", "-------------3----------")
                 newZoom = amap_map.map.maxZoomLevel
-
             }
 
             MapUtil.moveToPosition(amap_map.map, marker.position.latitude,
@@ -235,11 +221,10 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     }
 
     override fun readFileToStringSuccess(save: Boolean) {
-        LogUtil.i("GXW", "readFileToStringSuccess:".plus(save))
+        selectStations()
     }
 
     override fun readFileToStringFail(error: String) {
-        Log.i("GXW", "-------------readFileToStringFail-----------:".plus(error))
     }
 
     override fun readFileToStringComplete() {
@@ -247,20 +232,17 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
 
 
     override fun selectStationFromDBSuccess(stations: MutableList<Station>) {
-
         this.stations = stations
-
+        handler.sendEmptyMessage(0x0001)
     }
 
     override fun selectStationFromDBFail(error: String) {
     }
 
     override fun addStationsSuccess() {
-        LogUtil.i("GXW", "-----------addStationsSuccess---------")
     }
 
     override fun addStationsFail(error: String) {
-        LogUtil.i("GXW", "-----------addStationsFail---------:".plus(error))
     }
 
 
@@ -280,34 +262,9 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
     }
 
     /**
-     * 添加单个点到地图上
-     * @param station 单个点
-     */
-    private fun addStationToMap(station: Station) {
-        LogUtil.i("GXW", "it".plus(station.address))
-        val markerOptions = MarkerOptions()
-        markerOptions.position(LatLng(station.lat, station.lon))//设置坐标
-                .title(station.address)//设置标题
-                .snippet("DefaultMarker")//
-                .draggable(false).isFlat = false
-        amap_map.map.addMarker(markerOptions)
-    }
-
-    /**
-     * 异步添加点集合到地图上
-     * @param list 点集合
-     */
-    private fun addStationsListAsycn(list: MutableList<Station>) {
-
-    }
-
-    /**
      * 从数据库中筛选点
      */
     private fun selectStations() {
-//        select.from(Station::class.java).rx().list { list ->
-//            addStationsListAsycn(list)
-//        }
         mapDaoImpl!!.selectStationAllFromDB()
     }
 
@@ -315,18 +272,8 @@ class MapActivity : BaseToolbarActivity(), IMapView, IFileView, AMap.OnCameraCha
      * 刷新地图点
      */
     private fun refreshMapMarkers() {
-//        create!!.throttleLast(5, TimeUnit.SECONDS)//防止重复 在每次事件触发后的一定时间间隔内丢弃旧的事件。常用作去抖动过滤
-//                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-//                .subscribe({ list ->
-//                    LogUtil.i("GXW", "list size:".plus(list.size))
-//                }, { error ->
-//                    LogUtil.e("GXW", error.message!!)
-//                }, {
-//                    //完成
-//                    LogUtil.i("GXW", "-------complete------")
-//                })
         if (stations.isNotEmpty())
-            mapDaoImpl!!.addStationsToMap(markerOptionsListAll, stations, this, amap_map.map, clickedMarker)
+            mapDaoImpl!!.addStationsToMap(markerOptionsListAll, stations, this, amap_map.map, markers, clickedMarker)
     }
 
 }

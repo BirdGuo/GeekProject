@@ -11,6 +11,7 @@ import com.guoxw.geekproject.map.bean.MyStations_Table
 import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.utils.CluterUtil
 import com.guoxw.geekproject.utils.FileUtil
+import com.guoxw.geekproject.utils.LogUtil
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_map.*
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_map.*
 object MapResetApi : MapApi {
 
     override fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
-                                  mContext: Context, amap: AMap, clickedMarker: Marker?): Observable<MutableList<Station>> {
+                                  mContext: Context, amap: AMap, markers: MutableList<Marker>, clickedMarker: Marker?): Observable<MutableList<Station>> {
 
         return Observable.create { t ->
 
@@ -48,7 +49,7 @@ object MapResetApi : MapApi {
 
                     }
                     //聚合
-                    CluterUtil.resetMarks(mContext, amap, markerOptionsListAll, clickedMarker)
+                    CluterUtil.resetMarks(mContext, amap, markerOptionsListAll, markers, clickedMarker)
                 })
 
                 t.onNext(list)

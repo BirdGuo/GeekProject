@@ -30,16 +30,11 @@ object CluterUtil {
     fun resetMarks(mContext: Context, amap: AMap,
 //                   markerOptionsListInView: MutableList<MarkerOptions>,
                    markerOptionsListAll: MutableList<MarkerOptions>,
-//                   markers: MutableList<Marker>,
+                   markers: MutableList<Marker>,
                    clickedMarker: Marker?) {
 
 
         val markerOptionsListInView: MutableList<MarkerOptions> = ArrayList()
-
-        /**
-         * marker集合
-         */
-        val markers:MutableList<Marker> = ArrayList()
 
         /**
          * 屏幕高度

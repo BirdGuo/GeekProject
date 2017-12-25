@@ -42,9 +42,9 @@ class MapDaoImpl(val viewFile: IFileView, val viewMap: IMapView) : MapDao.Presen
     }
 
     override fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
-                                  mContext: Context, amap: AMap, clickedMarker: Marker?) {
+                                  mContext: Context, amap: AMap, markers: MutableList<Marker>, clickedMarker: Marker?) {
 
-        mapRestApi.addStationsToMap(markerOptionsListAll, list, mContext, amap, clickedMarker).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+        mapRestApi.addStationsToMap(markerOptionsListAll, list, mContext, amap, markers, clickedMarker).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ list ->
                     viewMap.addStationsSuccess()
                 }, { error ->

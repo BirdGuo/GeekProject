@@ -29,7 +29,7 @@ interface MapApi {
      * 添加定位点到地图上
      */
     fun addStationsToMap(markerOptionsListAll: MutableList<MarkerOptions>, list: MutableList<Station>,
-                         mContext: Context, amap: AMap, clickedMarker: Marker?): Observable<MutableList<Station>>
+                         mContext: Context, amap: AMap, markers: MutableList<Marker>, clickedMarker: Marker?): Observable<MutableList<Station>>
 
     /**
      * 保存定位点到数据库
