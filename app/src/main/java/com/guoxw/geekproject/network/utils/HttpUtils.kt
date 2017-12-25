@@ -96,20 +96,6 @@ object HttpUtils {
     @Deprecated("这个方法暂时还不会写", replaceWith = ReplaceWith("使用invoke代替", "com.guoxw.geekproject.network.utils.HttpUtils.invoke"), level = DeprecationLevel.HIDDEN)
     fun <T> toSubscribe(ob: Observable<GankResponse<T>>, cacheKey: String, isSave: Boolean, forceRefresh: Boolean) {
 
-//        //数据预处理
-//        val result: Observable.Transformer<GankResponse<T>, T> = RxHelper.handleResult()
-//        //重用操作符
-//        val observable = ob.compose(result).doOnSubscribe(object : Action0 {
-//            override fun call() {
-//
-//                //一些其他操作
-//
-//                Log.i("GXW", "--------toSubscribe-----------")
-//
-//            }
-//        }).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
-
-
     }
 
 

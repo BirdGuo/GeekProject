@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
  * @desciption
  * @package com.guoxw.geekproject.calendar.utils
  */
-class CalendarUtil() {
+class CalendarUtil {
 
     private var iday: Int = 0
     private var eventArr: List<Map<String, String>>? = null

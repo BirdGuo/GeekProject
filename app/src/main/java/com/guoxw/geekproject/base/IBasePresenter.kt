@@ -40,8 +40,8 @@ interface IBasePresenter {
     /**
      * 添加绑定
      *
-     * @param observable
-     * @param next
+     * @param observable 线程处理容器
+     * @param next 结果处理容器
      *
      */
     @Deprecated("这个方法过时了", replaceWith = ReplaceWith("invoke(observable: Flowable<D>, next: Consumer<D>, error: Consumer<Throwable>, complete: MyAction, subscription: MySubscription)"), level = DeprecationLevel.HIDDEN)

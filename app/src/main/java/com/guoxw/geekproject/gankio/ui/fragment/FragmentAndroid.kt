@@ -89,6 +89,17 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         //添加滑动监听
         rcv_android.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                /**
+                 * RecyclerView被滚动时调用的回调方法。 这会是
+                 *在滚动完成后调用。
+                 * <p>
+                 *如果布局后可见项目范围发生变化，则此回调也将被调用
+                 *计算。 在这种情况下，dx和dy将会是0。
+                 *
+                 * @param recyclerView 滚动的RecyclerView。
+                 * @param dx 水平滚动的数量。
+                 * @param dy 垂直滚动的数量。
+                 */
                 super.onScrolled(recyclerView, dx, dy)
             }
 
@@ -107,19 +118,6 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         })
 
     }
-
-//    override fun reflashView(mData: MutableList<GankData>) {
-//
-//        tv_error_msg.visibility = View.GONE
-//        fl_android.visibility = View.VISIBLE
-//
-//        if (currentPage == 1)
-//            androidAdapter!!.datas.clear()
-//        //添加新数据
-//        androidAdapter!!.datas.addAll(mData)
-//        //更新页面
-//        androidAdapter!!.notifyDataSetChanged()
-//    }
 
     override fun reflashView(mData: GankResponse<MutableList<GankData>>) {
         tv_error_msg.visibility = View.GONE
@@ -156,33 +154,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         //刷新首页
         currentPage = 1
         //重新请求数据
-//        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (type == "iOS") {
-        }
-    }
-
-//    override fun bindCompositeDisposable(disposable: Disposable) {
-//        presenter!!.addDisposable(disposable)
-//    }
 
 }

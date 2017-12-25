@@ -21,10 +21,8 @@ import com.guoxw.geekproject.gankio.api.GankIOApi
 import com.guoxw.geekproject.gankio.api.resetApi.GankIOResetApi
 import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
-import com.guoxw.geekproject.gankio.presenter.GankDataInfoPresenter
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
-import com.guoxw.geekproject.gankio.ui.views.IGankDayDataView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.Serializable
@@ -48,10 +46,6 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
     var mContext: Context? = null
 
     private var rcvItemClickListener: RCVItemClickListener? = null
-
-    var gankDataInfoPresenter: GankDataInfoPresenter? = null
-
-    var gankDayDataView: IGankDayDataView? = null
 
     constructor(mContext: Context?) : super() {
         this.mContext = mContext

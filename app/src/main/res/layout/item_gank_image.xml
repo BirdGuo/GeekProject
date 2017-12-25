@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:contentDescription="妹纸" />
+            android:contentDescription="@string/img_beauty" />
 
         <TextView
             android:id="@+id/tv_item_gank"

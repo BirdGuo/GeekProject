@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
  * @package com.guoxw.geekproject.map.presenter.daoimpl
  * @desciption
  */
-class MapDaoImpl(val viewFile: IFileView, val viewMap: IMapView) : MapDao.Presenter {
+class MapDaoImpl(private val viewFile: IFileView, private val viewMap: IMapView) : MapDao.Presenter {
 
 
     private val mapRestApi = MapResetApi

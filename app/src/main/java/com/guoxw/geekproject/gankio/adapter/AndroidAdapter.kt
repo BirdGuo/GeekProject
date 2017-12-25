@@ -24,10 +24,6 @@ class AndroidAdapter : RecyclerView.Adapter<AndroidAdapter.ViewHolder> {
 
     private var rcvItemClickListener: RCVItemClickListener? = null
 
-    constructor(mContext: Context?) : super() {
-        this.mContext = mContext
-    }
-
     constructor(mContext: Context?, rcvItemClickListener: RCVItemClickListener?) : super() {
         this.mContext = mContext
         this.rcvItemClickListener = rcvItemClickListener

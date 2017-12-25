@@ -19,8 +19,6 @@ import java.io.Writer
  */
 class MyJsonRequestBodyConverter<T>(private val gson: Gson, val adapter: TypeAdapter<T>) : Converter<T, RequestBody> {
 
-    val TAG = MyJsonRequestBodyConverter::class.java.name.toString()
-
     private val MEDIA_TYPE: MediaType = MediaType.parse("application/json;charset=UTF-8")!!
 
     override fun convert(value: T): RequestBody {

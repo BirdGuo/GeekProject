@@ -3,18 +3,15 @@ package com.guoxw.geekproject.gankio.presenter.impl
 import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaPlayer
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.guoxw.geekproject.gankio.ui.views.IWebView
 
 /**
-* @auther guoxw
-* @date 2017/12/12 0012
-* @package ${PACKAGE_NAME}
-* @desciption
-*/
+ * @auther guoxw
+ * @date 2017/12/12 0012
+ * @package ${PACKAGE_NAME}
+ * @desciption
+ */
 class WebViewDaoImpl(val mContext: Context, val iView: IWebView) {
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -32,7 +29,8 @@ class WebViewDaoImpl(val mContext: Context, val iView: IWebView) {
         webView.webViewClient = GankClient()
 
     }
-//
+
+    //
     private inner class GankClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
             if (url != null) view.loadUrl(url)

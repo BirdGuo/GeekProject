@@ -29,7 +29,7 @@ object MapUtil {
         return paramAMap.addMarker(localMarkerOptions)
     }
 
-    fun animateCamera(paramAMap: AMap, paramDouble1: Double?, paramDouble2: Double?, paramFloat: Float, paramInt: Int) {
+    private fun animateCamera(paramAMap: AMap, paramDouble1: Double?, paramDouble2: Double?, paramFloat: Float, paramInt: Int) {
         paramAMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(LatLng(paramDouble1!!.toDouble(), paramDouble2!!.toDouble()), paramFloat, 0.0f, 0.0f)), paramInt.toLong(), null)
     }
 

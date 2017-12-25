@@ -11,7 +11,7 @@ import com.guoxw.geekproject.BuildConfig
  * @package com.guoxw.geekproject.utils
  */
 object LogUtil {
-    val isShow = true//是否显示标识 true：显示；false 不显示
+    //是否显示标识 true：显示；false 不显示
     //作为log打印和不打印的标志
     private val TAG = BuildConfig.LOG_DEBUG
 //    private static final boolean TAG= true;

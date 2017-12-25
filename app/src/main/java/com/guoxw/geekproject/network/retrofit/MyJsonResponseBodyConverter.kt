@@ -15,8 +15,6 @@ import retrofit2.Converter
  */
 class MyJsonResponseBodyConverter<T>(val gson: Gson, val adapter: TypeAdapter<T>) : Converter<ResponseBody, T> {
 
-    val TAG = MyJsonResponseBodyConverter::class.java.name.toString()
-
     override fun convert(value: ResponseBody?): T {
         val result = value!!.string()
         return adapter.fromJson(result)

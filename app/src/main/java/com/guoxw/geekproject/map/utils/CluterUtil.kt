@@ -23,7 +23,6 @@ object CluterUtil {
      * @param mContext
      * @param amap
      * @param markerOptionsListAll
-     * @param markerOptionsListInView
      * @param markers
      * @param clickedMarker
      */
@@ -64,7 +63,7 @@ object CluterUtil {
             if (myClusterMarkers.size == 0) {//第一个聚合点，也是聚合中心点
                 myClusterMarkers.add(MyMarkerCluster(mContext, projection, it, 100))//添加聚合点，范围为100
             } else {
-                var isIn: Boolean = false
+                var isIn = false
                 myClusterMarkers.filter { mit ->
                     mit.bounds!!.contains(it.position)//根据边界判断该点是否在聚合中心点的范围内
                 }.forEach { mit ->

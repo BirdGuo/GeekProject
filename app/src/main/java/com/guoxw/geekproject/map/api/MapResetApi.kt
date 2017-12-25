@@ -11,10 +11,8 @@ import com.guoxw.geekproject.map.bean.MyStations_Table
 import com.guoxw.geekproject.map.bean.Station
 import com.guoxw.geekproject.map.utils.CluterUtil
 import com.guoxw.geekproject.utils.FileUtil
-import com.guoxw.geekproject.utils.LogUtil
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_map.*
 
 
 /**
@@ -42,7 +40,7 @@ object MapResetApi : MapApi {
 //                      addStationToMap(it)
 
                         //把筛选出来的数据转换为marker参数
-                        val markerOptions: MarkerOptions = MarkerOptions()
+                        val markerOptions = MarkerOptions()
                         markerOptions.position(LatLng(it.lat, it.lon))//设置位置
                         markerOptions.title(it.address)//设置标题
                         markerOptionsListAll.add(markerOptions)

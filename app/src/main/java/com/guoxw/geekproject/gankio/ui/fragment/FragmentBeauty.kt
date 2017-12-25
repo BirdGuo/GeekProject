@@ -145,33 +145,6 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
     override fun onRefresh() {
 
-
     }
 
-    override fun onResume() {
-        super.onResume()
-
-//        initPage(currentPage)
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        //在这销毁retrofit线程
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-//    override fun bindCompositeDisposable(disposable: Disposable) {
-//        presenter!!.addDisposable(disposable)
-//    }
-}// Required empty public constructor
+}

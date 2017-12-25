@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/dp_10"
     android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
     android:orientation="vertical">
 
     <TextView
@@ -11,13 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_20"
-        android:textStyle="bold"
-        android:text="123"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_item_good_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/sp_16"
-        android:text="123"/>
+        android:textSize="@dimen/sp_16" />
 </LinearLayout>

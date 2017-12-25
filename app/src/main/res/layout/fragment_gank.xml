@@ -14,17 +14,17 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="妹汁" />
+            android:text="@string/img_beauty" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Android" />
+            android:text="@string/tv_tab_android" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="iOS" />
+            android:text="@string/tv_tab_ios" />
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager

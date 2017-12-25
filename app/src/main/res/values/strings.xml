@@ -35,4 +35,15 @@
     <string name="tv_feedback_connect">联系我</string>
     <string name="tv_feedback_qq">QQ</string>
     <string name="copy_success">复制成功</string>
+    <string name="img_beauty">妹纸</string>
+    <string name="date">日期</string>
+    <string name="tv_calendar_good">宜</string>
+    <string name="tv_calendar_bad">忌</string>
+    <string name="tv_calendar_seat_direction">座位朝向：</string>
+    <string name="tv_calendar_drink">今日宜饮：</string>
+    <string name="tv_calendar_beauty">女神亲近指数：</string>
+
+    <string name="tv_tab_android">Android</string>
+    <string name="tv_tab_ios">iOS</string>
+
 </resources>

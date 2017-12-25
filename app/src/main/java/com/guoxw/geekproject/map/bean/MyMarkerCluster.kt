@@ -33,15 +33,15 @@ class MyMarkerCluster(
         /**
          * 高德屏幕坐标系
          */
-        val projection: Projection,
+        private val projection: Projection,
         /**
          * 中心点参数
          */
-        val centerMarkerOptions: MarkerOptions,
+        private val centerMarkerOptions: MarkerOptions,
         /**
          * 区域大小参数
          */
-        val gridSize: Int) {
+        private val gridSize: Int) {
 
     /**
      * 聚合点参数
@@ -93,7 +93,7 @@ class MyMarkerCluster(
         var lat = 0.0
         var lng = 0.0
 
-        var snippet: String = ""
+        var snippet = ""
 
         includeMarkers.asSequence()
                 .forEach {
@@ -133,7 +133,7 @@ class MyMarkerCluster(
      *
      * @return view
      */
-    fun setMarkerViewContent(size: Int, resourceId: Int): View {
+    private fun setMarkerViewContent(size: Int, resourceId: Int): View {
         //获取页面
         val view = LayoutInflater.from(mContext).inflate(R.layout.layout_marker_cluster, null)
         //获取数字

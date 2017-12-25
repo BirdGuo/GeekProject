@@ -28,22 +28,6 @@ class BaseWebActivity : AppCompatActivity(), IWebView {
         webPresenter!!.setWebViewSettings(web_base, url)
     }
 
-    override fun onRestart() {
-        super.onRestart()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun showProgressBar(progress: Int) {
     }
 

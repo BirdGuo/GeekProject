@@ -36,7 +36,7 @@ object ScreenUtil {
     /**
      * 得到设备的密度
      */
-    fun getScreenDensity(context: Context): Float {
+    private fun getScreenDensity(context: Context): Float {
         return context.resources.displayMetrics.density
     }
 

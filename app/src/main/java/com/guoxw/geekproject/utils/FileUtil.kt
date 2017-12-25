@@ -31,7 +31,7 @@ object FileUtil {
      * @param name
      * @return buf 失败返回Null
      */
-    fun assestToBytes(mContext: Context, name: String): ByteArray? {
+    private fun assestToBytes(mContext: Context, name: String): ByteArray? {
         var inputStream: InputStream? = null
         try {
             inputStream = mContext.assets.open(name)

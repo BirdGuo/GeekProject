@@ -26,8 +26,6 @@ class GankDataDaoImpl(val mContext: Context, private val lifeSubscription: LifeS
 
     private val gankIOResetApi = GankIOResetApi
 
-    val TAG: String = GankDataDaoImpl::class.java.name
-
     override fun fetchGankHistory() {
         attachView(lifeSubscription)
         //判断网络是否连接

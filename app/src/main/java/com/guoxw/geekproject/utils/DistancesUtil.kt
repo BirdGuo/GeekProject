@@ -6,13 +6,15 @@ import com.amap.api.maps.model.LatLng
 import java.math.BigDecimal
 
 /**
- * Created by tom on 2016/1/14 0014.
- */
+* @auther tom
+* @date 2016/1/14 0014
+* @package ${PACKAGE_NAME}
+* @desciption
+*/
 object DistancesUtil {
 
     /**
      * 获取地图上两个点的距离
-     *
      *
      * 单位千米
      *
@@ -25,8 +27,7 @@ object DistancesUtil {
         val v = AMapUtils.calculateLineDistance(start, end)
         val disf = v / 1000
         val b = BigDecimal(disf.toDouble())
-        val f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).toFloat()
-        return f1
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).toFloat()
 
     }
 

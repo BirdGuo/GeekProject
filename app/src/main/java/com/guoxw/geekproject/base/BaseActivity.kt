@@ -34,8 +34,6 @@ import java.util.*
  */
 abstract class BaseActivity : AppCompatActivity(), LifeSubscription, Stateful {
 
-    val BTAG: String = BaseActivity::class.java.name
-
     /**
      * 生命周期状态接收者
      *

@@ -7,10 +7,10 @@
         android:id="@+id/tv_cal_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="date"
-        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:text="@string/date"
         android:textColor="@android:color/black"
         android:textSize="@dimen/sp_22"
         android:textStyle="bold" />
@@ -21,7 +21,7 @@
             android:id="@+id/tv_cal_good"
             style="@style/tv_cal_good"
             android:background="#ffee44"
-            android:text="宜"
+            android:text="@string/tv_calendar_good"
             android:textColor="@android:color/black" />
 
         <android.support.v7.widget.RecyclerView
@@ -39,7 +39,7 @@
             android:id="@+id/tv_cal_bad"
             style="@style/tv_cal_good"
             android:background="#ff4444"
-            android:text="忌"
+            android:text="@string/tv_calendar_bad"
             android:textColor="@android:color/white" />
 
         <android.support.v7.widget.RecyclerView
@@ -49,13 +49,14 @@
             android:divider="#008B45" />
     </LinearLayout>
 
-    <LinearLayout style="@style/lin_cal_title"
+    <LinearLayout
+        style="@style/lin_cal_title"
         android:layout_marginTop="@dimen/dp_10">
 
         <TextView
             android:id="@+id/tv_cal_title_direction"
             style="@style/tv_cal_base.title"
-            android:text="座位朝向：" />
+            android:text="@string/tv_calendar_seat_direction" />
 
         <TextView
             android:id="@+id/tv_cal_direction"
@@ -67,7 +68,7 @@
         <TextView
             android:id="@+id/tv_cal_title_drink"
             style="@style/tv_cal_base.title"
-            android:text="今日宜饮：" />
+            android:text="@string/tv_calendar_drink" />
 
         <TextView
             android:id="@+id/tv_cal_drink"
@@ -79,7 +80,7 @@
         <TextView
             android:id="@+id/tv_cal_title_girl"
             style="@style/tv_cal_base.title"
-            android:text="女神亲近指数：" />
+            android:text="@string/tv_calendar_beauty" />
 
         <TextView
             android:id="@+id/tv_cal_girl"
