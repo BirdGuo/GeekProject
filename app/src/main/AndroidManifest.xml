@@ -37,6 +37,11 @@
             android:name="com.amap.api.v2.apikey"
             android:value="2103009f4400fc922ed0e45e5ac99f6f" />
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ntG5LLARGs7x14O45o9bdRCcaEHGmWlT" >
+        </meta-data>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

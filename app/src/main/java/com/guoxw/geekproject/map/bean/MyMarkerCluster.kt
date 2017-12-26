@@ -92,7 +92,9 @@ class MyMarkerCluster(
 
         var lat = 0.0
         var lng = 0.0
-
+        /**
+         * 地点描述
+         */
         var snippet = ""
 
         includeMarkers.asSequence()
