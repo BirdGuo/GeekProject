@@ -17,6 +17,10 @@ import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.map.LocationTypeMode
+import com.guoxw.geekproject.map.bean.MyLocation
+import com.guoxw.geekproject.map.factory.LocationFactory
+import com.guoxw.geekproject.map.factory.interfaces.MyILocation
 import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main_left.*
@@ -24,7 +28,8 @@ import kotlinx.android.synthetic.main.include_title_main.*
 import java.util.*
 
 
-class MainActivity : BaseActivity(), AMapLocationListener {
+class MainActivity : BaseActivity(), MyILocation {
+
 
     /**
      * Gank页面
@@ -40,16 +45,6 @@ class MainActivity : BaseActivity(), AMapLocationListener {
      * 页面列表
      */
     private val mainFragments: MutableList<Fragment> = ArrayList()
-
-    /**
-     * 定位终端
-     */
-    private var mlocationClient: AMapLocationClient? = null
-
-    /**
-     * 定位参数
-     */
-    private val mlocationOption: AMapLocationClientOption = AMapLocationClientOption()
 
     /**
      * 天气接口
@@ -184,37 +179,19 @@ class MainActivity : BaseActivity(), AMapLocationListener {
      */
     private fun initLocation() {
 
-        //实例化定位终端
-        mlocationClient = AMapLocationClient(this)
-        //设置定位监听
-        mlocationClient!!.setLocationListener(this)
-        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mlocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Battery_Saving
-        // 设置定位间隔
-        mlocationOption.interval = 2000
-        //需要位置信息
-        mlocationOption.isNeedAddress = true
-        //设置单次定位
-        mlocationOption.isOnceLocation = true
-        //设置定位参数
-        mlocationClient!!.setLocationOption(mlocationOption)
-        //启动定位
-        mlocationClient!!.startLocation()
+        val create = LocationFactory.create(LocationTypeMode.AMapMode, this, true, this)
+        create.iLocation!!.initLcationOption(2000)
+        create.iLocation!!.startLocation()
 
     }
 
-    override fun onLocationChanged(aMapLocation: AMapLocation?) {
+    override fun locationSuccess(myLocation: MyLocation) {
+        tv_main_city.text = myLocation.city
+        initWeatherSearch(myLocation.city)
+    }
 
-        if (aMapLocation!!.errorCode == 0) {
-            aMapLocation.city//获取定位城市
-            tv_main_city.text = aMapLocation.city
-
-            initWeatherSearch(aMapLocation.city)
-
-        } else {
-            LogUtil.e("GXW", "errorCode:".plus(aMapLocation.errorCode).plus("  errorInfo:").plus(aMapLocation.errorInfo))
-        }
-
+    override fun locationFail(error: String) {
+        LogUtil.i("GXW", "errorInfo:".plus(error))
     }
 
     /**

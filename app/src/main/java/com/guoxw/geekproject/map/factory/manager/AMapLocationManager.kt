@@ -13,7 +13,7 @@ import com.guoxw.geekproject.map.factory.interfaces.MyILocation
  * @auther guoxw
  * @date 2017/12/26 0026
  * @package com.guoxw.geekproject.map.factory.manager
- * @desciption
+ * @desciption 高德定位方法
  */
 class AMapLocationManager(
         /**
@@ -32,46 +32,44 @@ class AMapLocationManager(
     /**
      * 定位终端
      */
-    private var mlocationClient: AMapLocationClient? = null
+    private var mLocationClient: AMapLocationClient? = null
 
     /**
      * 定位参数
      */
-    private val mlocationOption: AMapLocationClientOption = AMapLocationClientOption()
+    private val mLocationOption: AMapLocationClientOption = AMapLocationClientOption()
 
     init {
         //实例化定位终端
-        mlocationClient = AMapLocationClient(mContext)
+        mLocationClient = AMapLocationClient(mContext)
         //设置定位监听
-        mlocationClient!!.setLocationListener(this)
+        mLocationClient!!.setLocationListener(this)
 
     }
 
     override fun initLcationOption(time: Long) {
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mlocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
+        mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
         // 设置定位间隔
-        mlocationOption.interval = time
+        mLocationOption.interval = time
         //需要位置信息
-        mlocationOption.isNeedAddress = true
+        mLocationOption.isNeedAddress = true
         //设置单次定位
-        mlocationOption.isOnceLocation = isOnceLocation
+        mLocationOption.isOnceLocation = isOnceLocation
         //设置定位参数
-        mlocationClient!!.setLocationOption(mlocationOption)
+        mLocationClient!!.setLocationOption(mLocationOption)
     }
 
-    override fun startLocation(force: Boolean) {
+    override fun startLocation() {
         //启动定位
-        mlocationClient!!.startLocation()
+        mLocationClient!!.startLocation()
     }
 
     override fun stopLocation() {
-
         when (isOnceLocation) {//判断是否单次定位
             true -> return
-            false -> mlocationClient!!.stopLocation()
+            false -> mLocationClient!!.stopLocation()
         }
-
     }
 
 //    override fun isLocating(): Boolean {
@@ -85,14 +83,15 @@ class AMapLocationManager(
     override fun onLocationChanged(aMapLocation: AMapLocation?) {
 
         when (isOnceLocation) {//如果是单次定位就停止定位
-            true -> mlocationClient!!.stopLocation()
+            true -> mLocationClient!!.stopLocation()
         }
 
         if (aMapLocation!!.errorCode == 0) {
-            aMapLocation.city//获取定位城市
+            //定位成功页面回调
             myILocation.locationSuccess(MyLocation(aMapLocation.latitude, aMapLocation.longitude, aMapLocation.address,
                     aMapLocation.street, aMapLocation.country, aMapLocation.city, aMapLocation.province))
         } else {
+            //定位失败页面回调
             myILocation.locationFail(aMapLocation.errorInfo)
         }
 

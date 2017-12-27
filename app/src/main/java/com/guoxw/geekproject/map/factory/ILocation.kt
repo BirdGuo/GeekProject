@@ -10,13 +10,14 @@ interface ILocation {
 
     /**
      * 初始化定位参数
+     * @param time 定位间隔时间
      */
     fun initLcationOption(time: Long)
 
     /**
      * 开始定位
      */
-    fun startLocation(force: Boolean)
+    fun startLocation()
 
     /**
      * 结束定位
