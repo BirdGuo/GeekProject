@@ -96,6 +96,7 @@ class MainActivity : BaseActivity(), MyILocation {
             tv_title_menu.text = "程序猿老黄历"
         }
 
+        //地图聚合
         fl_theme_map.setOnClickListener {
             openActivity(MapActivity::class.java, Bundle())
         }
@@ -179,9 +180,12 @@ class MainActivity : BaseActivity(), MyILocation {
      */
     private fun initLocation() {
 
+        //初始化定位工厂类
         val create = LocationFactory.create(LocationTypeMode.AMapMode, this, true, this)
-        create.iLocation!!.initLcationOption(2000)
-        create.iLocation!!.startLocation()
+        //设置定位参数
+        create.initLcationOption(2000)
+        //开始定位
+        create.startLocation()
 
     }
 

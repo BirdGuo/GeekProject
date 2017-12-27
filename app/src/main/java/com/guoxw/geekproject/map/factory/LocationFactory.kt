@@ -47,8 +47,8 @@ class LocationFactory(
          * @param isOnceLocation 是否单次定位
          * @param myILocation 定位回调监听
          */
-        fun create(locationType: Int, mContext: Context, isOnceLocation: Boolean, myILocation: MyILocation): LocationFactory
-                = LocationFactory(locationType, mContext, isOnceLocation, myILocation)
+        fun create(locationType: Int, mContext: Context, isOnceLocation: Boolean, myILocation: MyILocation): ILocation
+                = LocationFactory(locationType, mContext, isOnceLocation, myILocation).iLocation!!
     }
 
     init {

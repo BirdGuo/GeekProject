@@ -41,6 +41,8 @@ abstract class BaseToolbarActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_toolbar_base
 
     override fun initView(savedInstanceState: Bundle?) {
+
+
         //找寻视图
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
         //添加到Fragment中
