@@ -52,11 +52,12 @@ class LocationFactory(
     }
 
     init {
-        when (locationType) {//定位模式选择
-        //高德定位模式
-            LocationTypeMode.AMapMode -> iLocation = AMapLocationManager(mContext, myILocation, isOnceLocation)
-        //百度定位模式
-            LocationTypeMode.BaiduMapMode -> iLocation = BMapLocationManager(mContext, myILocation, isOnceLocation)
+        iLocation = if (locationType == LocationTypeMode.AMapMode) {//定位模式选择
+            //高德定位模式
+            AMapLocationManager(mContext, myILocation, isOnceLocation)
+        } else {
+            //百度定位模式
+            BMapLocationManager(mContext, myILocation, isOnceLocation)
         }
     }
 

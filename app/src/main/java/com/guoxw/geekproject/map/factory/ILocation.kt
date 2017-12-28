@@ -6,6 +6,9 @@ package com.guoxw.geekproject.map.factory
  * @package com.guoxw.geekproject.map.factory
  * @desciption
  */
+/**
+ * 工厂操作方法接口
+ */
 interface ILocation {
 
     /**

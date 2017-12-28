@@ -15,6 +15,9 @@ import com.guoxw.geekproject.map.factory.interfaces.MyILocation
  * @package com.guoxw.geekproject.map.factory.manager
  * @desciption 高德定位方法
  */
+/**
+ * 高德定位工厂操作类
+ */
 class AMapLocationManager(
         /**
          * 上下文

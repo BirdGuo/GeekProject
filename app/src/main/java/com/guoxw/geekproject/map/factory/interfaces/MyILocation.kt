@@ -8,6 +8,9 @@ import com.guoxw.geekproject.map.bean.MyLocation
  * @package com.guoxw.geekproject.map.factory.interfaces
  * @desciption
  */
+/**
+ * 定位回调接口
+ */
 open interface MyILocation {
 
     /**
