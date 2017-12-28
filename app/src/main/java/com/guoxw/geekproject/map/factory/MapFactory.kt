@@ -14,20 +14,49 @@ import com.guoxw.geekproject.map.factory.manager.BMapManager
  */
 /**
  * 地图操作工厂
+ * @param mContext 上下文
+ * @param aMap 高德地图
+ * @param baiduMap 百度地图
  */
-class MapFactory(val mContext: Context, val aMap: AMap?, val baiduMap: BaiduMap?) {
+class MapFactory(
+        /**
+         * 上下文
+         */
+        val mContext: Context,
+        /**
+         * 高德地图
+         */
+        val aMap: AMap?,
+        /**
+         * 百度地图
+         */
+        val baiduMap: BaiduMap?) {
 
     var iMapManager: IMapManager? = null
 
     companion object Factory {
+        /**
+         * 创建工厂类
+         * @param mContext 上下文
+         * @param aMap 高德地图
+         */
         fun create(mContext: Context, aMap: AMap): IMapManager = MapFactory(mContext, aMap, null).iMapManager!!
+
+        /**
+         * 创建工厂类
+         * @param mContext 上下文
+         * @param baiduMap 百度地图
+         */
         fun create(mContext: Context, baiduMap: BaiduMap): IMapManager = MapFactory(mContext, null, baiduMap).iMapManager!!
     }
 
     init {
+        //初始化工厂操作方法
         iMapManager = if (aMap != null) {
+            //高德地图
             AMapManager(aMap!!)
         } else {
+            //百度地图
             BMapManager(baiduMap!!)
         }
     }
