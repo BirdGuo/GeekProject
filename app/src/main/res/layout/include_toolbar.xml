@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:background="?attr/colorPrimary">
+    android:paddingTop="@dimen/dp_20"
+    app:statusBarBackground="@android:color/transparent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_toolbar_base"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorTheme"
+        android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_scrollFlags="scroll|enterAlways|snap"
         app:popupTheme="@style/AppTheme.PopupOverlay" />

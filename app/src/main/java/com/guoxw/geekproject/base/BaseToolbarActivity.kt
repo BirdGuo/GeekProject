@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import com.guoxw.geekproject.R
 import kotlinx.android.synthetic.main.activity_toolbar_base.*
@@ -42,7 +43,6 @@ abstract class BaseToolbarActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
 
-
         //找寻视图
         val contentView = LayoutInflater.from(this).inflate(getContentLayoutId(), null)
         //添加到Fragment中
@@ -52,7 +52,7 @@ abstract class BaseToolbarActivity : BaseActivity() {
         //设置标题颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.RED
-        }else{
+        } else {
             window.setBackgroundDrawableResource(R.color.colorRateRed)
         }
 

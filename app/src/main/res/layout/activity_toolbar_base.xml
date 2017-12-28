@@ -2,19 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lin_toolbar_base"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/include_toolbar_base"
-        layout="@layout/include_toolbar"
-        android:fitsSystemWindows="true" />
+        layout="@layout/include_toolbar" />
 
     <FrameLayout
         android:id="@+id/fl_toolbar_base"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/include_toolbar_base" />
-
 
 </RelativeLayout>
