@@ -1,9 +1,8 @@
 package com.guoxw.geekproject.map.factory.manager
 
-import com.baidu.mapapi.map.BaiduMap
-import com.baidu.mapapi.map.MapStatus
-import com.baidu.mapapi.map.MapStatusUpdateFactory
-import com.baidu.mapapi.map.MarkerOptions
+import android.content.Context
+import android.os.Bundle
+import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.guoxw.geekproject.map.bean.MyMarkerOptions
 import com.guoxw.geekproject.map.factory.IMapManager
@@ -14,7 +13,24 @@ import com.guoxw.geekproject.map.factory.IMapManager
  * @package com.guoxw.geekproject.map.factory.manager
  * @desciption
  */
-class BMapManager(val baiduMap: BaiduMap) : IMapManager {
+class BMapManager(
+        /**
+         * 上下文
+         */
+        val mContext: Context,
+        /**
+         * 百度地图控件
+         */
+        private val baiduMapView: MapView) : IMapManager {
+
+    /**
+     * 地图控制器
+     */
+    var baiduMap: BaiduMap? = null
+
+    init {
+        baiduMap = baiduMapView.map
+    }
 
     override fun addMarker(myMarkerOptions: MyMarkerOptions) {
 
@@ -31,7 +47,7 @@ class BMapManager(val baiduMap: BaiduMap) : IMapManager {
             markerOptions.extraInfo(myMarkerOptions.bundle)
         }
         //添加覆盖物
-        baiduMap.addOverlay(markerOptions)
+        baiduMap!!.addOverlay(markerOptions)
 
     }
 
@@ -41,7 +57,24 @@ class BMapManager(val baiduMap: BaiduMap) : IMapManager {
         //更新参数
         val newMapStatus = MapStatusUpdateFactory.newMapStatus(mapStatus)
         //设置到地图上
-        baiduMap.setMapStatus(newMapStatus)
+        baiduMap!!.setMapStatus(newMapStatus)
     }
+
+    override fun mapCreate(savedInstanceState: Bundle?) {
+        baiduMapView.onCreate(mContext, savedInstanceState)
+    }
+
+    override fun mapResume() {
+        baiduMapView.onResume()
+    }
+
+    override fun mapDestroy() {
+        baiduMapView.onDestroy()
+    }
+
+    override fun mapPause() {
+        baiduMapView.onPause()
+    }
+
 
 }

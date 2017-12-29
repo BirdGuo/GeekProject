@@ -51,7 +51,7 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
     sourceSets {
-        main{
+        main {
             jniLibs.srcDir 'libs'
             jni.srcDirs = []
         }

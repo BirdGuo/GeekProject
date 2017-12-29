@@ -108,6 +108,16 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_map_test"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/setting"
+                android:text="@string/tv_header_map_test" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/fl_feedback"
             style="@style/home.fragment">
 

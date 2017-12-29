@@ -116,6 +116,10 @@ class MainActivity : BaseActivity(), MyILocation {
             openActivity(AboutActivity::class.java, Bundle())
         }
 
+        fl_map_test.setOnClickListener {
+            openActivity(MapTestActivity::class.java, Bundle())
+        }
+
         //设置
         fl_setting.setOnClickListener {
             openActivity(SettingActivity::class.java, Bundle())

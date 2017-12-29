@@ -17,9 +17,10 @@
 ## Features 特性
 * 遵循Material Design设计风格。
 * Rxjava+Retrofit2网络请求，并进行封装错误可以进行统一处理。
-* 使用SwipeRefreshLayout+RecycleView进行下拉刷新
-* Glide做图片的处理和加载
-* 高德地图使用的封装
+* 使用SwipeRefreshLayout+RecycleView进行下拉刷新。
+* Glide做图片的处理和加载。
+* 百度地图和高德地图的简单封装，可以实现一键切换地图。
+* 百度定位和高德定位的封装。（地图和定位的封装均是通过工厂模式，定义工厂操作方法接口）
 
 ## End:<br>
 如果该项目对您有帮助，帮忙点个star吧。<br>

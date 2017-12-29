@@ -1,6 +1,7 @@
 package com.guoxw.geekproject
 
 import android.support.multidex.MultiDexApplication
+import com.baidu.mapapi.SDKInitializer
 import com.blankj.utilcode.utils.Utils
 import com.guoxw.geekproject.database.AppDataBase
 import com.raizlabs.android.dbflow.config.DatabaseConfig
@@ -25,6 +26,8 @@ class MyApplication : MultiDexApplication() {
         FlowManager.init(FlowConfig.builder(this)
                 .addDatabaseConfig(DatabaseConfig.builder(AppDataBase::class.java).build())
                 .build())
+
+        SDKInitializer.initialize(this)
     }
 
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guoxw.geekproject.MapTestActivity">
+
+    <include
+        android:id="@+id/include_map_ali"
+        layout="@layout/layout_amap"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/include_map_baidu"
+        layout="@layout/layout_bmap"
+        android:visibility="visible" />
+
+</android.support.constraint.ConstraintLayout>

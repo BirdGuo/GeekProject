@@ -36,15 +36,14 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="2103009f4400fc922ed0e45e5ac99f6f" />
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="ntG5LLARGs7x14O45o9bdRCcaEHGmWlT"></meta-data>
+            android:value="ntG5LLARGs7x14O45o9bdRCcaEHGmWlT" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -61,6 +60,7 @@
         <activity android:name=".base.BaseWebActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".gankio.ui.activity.WebVideoActivity" />
+        <activity android:name=".MapTestActivity"></activity>
     </application>
 
 </manifest>
