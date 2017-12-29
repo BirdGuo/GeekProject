@@ -116,6 +116,7 @@ class MainActivity : BaseActivity(), MyILocation {
             openActivity(AboutActivity::class.java, Bundle())
         }
 
+        //地图测试
         fl_map_test.setOnClickListener {
             openActivity(MapTestActivity::class.java, Bundle())
         }
