@@ -17,6 +17,7 @@ import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.jniutil.JNIUtil
 import com.guoxw.geekproject.map.LocationTypeMode
 import com.guoxw.geekproject.map.bean.MyLocation
 import com.guoxw.geekproject.map.factory.LocationFactory
@@ -56,6 +57,8 @@ class MainActivity : BaseActivity(), MyILocation {
 
 
     override fun initView(savedInstanceState: Bundle?) {
+
+        LogUtil.i("GXW", "From CPP:".plus(JNIUtil.stringFromJNI()))
 
         tv_title_menu.text = "首页"
 
@@ -226,19 +229,5 @@ class MainActivity : BaseActivity(), MyILocation {
             initLocation()
         }
 
-    }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    external fun stringFromJNI(): String
-
-    companion object {
-
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("native-lib")
-        }
     }
 }
