@@ -31,5 +31,10 @@ Java_com_guoxw_geekproject_jniutil_JNIUtil_countFromJNI(JNIEnv *env, jobject) {
     return num;
 }
 
+extern "C"
+JNIEXPORT jint
 
+JNICALL
+Java_com_guoxw_geekproject_jniutil_JNIUtil_logInCPPI(JNIEnv *env, jobject){
 
+}

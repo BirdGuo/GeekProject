@@ -1,14 +1,11 @@
 package com.guoxw.geekproject
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.Gravity
 import android.view.KeyEvent
-import com.amap.api.location.AMapLocation
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationClientOption
-import com.amap.api.location.AMapLocationListener
 import com.amap.api.services.weather.LocalWeatherForecastResult
 import com.amap.api.services.weather.LocalWeatherLiveResult
 import com.amap.api.services.weather.WeatherSearch
@@ -17,6 +14,7 @@ import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.jniutil.HexUtil
 import com.guoxw.geekproject.jniutil.JNIUtil
 import com.guoxw.geekproject.map.LocationTypeMode
 import com.guoxw.geekproject.map.bean.MyLocation
@@ -26,7 +24,6 @@ import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main_left.*
 import kotlinx.android.synthetic.main.include_title_main.*
-import java.lang.annotation.Native
 import java.util.*
 
 
@@ -58,8 +55,15 @@ class MainActivity : BaseActivity(), MyILocation {
 
     override fun initView(savedInstanceState: Bundle?) {
 
-        LogUtil.i("GXW", "From CPP:".plus(JNIUtil.stringFromJNI()))
+//        LogUtil.i("GXW", "From CPP:".plus(JNIUtil.stringFromJNI()))
 
+        val s: ByteArray = byteArrayOf(0x3c, 0x7c)
+        val t = HexUtil.hexEncode(s)
+
+        val b = HexUtil.hexDecode(t)
+        val d = Arrays.toString(b)
+        JNIUtil.printLogInfo("你好世界！".plus(t))
+        JNIUtil.printLogInfo("你好世界！22".plus(d))
         tv_title_menu.text = "首页"
 
         //fragment操作器
