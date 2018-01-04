@@ -33,6 +33,7 @@ android {
             //混淆
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            jniDebuggable true
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -142,5 +143,6 @@ dependencies {
     //进度条
 
     //    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
-//    implementation files('libs/BaiduLBS_Android.jar')
+
+    //    implementation files('libs/BaiduLBS_Android.jar')
 }

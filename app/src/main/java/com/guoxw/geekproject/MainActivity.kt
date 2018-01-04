@@ -16,6 +16,7 @@ import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
 import com.guoxw.geekproject.jniutil.HexUtil
 import com.guoxw.geekproject.jniutil.JNIUtil
+import com.guoxw.geekproject.jniutil.UninstallUtil
 import com.guoxw.geekproject.map.LocationTypeMode
 import com.guoxw.geekproject.map.bean.MyLocation
 import com.guoxw.geekproject.map.factory.LocationFactory
@@ -82,6 +83,11 @@ class MainActivity : BaseActivity(), MyILocation {
     }
 
     override fun initData() {
+        val pid1 = android.os.Process.myPid()
+        LogUtil.i("GXW", "pid1:".plus(pid1))
+        UninstallUtil.callUnInstallListener(Build.VERSION.SDK_INT, "data/data/com.guoxw.geekproject")
+        val pid = android.os.Process.myPid()
+        LogUtil.i("GXW", "pid2:".plus(pid))
 
         initLocation()
 

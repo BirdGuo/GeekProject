@@ -232,7 +232,7 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription, Stateful {
      * 双击退出
      */
     fun exitBy2Click() {
-        var tExit: Timer? = null
+        var tExit: Timer?
         if (!isExit) {
             isExit = true // 准备退出
             //吐司提示语

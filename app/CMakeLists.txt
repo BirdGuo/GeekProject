@@ -28,7 +28,8 @@ add_library( # Sets the name of the library.
              # 只需要在这添加源文件依赖，不需要添加多个库名称
              src/main/cpp/native-lib.cpp
              src/main/cpp/myJniLib.cpp
-             src/main/cpp/hexJniLib.cpp)
+             src/main/cpp/hexJniLib.cpp
+             src/main/cpp/uninstallListenerJniLib.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
