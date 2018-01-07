@@ -14,6 +14,7 @@ import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.jniui.JniCallbackActivity
 import com.guoxw.geekproject.jniutil.HexUtil
 import com.guoxw.geekproject.jniutil.JNIUtil
 import com.guoxw.geekproject.jniutil.UninstallUtil
@@ -133,6 +134,11 @@ class MainActivity : BaseActivity(), MyILocation {
         //地图测试
         fl_map_test.setOnClickListener {
             openActivity(MapTestActivity::class.java, Bundle())
+        }
+
+        //计时器
+        fl_clock.setOnClickListener {
+            openActivity(JniCallbackActivity::class.java, Bundle())
         }
 
         //设置

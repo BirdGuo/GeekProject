@@ -8,6 +8,7 @@
     <string name="tv_header_about">关于</string>
     <string name="tv_header_setting">设置</string>
     <string name="tv_header_map_test">地图测试</string>
+    <string name="tv_header_clock">计时器</string>
     <string name="tv_header_feedback">意见反馈</string>
     <string name="tv_header_quit">退出</string>
 

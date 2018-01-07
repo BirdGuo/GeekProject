@@ -118,6 +118,16 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_clock"
+            style="@style/home.fragment">
+
+            <TextView
+                style="@style/home.textview"
+                android:drawableLeft="@drawable/setting"
+                android:text="@string/tv_header_clock" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/fl_feedback"
             style="@style/home.fragment">
 

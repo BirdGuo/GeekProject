@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/conlay_jnicallback"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guoxw.geekproject.jniui.JniCallbackActivity">
+
+    <TextView
+        android:id="@+id/tv_hello_jnicallback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintLeft_toLeftOf="@+id/conlay_jnicallback"
+        app:layout_constraintRight_toRightOf="@+id/conlay_jnicallback"
+        app:layout_constraintTop_toTopOf="@+id/conlay_jnicallback"
+        app:layout_constraintVertical_bias="0.45"
+        tools:layout_constraintBottom_creator="0"
+        tools:layout_constraintLeft_creator="0"
+        tools:layout_constraintRight_creator="0"
+        tools:layout_constraintTop_creator="0"
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="222dp" />
+
+    <TextView
+        android:id="@+id/tv_jnicallback_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/conlay_jnicallback"
+        app:layout_constraintLeft_toLeftOf="@+id/conlay_jnicallback"
+        app:layout_constraintRight_toRightOf="@+id/conlay_jnicallback"
+        app:layout_constraintTop_toTopOf="@+id/conlay_jnicallback"
+        tools:layout_constraintBottom_creator="0"
+        tools:layout_constraintLeft_creator="0"
+        tools:layout_constraintRight_creator="0"
+        tools:layout_constraintTop_creator="0"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="222dp" />
+
+
+</android.support.constraint.ConstraintLayout>
