@@ -10,7 +10,7 @@
 #include <android/log.h>
 
 // Android log function wrappers
-static const char *kTAG = "hello-jniCallback";
+static const char *kTAG = "GXW";
 #define LOGI(...) \
   ((void)__android_log_print(ANDROID_LOG_INFO, kTAG, __VA_ARGS__))
 #define LOGW(...) \

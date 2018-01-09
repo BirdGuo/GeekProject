@@ -2,12 +2,96 @@
 // Created by guoxw on 2018/1/5 0005.
 //
 
-#include <sys/types.h>
 #include <pthread.h>
 #include "callbackJniLib.h"
 #include <assert.h>
 #include <string.h>
+#include <inttypes.h>
 
+/*
+ *  A helper function to show how to call
+ *     java static functions JniHelper::getBuildVersion()
+ *     java non-static function JniHelper::getRuntimeMemorySize()
+ *  The trivial implementation for these functions are inside file
+ *     JniHelper.java
+ */
+void queryRuntimeInfo(JNIEnv *env, jobject instance) {
+    // Find out which OS we are running on. It does not matter for this app
+    // just to demo how to call static functions.
+    // Our java JniHelper class id and instance are initialized when this
+    // shared lib got loaded, we just directly use them
+    //    static function does not need instance, so we just need to feed
+    //    class and method id to JNI
+    jmethodID versionFunc = env->GetStaticMethodID(
+            g_ctx.jniHelperClz,
+            "getBuildVersion", "()Ljava/lang/String;");
+    if (!versionFunc) {
+        LOGE("Failed to retrieve getBuildVersion() methodID @ line %d",
+             __LINE__);
+        return;
+    }
+
+    jstring buildVersion = (jstring) env->CallStaticObjectMethod(g_ctx.jniHelperClz, versionFunc);
+    const char *version = env->GetStringUTFChars(buildVersion, NULL);
+    if (!version) {
+        LOGE("Unable to get version string @ line %d", __LINE__);
+        return;
+    }
+    LOGI("Android Version - %s", version);
+    env->ReleaseStringUTFChars(buildVersion, version);
+
+    // we are called from JNI_OnLoad, so got to release LocalRef to avoid leaking
+    env->DeleteLocalRef(buildVersion);
+
+    // Query available memory size from a non-static public function
+    // we need use an instance of JniHelper class to call JNI
+    jmethodID memFunc = env->GetMethodID(g_ctx.jniHelperClz,
+                                         "getRuntimeMemorySize", "()J");
+    if (!memFunc) {
+        LOGE("Failed to retrieve getRuntimeMemorySize() methodID @ line %d",
+             __LINE__);
+        return;
+    }
+    jlong result = env->CallLongMethod(instance, memFunc);
+    LOGI("Runtime free memory size: %"PRId64, result);
+    (void) result;  // silence the compiler warning
+}
+
+/*
+ * processing one time initialization:
+ *     Cache the javaVM into our context
+ *     Find class ID for JniHelper
+ *     Create an instance of JniHelper
+ *     Make global reference since we are using them from a native thread
+ * Note:
+ *     All resources allocated here are never released by application
+ *     we rely on system to free all global refs when it goes away;
+ *     the pairing function JNI_OnUnload() never gets called at all.
+ */
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+    JNIEnv *env;
+    memset(&g_ctx, 0, sizeof(g_ctx));
+
+    g_ctx.javaVM = vm;
+    if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR; // JNI version not supported.
+    }
+
+    jclass clz = env->FindClass(
+            "com/guoxw/geekproject/jniui/JniHandler");
+    g_ctx.jniHelperClz = (jclass) env->NewGlobalRef(clz);
+
+    jmethodID jniHelperCtor = env->GetMethodID(g_ctx.jniHelperClz,
+                                               "<init>", "()V");
+    jobject handler = env->NewObject(g_ctx.jniHelperClz,
+                                     jniHelperCtor);
+    g_ctx.jniHelperObj = env->NewGlobalRef(handler);
+    queryRuntimeInfo(env, g_ctx.jniHelperObj);
+
+    g_ctx.done = 0;
+    g_ctx.mainActivityObj = NULL;
+    return JNI_VERSION_1_6;
+}
 
 /**
  *
@@ -41,10 +125,19 @@ void sendJavaMsg(JNIEnv *env, jobject instance,
  * @return
  */
 void *UpdateTicks(void *context) {
+    LOGI("-------3-------");
     TickContext *pctx = (TickContext *) context;
+    LOGI("-------4-------");
     JavaVM *javaVM = pctx->javaVM;
+    //这行出现了空指针111
     JNIEnv *env;
-    jint res = javaVM->GetEnv((void **) env, JNI_VERSION_1_6);
+    LOGI("-------5-------");
+    if (env == NULL) {
+        LOGI("-------7-------");
+    }
+    //这行出现了空指针
+    jint res = javaVM->GetEnv((void **) &env, JNI_VERSION_1_6);
+    LOGI("-------6-------");
     if (res != JNI_OK) {
         res = javaVM->AttachCurrentThread(&env, NULL);
         if (JNI_OK != res) {
@@ -151,7 +244,9 @@ Java_com_guoxw_geekproject_jniutil_JNICallbackUtil_startTicks(JNIEnv *env, jobje
     jclass clz = env->GetObjectClass(instance);
     g_ctx.mainActivityClz = (jclass) env->NewGlobalRef(clz);
     g_ctx.mainActivityObj = env->NewGlobalRef(instance);
+    LOGI("-------1-------");
     int result = pthread_create(&threadInfo_, &threadAttr_, UpdateTicks, &g_ctx);
+    LOGI("-------2-------");
     assert(result == 0);
     pthread_attr_destroy(&threadAttr_);
     (void) result;
