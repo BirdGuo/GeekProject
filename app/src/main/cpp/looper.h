@@ -9,19 +9,42 @@
 #include <pthread.h>
 #include <semaphore.h>
 
+#include <android/log.h>
+
+#define TAG "NativeCodec-looper"
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, TAG, __VA_ARGS__)
+
+
 struct loopermessage;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-class lopper {
+class looper {
 public:
-//    looper();
+    looper();
+
+    looper &operator=(const looper) = delete;
+
+    looper(looper &) = delete;
+
+    virtual ~looper();
+
+    void post(int what, void *data, bool flush = false);
+
+    void quit();
+
+    virtual void handle(int what, void *data);
+
+private :
+    void addmsg(loopermessage *msg, bool flush);
+
+    static void *trampoline(void *p);
+
+    void loop();
+
+    loopermessage *head;
+    pthread_t worker;
+    sem_t headwriteprotect;
+    sem_t headdataavailable;
+    bool running;
 };
 
-#ifdef __cplusplus
-};
-#endif
 
-#endif //GEEKPROJECT_LOOPER_H

@@ -32,7 +32,8 @@ add_library( # Sets the name of the library.
              src/main/cpp/uninstallListenerJniLib.cpp
              src/main/cpp/callbackJniLib.cpp
              src/main/cpp/simple_model.cpp
-             src/main/cpp/looper.cpp)
+             src/main/cpp/looper.cpp
+             src/main/cpp/native-codec-jni.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
