@@ -61,7 +61,9 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".gankio.ui.activity.WebVideoActivity" />
         <activity android:name=".MapTestActivity" />
-        <activity android:name=".jniui.JniCallbackActivity"></activity>
+        <activity android:name=".jniui.JniCallbackActivity" />
+        <activity android:name=".jniui.NModelActivity" />
+        <activity android:name=".jniui.LoopActivity"></activity>
     </application>
 
 </manifest>
