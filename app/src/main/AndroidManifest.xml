@@ -60,7 +60,8 @@
         <activity android:name=".base.BaseWebActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".gankio.ui.activity.WebVideoActivity" />
-        <activity android:name=".MapTestActivity"></activity>
+        <activity android:name=".MapTestActivity" />
+        <activity android:name=".jniui.JniUIActivity"></activity>
     </application>
 
 </manifest>

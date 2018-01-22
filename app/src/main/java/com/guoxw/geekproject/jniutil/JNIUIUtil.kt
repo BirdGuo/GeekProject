@@ -1,15 +1,19 @@
 package com.guoxw.geekproject.jniutil
 
+import android.content.Context
+
 /**
  * @auther guoxw
- * @date 2018/1/5 0005
+ * @date 2018/1/22 0022
  * @package com.guoxw.geekproject.jniutil
  * @desciption
  */
-object JNICallbackUtil {
+object JNIUIUtil {
 
     init {
         System.loadLibrary("native-lib")
     }
+
+    external fun nativec(mContext: Context)
 
 }
