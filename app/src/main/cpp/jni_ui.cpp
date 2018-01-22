@@ -5,7 +5,7 @@
 #include "jni_ui.h"
 
 JNIEXPORT void JNICALL
-Java_com_guoxw_geekproject_jniutil_JNIUIUtil_createc(JNIEnv *env, jobject, jobject mContext) {
+Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobject mContext) {
     //获取布局layout集合 包名+R$layout
     jclass native_layout = env->FindClass("com/guoxw/geekproject/R$layout");
     //在内存中找到layout
