@@ -10,13 +10,19 @@ Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *e
                                                                        jint versionSDK,
                                                                        jstring path) {
     LOGD("-----------");
+    // 1，将传递过来的java的包名转为c的字符串
     const char *path_str = env->GetStringUTFChars(path, JNI_FALSE);
+    // 2，创建当前进程的克隆进程
     pid_t pid = fork();
+    // 3，根据返回值的不同做不同的操作,<0,>0,=0
     if (pid < 0) {
+        // 说明克隆进程失败
         LOGD("克隆失败");
     } else if (pid > 0) {
+        // 说明克隆进程成功，而且该代码运行在父进程中
         LOGD("父进程");
     } else {
+        // 说明克隆进程成功，而且代码运行在子进程中
         LOGD("子进程");
         /**
          * 在内核中创建 inotify 子系统的一个实例，成功的话将返回一个文件描述符，失败则返回 -1。

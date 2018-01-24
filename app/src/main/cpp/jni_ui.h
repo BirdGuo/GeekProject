@@ -23,6 +23,16 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *, jobject, jobject)
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_JNIUIUtil_sureClick(JNIEnv *, jobject);
 
+/**
+ * 获取包名
+ * Class:     Java_com_guoxw_geekproject_jniutil_JNIUtil
+ * Method:    getCLanguageString
+ * Signature: ()Ljava/lang/String;
+ * @return 包名
+ */
+JNIEXPORT jstring JNICALL
+Java_com_guoxw_geekproject_jniutil_JNIUIUtil_getPackageName(JNIEnv *, jobject, jobject);
+
 #ifdef __cplusplus
 };
 #endif

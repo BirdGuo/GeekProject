@@ -17,4 +17,6 @@ object JNIUIUtil {
 
     external fun nativec(mContext: Context)
 
+    external fun getPackageName(mContext: Context): String
+
 }
