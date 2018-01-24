@@ -11,7 +11,12 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobje
     //在内存中找到layout
     jfieldID layout_id = env->GetStaticFieldID(native_layout, "activity_jni_ui", "I");
 
-    LOGI("main is %d", layout_id);
+    /**
+     * 必须加上这儿
+     */
+    //找到layout文件
+    jint main = env->GetStaticIntField(native_layout, layout_id);
+    LOGI("main is %d", main);
 
     //找到Activity类
     jclass class_activity = env->FindClass("android/app/Activity");
@@ -30,6 +35,12 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobje
     }
 
     /**
+     * 必须加上这儿
+     */
+    //设置activity布局
+    env->CallVoidMethod(mContext, metthod_setContextView, main);
+
+    /**
      * 在内存中找到id
      */
     jclass native_findById = env->FindClass("com/guoxw/geekproject/R$id");
@@ -38,13 +49,14 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobje
 
     //这应该是获得内容，但怎么会是jint呢
     jint id_first = env->GetStaticIntField(native_findById, etJNIFirst_id);
-    jint id_title = env->GetStaticIntField(native_findById,tvJNITitle_id);
+    jint id_title = env->GetStaticIntField(native_findById, tvJNITitle_id);
 
     LOGI("first str is %d", id_first);
     LOGI("title str is %d", id_title);
 
     /**
      * 这段代码有意义吗
+     * 这个输出和上一个输出的值不一样
      * ------------------------------------------------------------------------------
      */
     jclass class_activity_1 = env->FindClass("android/app/Activity");
@@ -52,19 +64,21 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobje
         LOGI("FindClass class_activity_1 error");
         return;
     }
-    LOGI("native_str1_1: %d", class_activity_1);
+    LOGI("class_activity_1: %d", class_activity_1);
     /*--------------------------------------------------------------------------------*/
 
     //调用findViewById方法
+    //(I)Landroid/view/View;必须加上分号，不然会找不到该方法，签名不对
     jmethodID method_findViewById = env->GetMethodID(class_activity_1, "findViewById",
-                                                     "(I)Landroid/view/View");
+                                                     "(I)Landroid/view/View;");
     if (method_findViewById == 0) {
         LOGI("GetMethodID methodID_func error");
         return;
     }
 
-
     jobject first_id = env->CallObjectMethod(mContext, method_findViewById, id_first);
+
+//    LOGI("first_id : %d", first_id);
 
     //找到TextView类
     jclass class_TextView = env->FindClass("android/widget/TextView");
@@ -78,17 +92,29 @@ Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *env, jobject, jobje
     jmethodID method_setText = env->GetMethodID(class_TextView, "setText",
                                                 "(Ljava/lang/CharSequence;)V");
 
+//    LOGI("method_setText : %d", method_setText);
+
     if (method_setText == 0) {
         LOGI("GetMethodID methodID_func error");
         return;
     }
 
-    jstring content = env->NewStringUTF("hello jni 222");
+    jstring content1 = env->NewStringUTF("hello jni 222");
+
+//    LOGI("content : %d", content1);
 
     //具体调用方法
-    env->CallVoidMethod(first_id, method_setText, content);
+    env->CallVoidMethod(first_id, method_setText, content1);
+
+
     LOGI("to here");
 
+
+}
+
+
+JNIEXPORT void JNICALL
+Java_com_guoxw_geekproject_jniutil_JNIUIUtil_sureClick(JNIEnv *env, jobject) {
 
 
 }

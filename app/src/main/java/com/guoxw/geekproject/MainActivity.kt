@@ -14,6 +14,7 @@ import com.guoxw.geekproject.base.BaseActivity
 import com.guoxw.geekproject.calendar.ui.fargment.CalendarFragment
 import com.guoxw.geekproject.constatnt.AppConstants
 import com.guoxw.geekproject.gankio.ui.fragment.FragmentGank
+import com.guoxw.geekproject.jniui.JniUIActivity
 import com.guoxw.geekproject.jniutil.HexUtil
 import com.guoxw.geekproject.jniutil.JNIUtil
 import com.guoxw.geekproject.jniutil.UninstallUtil
@@ -138,6 +139,11 @@ class MainActivity : BaseActivity(), MyILocation {
         //设置
         fl_setting.setOnClickListener {
             openActivity(SettingActivity::class.java, Bundle())
+        }
+
+        //设置
+        fl_jni.setOnClickListener {
+            openActivity(JniUIActivity::class.java, Bundle())
         }
 
         //menu

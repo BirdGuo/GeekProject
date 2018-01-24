@@ -18,7 +18,10 @@ extern "C" {
 #endif
 
 JNIEXPORT void JNICALL
-Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv, jobject, jobject);
+Java_com_guoxw_geekproject_jniutil_JNIUIUtil_nativec(JNIEnv *, jobject, jobject);
+
+JNIEXPORT void JNICALL
+Java_com_guoxw_geekproject_jniutil_JNIUIUtil_sureClick(JNIEnv *, jobject);
 
 #ifdef __cplusplus
 };
