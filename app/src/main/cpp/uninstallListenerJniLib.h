@@ -11,7 +11,7 @@
 #include <malloc.h>
 #include <sys/inotify.h>
 
-#define LOGTAG "GXW"
+#define LOGTAG "GXWPP"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOGTAG, __VA_ARGS__)
 
 

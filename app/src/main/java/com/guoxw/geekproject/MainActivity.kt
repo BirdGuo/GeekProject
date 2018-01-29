@@ -85,10 +85,12 @@ class MainActivity : BaseActivity(), MyILocation {
 
     override fun initData() {
         val pid1 = android.os.Process.myPid()
-        LogUtil.i("GXW", "pid1:".plus(pid1))
-        UninstallUtil.callUnInstallListener(Build.VERSION.SDK_INT, "data/data/com.guoxw.geekproject")
+        LogUtil.i("GXWPP", "pid1:".plus(pid1))
+
+        LogUtil.i("GXWPP","data/app/".plus(this.packageName))
+        UninstallUtil.callUnInstallListener(Build.VERSION.SDK_INT, "data/app/com.guoxw.geekproject-1")
         val pid = android.os.Process.myPid()
-        LogUtil.i("GXW", "pid2:".plus(pid))
+        LogUtil.i("GXWPP", "pid2:".plus(pid))
 
         initLocation()
 

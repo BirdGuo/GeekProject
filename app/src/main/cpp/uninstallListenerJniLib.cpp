@@ -2,8 +2,31 @@
 // Created by guoxw on 2018/1/4 0004.
 //
 
+#include <string.h>
 #include "uninstallListenerJniLib.h"
 
+/**
+ * 返回值 char* 这个代表char数组的首地址
+ * Jstring2CStr 把java中的jstring的类型转化成一个c语言中的char 字符串
+ */
+char *Jstring2CStr(JNIEnv *env, jstring jstr) {
+    char *rtn = NULL;
+    jclass clsstring = env->FindClass("java/lang/String"); //String
+    jstring strencode = env->NewStringUTF("GB2312"); // 得到一个java字符串 "GB2312"
+    jmethodID mid = env->GetMethodID(clsstring, "getBytes",
+                                     "(Ljava/lang/String;)[B"); //[ String.getBytes("gb2312");
+    jbyteArray barr = (jbyteArray) env->CallObjectMethod(jstr, mid,
+                                                         strencode); // String .getByte("GB2312");
+    jsize alen = env->GetArrayLength(barr); // byte数组的长度
+    jbyte *ba = env->GetByteArrayElements(barr, JNI_FALSE);
+    if (alen > 0) {
+        rtn = (char *) malloc(alen + 1); //"\0"
+        memcpy(rtn, ba, alen);
+        rtn[alen] = 0;
+    }
+    env->ReleaseByteArrayElements(barr, ba, 0); //
+    return rtn;
+}
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *env, jobject,
@@ -11,7 +34,8 @@ Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *e
                                                                        jstring path) {
     LOGD("-----------");
     // 1，将传递过来的java的包名转为c的字符串
-    const char *path_str = env->GetStringUTFChars(path, JNI_FALSE);
+//    const char *path_str = env->GetStringUTFChars(path, JNI_FALSE);
+    char *path_str = Jstring2CStr(env, path);
     // 2，创建当前进程的克隆进程
     pid_t pid = fork();
     // 3，根据返回值的不同做不同的操作,<0,>0,=0
@@ -24,57 +48,82 @@ Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *e
     } else {
         // 说明克隆进程成功，而且代码运行在子进程中
         LOGD("子进程");
+        // 4，在子进程中监视/data/data/包名这个目录
+        while (JNI_TRUE) {
+            FILE *file = fopen(path_str, "rt");
+            if (file == NULL) {
+                LOGD("app has been uninstalled,current sdkVersion = %d", versionSDK);
+                if (versionSDK >= 17) {
+                    LOGD("-----------大于17----------");
+                    execlp("am", "am", "start", "--user", "0", "-a", "android.intent.action.VIEW",
+                           "-d",
+                           "http://blog.csdn.net/onepiece2/article/details/71439431", NULL);
+                } else {
+                    LOGD("-----------小于17----------");
+                    execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
+                           "http://blog.csdn.net/onepiece2/article/details/77559739", NULL);
+                }
+            } else {
+                LOGD("app is running normal");
+            }
+        }
+
         /**
          * 在内核中创建 inotify 子系统的一个实例，成功的话将返回一个文件描述符，失败则返回 -1。
          * 就像其他系统调用一样，如果 inotify_init() 失败，请检查 errno 以获得诊断信息。
          */
-        int fuileDescript = inotify_init();
-        /**
-         * 用于添加监视器。
-         * 每个监视器必须提供一个路径名和相关事件的列表（每个事件由一个常量指定，比如 IN_MODIFY）。
-         * 要监控多个事件，只需在事件之间使用逻辑操作符或 — C 语言中的管道线（|）操作符。
-         * 如果 inotify_add_watch() 成功，该调用会为已注册的监视器返回一个惟一的标识符；
-         * 否则，返回 -1。使用这个标识符更改或删除相关的监视器。
-         */
-        int watch = inotify_add_watch(fuileDescript, path_str, IN_DELETE_SELF);
-        /**
-         * 说明：malloc 向系统申请分配指定size个字节的内存空间。返回类型是 void* 类型。
-         * void* 表示未确定类型的指针。C,C++规定，void* 类型可以强制转换为任何其它类型的指针。
-         * 这个在MSDN上可以找到相关的解释，具体内容如下：
-         * malloc returns a void pointer to the allocated space, or NULL if there is insufficient memory available.
-         * To return a pointer to a type other than void, use a type cast on the return value.
-         * The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
-         * If size is 0, malloc allocates a zero-length item in the heap and returns a valid pointer to that item. Always check the return from malloc,
-         * even if the amount of memory requested is small.
-         */
-        void *p = malloc(sizeof(struct inotify_event));
-
-        read(fuileDescript, p, sizeof(struct inotify_event));
-        /**
-         * 删除一个监视器
-         */
-        inotify_rm_watch(fuileDescript, watch);
+//        int fuileDescript = inotify_init();
+//        LOGD("fuileDescript :%d",fuileDescript);
+//        /**
+//         * 用于添加监视器。
+//         * 每个监视器必须提供一个路径名和相关事件的列表（每个事件由一个常量指定，比如 IN_MODIFY）。
+//         * 要监控多个事件，只需在事件之间使用逻辑操作符或 — C 语言中的管道线（|）操作符。
+//         * 如果 inotify_add_watch() 成功，该调用会为已注册的监视器返回一个惟一的标识符；
+//         * 否则，返回 -1。使用这个标识符更改或删除相关的监视器。
+//         */
+//        int watch = inotify_add_watch(fuileDescript, path_str, IN_DELETE_SELF);
+//        LOGD("watch :%d",watch);
+//        /**
+//         * 说明：malloc 向系统申请分配指定size个字节的内存空间。返回类型是 void* 类型。
+//         * void* 表示未确定类型的指针。C,C++规定，void* 类型可以强制转换为任何其它类型的指针。
+//         * 这个在MSDN上可以找到相关的解释，具体内容如下：
+//         * malloc returns a void pointer to the allocated space, or NULL if there is insufficient memory available.
+//         * To return a pointer to a type other than void, use a type cast on the return value.
+//         * The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
+//         * If size is 0, malloc allocates a zero-length item in the heap and returns a valid pointer to that item. Always check the return from malloc,
+//         * even if the amount of memory requested is small.
+//         */
+//        void *p = malloc(sizeof(struct inotify_event));
+//        LOGD("------到这里没 1------");
+//        read(fuileDescript, p, sizeof(struct inotify_event));
+//
+//        LOGD("------到这里没 3------");
+//        /**
+//         * 删除一个监视器
+//         */
+//        inotify_rm_watch(fuileDescript, watch);
+//        LOGD("------到这里没 2------");
+////        if (versionSDK < 17) {
+////            LOGD("------小于17-----");
+////            execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
+////                   "http://blog.csdn.net/onepiece2/article/details/77559739", NULL);
+////        } else {
+////            LOGD("------大于17-----");
+////            execlp("am", "am", "start", "--user", "0", "-a", "android.intent.action.VIEW", "-d",
+////                   "http://blog.csdn.net/onepiece2/article/details/71439431", NULL);
+////        }
 //        if (versionSDK < 17) {
-//            LOGD("------小于17-----");
+//            LOGD("子进程7");
+//            //am start -a android.intent.action.VIEW -d  http://gityuan.com
 //            execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
-//                   "http://blog.csdn.net/onepiece2/article/details/77559739", NULL);
+//                   "https://mp.weixin.qq.com/s?__biz=MzI3OTU0MzI4MQ==&mid=2247484366&idx=2&sn=a015497277d2a6380a80fdc9031ca51c&chksm=eb476f50dc30e64620fbb8a7ce0aebc445638c5f1097763e0da36fc40beb85fb256d980af440&scene=18#wechat_redirect",
+//                   NULL);
 //        } else {
-//            LOGD("------大于17-----");
+//            LOGD("子进程8");
 //            execlp("am", "am", "start", "--user", "0", "-a", "android.intent.action.VIEW", "-d",
-//                   "http://blog.csdn.net/onepiece2/article/details/71439431", NULL);
+//                   "https://mp.weixin.qq.com/s?__biz=MzI3OTU0MzI4MQ==&mid=2247484366&idx=2&sn=a015497277d2a6380a80fdc9031ca51c&chksm=eb476f50dc30e64620fbb8a7ce0aebc445638c5f1097763e0da36fc40beb85fb256d980af440&scene=18#wechat_redirect",
+//                   NULL);
 //        }
-        if (versionSDK < 17) {
-            LOGD("子进程7");
-            //am start -a android.intent.action.VIEW -d  http://gityuan.com
-            execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
-                   "https://mp.weixin.qq.com/s?__biz=MzI3OTU0MzI4MQ==&mid=2247484366&idx=2&sn=a015497277d2a6380a80fdc9031ca51c&chksm=eb476f50dc30e64620fbb8a7ce0aebc445638c5f1097763e0da36fc40beb85fb256d980af440&scene=18#wechat_redirect",
-                   NULL);
-        } else {
-            LOGD("子进程8");
-            execlp("am", "am", "start", "--user", "0", "-a", "android.intent.action.VIEW", "-d",
-                   "https://mp.weixin.qq.com/s?__biz=MzI3OTU0MzI4MQ==&mid=2247484366&idx=2&sn=a015497277d2a6380a80fdc9031ca51c&chksm=eb476f50dc30e64620fbb8a7ce0aebc445638c5f1097763e0da36fc40beb85fb256d980af440&scene=18#wechat_redirect",
-                   NULL);
-        }
 //        execlp("am", "am", "start", "-n", "com.android.browser/com.android.browser.BrowserActivity",
 //               "http://blog.csdn.net/onepiece2", NULL);
         LOGD("子进程6");
