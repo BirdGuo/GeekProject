@@ -27,6 +27,20 @@ char *Jstring2CStr(JNIEnv *env, jstring jstr) {
     env->ReleaseByteArrayElements(barr, ba, 0); //
     return rtn;
 }
+//-std=c++14
+char *get_watch_file(const char *package) {
+    int len = strlen(package) + strlen("watch.tmp") + 1;
+    char *watchPath = (char *) malloc(sizeof(char) * len);
+    sprintf(watchPath, "%s%s", package, "watch.tmp");
+    FILE *file = fopen(watchPath, "r");
+    if (file == NULL){
+        file = fopen(watchPath,"w+");
+        chmod(watchPath,0755);
+    }
+    fclose(file);
+    return watchPath;
+
+}
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *env, jobject,
@@ -34,8 +48,8 @@ Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *e
                                                                        jstring path) {
     LOGD("-----------");
     // 1，将传递过来的java的包名转为c的字符串
-//    const char *path_str = env->GetStringUTFChars(path, JNI_FALSE);
-    char *path_str = Jstring2CStr(env, path);
+    const char *path_str = env->GetStringUTFChars(path, JNI_FALSE);
+//    char *path_str = Jstring2CStr(env, path);
     // 2，创建当前进程的克隆进程
     pid_t pid = fork();
     // 3，根据返回值的不同做不同的操作,<0,>0,=0
@@ -49,24 +63,15 @@ Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *e
         // 说明克隆进程成功，而且代码运行在子进程中
         LOGD("子进程");
         // 4，在子进程中监视/data/data/包名这个目录
-        while (JNI_TRUE) {
-            FILE *file = fopen(path_str, "rt");
-            if (file == NULL) {
-                LOGD("app has been uninstalled,current sdkVersion = %d", versionSDK);
-                if (versionSDK >= 17) {
-                    LOGD("-----------大于17----------");
-                    execlp("am", "am", "start", "--user", "0", "-a", "android.intent.action.VIEW",
-                           "-d",
-                           "http://blog.csdn.net/onepiece2/article/details/71439431", NULL);
-                } else {
-                    LOGD("-----------小于17----------");
-                    execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
-                           "http://blog.csdn.net/onepiece2/article/details/77559739", NULL);
-                }
-            } else {
-                LOGD("app is running normal");
-            }
+        //子进程注册目录监视器
+        int fileDescriptor = inotify_init();
+        if (fileDescriptor < 0) {
+            LOGD("inotify_init failed ,fileDescriptor is smaller than 0");
+            _exit(1);
         }
+
+        int watchDescriptor;
+//        inotify_add_watch(fileDescriptor,)
 
         /**
          * 在内核中创建 inotify 子系统的一个实例，成功的话将返回一个文件描述符，失败则返回 -1。

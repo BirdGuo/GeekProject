@@ -18,7 +18,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-frtti -fexceptions"
             }
         }
         ndk {
