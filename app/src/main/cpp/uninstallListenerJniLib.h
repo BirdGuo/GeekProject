@@ -10,6 +10,11 @@
 #include <unistd.h>
 #include <malloc.h>
 #include <sys/inotify.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include<sys/file.h>
+#include <sys/stat.h>
 
 #define LOGTAG "GXWPP"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOGTAG, __VA_ARGS__)
