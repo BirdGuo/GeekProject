@@ -18,6 +18,7 @@
 
 #define LOGTAG "GXWPP"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOGTAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOGTAG, __VA_ARGS__)
 
 
 #ifdef __cplusplus
@@ -29,9 +30,8 @@ extern "C" {
  * Method:    callUnInstallListener
  * Signature: 卸载APP监听
  */
-JNIEXPORT void JNICALL
-Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *, jobject, jint,
-                                                                       jstring);
+JNIEXPORT jint JNICALL
+Java_com_guoxw_geekproject_jniutil_UninstallUtil_callUnInstallListener(JNIEnv *, jobject, jint);
 
 #ifdef __cplusplus
 }

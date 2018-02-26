@@ -12,6 +12,6 @@ object UninstallUtil {
         System.loadLibrary("native-lib")
     }
 
-    external fun callUnInstallListener(versionSDK: Int, path: String)
+    external fun callUnInstallListener(versionSDK: Int): Int
 
 }
