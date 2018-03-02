@@ -8,6 +8,10 @@ package com.guoxw.geekproject.jniutil
  */
 object TcpIPUtil {
 
+    init {
+        System.loadLibrary("native-lib")
+    }
+
     external fun startConnect()
 
 }
