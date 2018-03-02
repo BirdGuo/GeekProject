@@ -25,7 +25,7 @@
  * @param format
  * @param ...
  */
-static void LogMessage(JNIEnv *, jobject, const char *, ...) {
+static void LogMessage(JNIEnv *env, jobject obj, const char *format, ...) {
 
     static jmethodID methodId = NULL;
     if (NULL == methodId) {
@@ -60,7 +60,7 @@ static void LogMessage(JNIEnv *, jobject, const char *, ...) {
  * @param className 类名
  * @param message 异常信息
  */
-static void ThrowException(JNIEnv *, const char *, const char *) {
+static void ThrowException(JNIEnv *env, const char *className, const char *message) {
 
     jclass clazz = env->FindClass(className);
     if (NULL != clazz) {
@@ -77,7 +77,7 @@ static void ThrowException(JNIEnv *, const char *, const char *) {
  * @param className
  * @param errnum
  */
-static void ThrowErrnoException(JNIEnv *, const char *, int) {
+static void ThrowErrnoException(JNIEnv *env, const char *className, int errnum) {
     char buffer[MAX_LOG_MESSAGE_LENGTH];
     //获得错误编号
     if (-1 == strerror_r(errnum, buffer, MAX_LOG_MESSAGE_LENGTH)) {

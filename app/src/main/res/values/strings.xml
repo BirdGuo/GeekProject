@@ -49,4 +49,9 @@
     <string name="tv_tab_ios">iOS</string>
     <string name="tv_setting_map">默认地图</string>
 
+    <string name="et_client_ip_address">IP地址</string>
+    <string name="et_client_port_number">端口号</string>
+    <string name="et_client_message">消息</string>
+    <string name="btn_client_start">发送</string>
+
 </resources>

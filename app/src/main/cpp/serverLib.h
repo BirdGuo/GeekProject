@@ -39,4 +39,3 @@ JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStart
 #ifdef __cplusplus
 };
 #endif
-#endif

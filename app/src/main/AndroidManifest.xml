@@ -61,7 +61,9 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".gankio.ui.activity.WebVideoActivity" />
         <activity android:name=".MapTestActivity" />
-        <activity android:name=".jniui.JniUIActivity"></activity>
+        <activity android:name=".jniui.JniUIActivity" />
+        <activity android:name=".socket.ClientActivity" />
+        <activity android:name=".socket.ServerActivity"></activity>
     </application>
 
 </manifest>
