@@ -63,7 +63,8 @@
         <activity android:name=".MapTestActivity" />
         <activity android:name=".jniui.JniUIActivity" />
         <activity android:name=".socket.ClientActivity" />
-        <activity android:name=".socket.ServerActivity"></activity>
+        <activity android:name=".socket.ServerActivity" />
+        <activity android:name=".socket.BaseSocketActivity"></activity>
     </application>
 
 </manifest>

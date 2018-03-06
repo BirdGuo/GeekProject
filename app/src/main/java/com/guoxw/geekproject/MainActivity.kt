@@ -22,6 +22,8 @@ import com.guoxw.geekproject.map.LocationTypeMode
 import com.guoxw.geekproject.map.bean.MyLocation
 import com.guoxw.geekproject.map.factory.LocationFactory
 import com.guoxw.geekproject.map.factory.interfaces.MyILocation
+import com.guoxw.geekproject.socket.ClientActivity
+import com.guoxw.geekproject.socket.ServerActivity
 import com.guoxw.geekproject.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main_left.*
@@ -137,6 +139,14 @@ class MainActivity : BaseActivity(), MyILocation {
         //设置
         fl_setting.setOnClickListener {
             openActivity(SettingActivity::class.java, Bundle())
+        }
+
+        fl_socket_server.setOnClickListener {
+            openActivity(ServerActivity::class.java, Bundle())
+        }
+
+        fl_socket_client.setOnClickListener {
+            openActivity(ClientActivity::class.java, Bundle())
         }
 
         //设置

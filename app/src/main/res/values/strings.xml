@@ -9,6 +9,8 @@
     <string name="tv_header_setting">设置</string>
     <string name="tv_header_jni">jni</string>
     <string name="tv_header_map_test">地图测试</string>
+    <string name="tv_header_client">客户端</string>
+    <string name="tv_header_server">服务端</string>
     <string name="tv_header_feedback">意见反馈</string>
     <string name="tv_header_quit">退出</string>
 
@@ -54,4 +56,6 @@
     <string name="et_client_message">消息</string>
     <string name="btn_client_start">发送</string>
 
+    <string name="et_server_port_number">端口号</string>
+    <string name="btn_server_start">开始</string>
 </resources>
