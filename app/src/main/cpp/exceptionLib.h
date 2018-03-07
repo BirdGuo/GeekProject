@@ -25,30 +25,29 @@
  * @param format
  * @param ...
  */
-static void LogMessage(JNIEnv *env, jobject obj, const char *format, ...) {
+static void LogMessage(JNIEnv *env, jobject obj, jobject mContext,const char *format, ...) {
 
     static jmethodID methodId = NULL;
     if (NULL == methodId) {
-        jclass clazz = env->GetObjectClass(obj);
+        jclass clazz = env->GetObjectClass(mContext);
+        //491782149
+//        jclass clazz1 = env->FindClass("com/guoxw/geekproject/socket/ServerActivity");
         //找到java中的方法
         methodId = env->GetMethodID(clazz, "logMessage", "(Ljava/lang/String;)V");
         env->DeleteLocalRef(clazz);
     }
-
     if (NULL != methodId) {
         char buffer[MAX_LOG_MESSAGE_LENGTH];
-
         va_list ap;
         va_start(ap, format);
         vsnprintf(buffer, MAX_LOG_MESSAGE_LENGTH, format, ap);
-
         va_end(ap);
-
         jstring message = env->NewStringUTF(buffer);
         if (NULL != message) {
             //调用java 方法
-            env->CallVoidMethod(obj, methodId, message);
+            env->CallVoidMethod(mContext, methodId, message);
             env->DeleteLocalRef(message);
+            LOGI("----------end---------");
         }
     }
 

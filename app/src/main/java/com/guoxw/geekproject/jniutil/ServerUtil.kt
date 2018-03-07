@@ -1,5 +1,7 @@
 package com.guoxw.geekproject.jniutil
 
+import android.content.Context
+
 /**
  * @auther guoxw
  * @date 2018/3/1 0001
@@ -11,9 +13,9 @@ object ServerUtil {
         System.loadLibrary("native-lib")
     }
 
-    external fun nativeStartTcpServer(port: Int)
+    external fun nativeStartTcpServer(mContext: Context, port: Int)
 
-    external fun nativeStartUdpServer(port: Int)
+    external fun nativeStartUdpServer(mContext: Context, port: Int)
 
-    external fun nativeStartLocalServer(name: String)
+    external fun nativeStartLocalServer(mContext: Context, name: String)
 }

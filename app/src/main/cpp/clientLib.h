@@ -20,11 +20,13 @@ extern "C" {
  * @param message
  */
 JNIEXPORT void JNICALL
-Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *, jobject, jstring ip,
+Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *, jobject, jobject,
+                                                                   jstring ip,
                                                                    jint port, jstring message);
 
 JNIEXPORT void JNICALL
-Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *, jobject, jstring ip,
+Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *, jobject, jobject,
+                                                                   jstring ip,
                                                                    jint port, jstring message);
 
 #ifdef __cplusplus

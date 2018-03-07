@@ -13,8 +13,7 @@
     <ScrollView
         android:id="@+id/sc_socket"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1.0">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_socket_log"

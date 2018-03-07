@@ -21,12 +21,14 @@
 //sockaddr_un
 #include <sys/un.h>
 
-static int newTcpSocket(JNIEnv *env, jobject obj) {
-    LogMessage(env, obj, "新建一个socket对象");
+static int newTcpSocket(JNIEnv *env, jobject obj, jobject mContext) {
+    LOGI("------newTcpSocket 1-------");
+    LogMessage(env, obj, mContext, "新建一个socket对象");
     int tcpSocket = socket(PF_INET, SOCK_STREAM, 0);
-
+    LOGI("------newTcpSocket 2-------");
     //socket是否成功构建
     if (-1 == tcpSocket) {
+        LOGI("------newTcpSocket 3-------");
         //抛出异常
         ThrowErrnoException(env, "java/io/IOException", errno);
     }
@@ -40,7 +42,8 @@ static int newTcpSocket(JNIEnv *env, jobject obj) {
  * @param sd
  * @param port
  */
-static void bindSocketToPort(JNIEnv *env, jobject obj, int sd, unsigned short port) {
+static void
+bindSocketToPort(JNIEnv *env, jobject obj, jobject mContext, int sd, unsigned short port) {
 
     struct sockaddr_in address;
     //socket绑定地址
@@ -52,7 +55,7 @@ static void bindSocketToPort(JNIEnv *env, jobject obj, int sd, unsigned short po
     //将端口转换为网络字节顺序
     address.sin_port = htons(port);
 
-    LogMessage(env, obj, "绑定端口号 %hu", port);
+    LogMessage(env, obj, mContext, "绑定端口号 %hu", port);
     if (-1 == bind(sd, (struct sockaddr *) &address, sizeof(address))) {
         ThrowErrnoException(env, "java/io/IOException", errno);
     }
@@ -68,7 +71,7 @@ static void bindSocketToPort(JNIEnv *env, jobject obj, int sd, unsigned short po
  * @return 端口号
  * @throws IOException
  */
-static unsigned short getSocketPort(JNIEnv *env, jobject obj, int sd) {
+static unsigned short getSocketPort(JNIEnv *env, jobject obj, jobject mContext, int sd) {
 
     unsigned short port = 0;
     struct sockaddr_in address;
@@ -80,7 +83,7 @@ static unsigned short getSocketPort(JNIEnv *env, jobject obj, int sd) {
     } else {
         //将端口转换为主机字节顺序
         port = ntohs(address.sin_port);
-        LogMessage(env, obj, "绑定随机端口 %hu", port);
+        LogMessage(env, obj, mContext, "绑定随机端口 %hu", port);
     }
 
     return port;
@@ -94,9 +97,10 @@ static unsigned short getSocketPort(JNIEnv *env, jobject obj, int sd) {
  * @param sd
  * @param backlog
  */
-static void listenOnSocket(JNIEnv *env, jobject obj, int sd, int backlog) {
+static void listenOnSocket(JNIEnv *env, jobject obj, jobject mContext, int sd, int backlog) {
 
-    LogMessage(env, obj, "Listening on socket with a backlog of %d pending connections.", backlog);
+    LogMessage(env, obj, mContext, "Listening on socket with a backlog of %d pending connections.",
+               backlog);
 
     if (-1 == listen(sd, backlog)) {
         ThrowErrnoException(env, "java/io/IOException", errno);
@@ -112,7 +116,8 @@ static void listenOnSocket(JNIEnv *env, jobject obj, int sd, int backlog) {
  * @param address
  */
 static void
-logAddress(JNIEnv *env, jobject obj, const char *message, const struct sockaddr_in *address) {
+logAddress(JNIEnv *env, jobject obj, jobject mContext, const char *message,
+           const struct sockaddr_in *address) {
 
     char ip[INET_ADDRSTRLEN];
     // Convert the IP address to string
@@ -122,7 +127,7 @@ logAddress(JNIEnv *env, jobject obj, const char *message, const struct sockaddr_
     } else {
         // Convert port to host byte order
         unsigned short port = ntohs(address->sin_port);
-        LogMessage(env, obj, "%s %s:%hu.", message, ip, port);
+        LogMessage(env, obj, mContext, "%s %s:%hu.", message, ip, port);
     }
 }
 
@@ -134,18 +139,18 @@ logAddress(JNIEnv *env, jobject obj, const char *message, const struct sockaddr_
  * @param sd
  * @return
  */
-static int acceptOnSocket(JNIEnv *env, jobject obj, int sd) {
+static int acceptOnSocket(JNIEnv *env, jobject obj, jobject mContext, int sd) {
 
     struct sockaddr_in address;
     socklen_t addressLength = sizeof(address);
 
-    LogMessage(env, obj, "等待客户端连接...");
+    LogMessage(env, obj, mContext, "等待客户端连接...");
     int clientSocket = accept(sd, (struct sockaddr *) &address, &addressLength);
 
     if (-1 == clientSocket) {
         ThrowErrnoException(env, "java/io/IOException", errno);
     } else {
-        logAddress(env, obj, "Client connection from ", &address);
+        logAddress(env, obj, mContext, "Client connection from ", &address);
     }
 
     return clientSocket;
@@ -161,8 +166,9 @@ static int acceptOnSocket(JNIEnv *env, jobject obj, int sd) {
  * @return
  */
 static ssize_t
-receiveFromSocket(JNIEnv *env, jobject obj, int sd, char *buffer, size_t bufferSize) {
-    LogMessage(env, obj, "收到报文...");
+receiveFromSocket(JNIEnv *env, jobject obj, jobject mContext, int sd, char *buffer,
+                  size_t bufferSize) {
+    LogMessage(env, obj, mContext, "收到报文...");
 
     ssize_t recvSize = recv(sd, buffer, bufferSize - 1, 0);
     if (-1 == recvSize) {
@@ -170,9 +176,9 @@ receiveFromSocket(JNIEnv *env, jobject obj, int sd, char *buffer, size_t bufferS
     } else {
         buffer[recvSize] = NULL;
         if (recvSize > 0) {
-            LogMessage(env, obj, "Received %d bytes: %s", recvSize, buffer);
+            LogMessage(env, obj, mContext, "Received %d bytes: %s", recvSize, buffer);
         } else {
-            LogMessage(env, obj, "Client disconnected");
+            LogMessage(env, obj, mContext, "Client disconnected");
         }
     }
 }
@@ -187,17 +193,18 @@ receiveFromSocket(JNIEnv *env, jobject obj, int sd, char *buffer, size_t bufferS
  * @return
  */
 static ssize_t
-sendToSocket(JNIEnv *env, jobject obj, int sd, const char *buffer, size_t bufferSize) {
+sendToSocket(JNIEnv *env, jobject obj, jobject mContext, int sd, const char *buffer,
+             size_t bufferSize) {
 
-    LogMessage(env, obj, "给服务器发消息");
+    LogMessage(env, obj, mContext, "给服务器发消息");
     ssize_t sendSize = send(sd, buffer, bufferSize, 0);
     if (-1 == sendSize) {
         ThrowErrnoException(env, "java/io/IOException", errno);
     } else {
         if (sendSize > 0) {
-            LogMessage(env, obj, "Sent %d bytes: %s", sendSize);
+            LogMessage(env, obj, mContext, "Sent %d bytes: %s", sendSize);
         } else {
-            LogMessage(env, obj, "Client disconnected");
+            LogMessage(env, obj, mContext, "Client disconnected");
         }
     }
 }
@@ -211,8 +218,9 @@ sendToSocket(JNIEnv *env, jobject obj, int sd, const char *buffer, size_t buffer
  * @param port
  */
 static void
-connectToAddress(JNIEnv *env, jobject obj, int sd, const char *ip, unsigned short port) {
-    LogMessage(env, obj, "Connecting to %s;%uh...", ip, port);
+connectToAddress(JNIEnv *env, jobject obj, jobject mContext, int sd, const char *ip,
+                 unsigned short port) {
+    LogMessage(env, obj, mContext, "Connecting to %s;%uh...", ip, port);
 
     struct sockaddr_in address;
     memset(&address, 0, sizeof(address));
@@ -225,7 +233,7 @@ connectToAddress(JNIEnv *env, jobject obj, int sd, const char *ip, unsigned shor
         if (-1 == connect(sd, (const sockaddr *) &address, sizeof(address))) {
             ThrowErrnoException(env, "java/io/IOException", errno);
         } else {
-            LogMessage(env, obj, "已连接！");
+            LogMessage(env, obj, mContext, "已连接！");
         }
     }
 
@@ -233,10 +241,11 @@ connectToAddress(JNIEnv *env, jobject obj, int sd, const char *ip, unsigned shor
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, jobject obj,
+                                                                   jobject mContext,
                                                                    jstring ip, jint port,
                                                                    jstring message) {
 
-    int clientSocket = newTcpSocket(env, obj);
+    int clientSocket = newTcpSocket(env, obj, mContext);
 
 
     if (NULL == env->ExceptionOccurred()) {
@@ -246,7 +255,7 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, 
             goto exit;
         }
 
-        connectToAddress(env, obj, clientSocket, ipAddress, (unsigned short) port);
+        connectToAddress(env, obj, mContext, clientSocket, ipAddress, (unsigned short) port);
 
         env->ReleaseStringUTFChars(ip, ipAddress);
         if (NULL != env->ExceptionOccurred()) {
@@ -259,7 +268,7 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, 
         }
 
         jsize messageSize = env->GetStringUTFLength(message);
-        sendToSocket(env, obj, clientSocket, messageText, messageSize);
+        sendToSocket(env, obj, mContext, clientSocket, messageText, messageSize);
 
         env->ReleaseStringUTFChars(message, messageText);
 
@@ -269,7 +278,7 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, 
 
         char buffer[MAX_BUFFER_SIZE];
 
-        receiveFromSocket(env, obj, clientSocket, buffer, MAX_BUFFER_SIZE);
+        receiveFromSocket(env, obj, mContext, clientSocket, buffer, MAX_BUFFER_SIZE);
     }
 
     exit:
@@ -280,39 +289,43 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, 
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartTcpServer(JNIEnv *env, jobject obj,
+                                                                   jobject mContext,
                                                                    jint port) {
-
-    int serverSocket = newTcpSocket(env, obj);
+    LOGI("----------1---------");
+    int serverSocket = newTcpSocket(env, obj, mContext);
     if (NULL == env->ExceptionOccurred()) {
-        bindSocketToPort(env, obj, serverSocket, (unsigned short) port);
+        LOGI("----------2---------");
+        bindSocketToPort(env, obj, mContext, serverSocket, (unsigned short) port);
         if (NULL != env->ExceptionOccurred()) {
             goto exit;
         }
+        LOGI("----------3---------");
         if (0 == port) {
-
-            getSocketPort(env, obj, serverSocket);
+            getSocketPort(env, obj, mContext, serverSocket);
             if (NULL != env->ExceptionOccurred()) {
                 goto exit;
             }
         }
-
-        listenOnSocket(env, obj, serverSocket, 4);
+        LOGI("----------4---------");
+        listenOnSocket(env, obj, mContext, serverSocket, 4);
 
         if (NULL != env->ExceptionOccurred()) {
             goto exit;
         }
-        int clientSocket = acceptOnSocket(env, obj, serverSocket);
+        LOGI("----------5---------");
+        int clientSocket = acceptOnSocket(env, obj, mContext, serverSocket);
 
         char buffer[MAX_BUFFER_SIZE];
         ssize_t recvSize;
         ssize_t sendSize;
 
+        LOGI("----------6---------");
         while (1) {
-            recvSize = receiveFromSocket(env, obj, clientSocket, buffer, MAX_BUFFER_SIZE);
+            recvSize = receiveFromSocket(env, obj, mContext, clientSocket, buffer, MAX_BUFFER_SIZE);
             if ((0 == recvSize) || (NULL != env->ExceptionOccurred())) {
                 break;
             }
-            sendSize = sendToSocket(env, obj, clientSocket, buffer, (size_t) recvSize);
+            sendSize = sendToSocket(env, obj, mContext, clientSocket, buffer, (size_t) recvSize);
 
             if ((0 == sendSize) || (NULL != env->ExceptionOccurred())) {
                 break;
@@ -336,9 +349,9 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartTcpServer(JNIEnv *env, 
  * @param obj
  * @return
  */
-static int newUdpSocket(JNIEnv *env, jobject obj) {
+static int newUdpSocket(JNIEnv *env, jobject obj, jobject mContext) {
 
-    LogMessage(env, obj, "尝试开启一个udp连接...");
+    LogMessage(env, obj, mContext, "尝试开启一个udp连接...");
     int udpSocket = socket(PF_INET, SOCK_DGRAM, 0);
     if (-1 == udpSocket) {
         ThrowErrnoException(env, "java/io/IOException", errno);
@@ -357,11 +370,12 @@ static int newUdpSocket(JNIEnv *env, jobject obj) {
  * @return
  */
 static ssize_t
-receiveDatagramFromSocket(JNIEnv *env, jobject obj, int sd, struct sockaddr_in *address,
+receiveDatagramFromSocket(JNIEnv *env, jobject obj, jobject mContext, int sd,
+                          struct sockaddr_in *address,
                           char *buffer, size_t bufferSize) {
 
     socklen_t addressLength = sizeof(struct sockaddr_in);
-    LogMessage(env, obj, "Receiving from the socket...");
+    LogMessage(env, obj, mContext, "Receiving from the socket...");
 
     ssize_t recvSize = recvfrom(sd, buffer, bufferSize, 0, (struct sockaddr *) address,
                                 &addressLength);
@@ -369,11 +383,11 @@ receiveDatagramFromSocket(JNIEnv *env, jobject obj, int sd, struct sockaddr_in *
     if (-1 == recvSize) {
         ThrowErrnoException(env, "java/io/IOException", errno);
     } else {
-        logAddress(env, obj, "Received from", address);
+        LogMessage(env, obj, mContext, "Received from", address);
         buffer[recvSize] = NULL;
 
         if (recvSize > 0) {
-            LogMessage(env, obj, "Received %d bytes: %s", recvSize);
+            LogMessage(env, obj, mContext, "Received %d bytes: %s", recvSize);
         }
     }
 
@@ -381,10 +395,11 @@ receiveDatagramFromSocket(JNIEnv *env, jobject obj, int sd, struct sockaddr_in *
 }
 
 static ssize_t
-sendDatagramToSocket(JNIEnv *env, jobject obj, int sd, const struct sockaddr_in *address,
+sendDatagramToSocket(JNIEnv *env, jobject obj, jobject mContext, int sd,
+                     const struct sockaddr_in *address,
                      const char *buffer, size_t bufferSize) {
 
-    logAddress(env, obj, "发送到", address);
+    LogMessage(env, obj, mContext, "发送到", address);
 
     ssize_t sendSize = sendto(sd, buffer, bufferSize, 0, (const sockaddr *) address,
                               sizeof(struct sockaddr_in));
@@ -392,7 +407,7 @@ sendDatagramToSocket(JNIEnv *env, jobject obj, int sd, const struct sockaddr_in 
     if (-1 == sendSize) {
         ThrowErrnoException(env, "java/io/IOException", errno);
     } else if (sendSize > 0) {
-        LogMessage(env, obj, "Send %d bytes: %s", sendSize, buffer);
+        LogMessage(env, obj, mContext, "Send %d bytes: %s", sendSize, buffer);
     }
 
     return sendSize;
@@ -401,10 +416,11 @@ sendDatagramToSocket(JNIEnv *env, jobject obj, int sd, const struct sockaddr_in 
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *env, jobject obj,
+                                                                   jobject mContext,
                                                                    jstring ip, jint port,
                                                                    jstring message) {
 
-    int clientSocket = newUdpSocket(env, obj);
+    int clientSocket = newUdpSocket(env, obj, mContext);
     if (NULL == env->ExceptionOccurred()) {
         struct sockaddr_in address;
 
@@ -431,7 +447,7 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *env, 
 
         jsize messageSize = env->GetStringUTFLength(message);
 
-        sendDatagramToSocket(env, obj, clientSocket, &address, messageText, messageSize);
+        sendDatagramToSocket(env, obj, mContext, clientSocket, &address, messageText, messageSize);
 
         env->ReleaseStringUTFChars(message, messageText);
 
@@ -443,7 +459,8 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *env, 
 
         memset(&address, 0, sizeof(address));
 
-        receiveDatagramFromSocket(env, obj, clientSocket, &address, buffer, MAX_BUFFER_SIZE);
+        receiveDatagramFromSocket(env, obj, mContext, clientSocket, &address, buffer,
+                                  MAX_BUFFER_SIZE);
 
     }
 
@@ -456,17 +473,18 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartUdpClient(JNIEnv *env, 
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartUdpServer(JNIEnv *env, jobject obj,
+                                                                   jobject mContext,
                                                                    jint port) {
 
-    int serverSocket = newUdpSocket(env, obj);
+    int serverSocket = newUdpSocket(env, obj, mContext);
     if (NULL == env->ExceptionOccurred()) {
-        bindSocketToPort(env, obj, serverSocket, (unsigned short) port);
+        bindSocketToPort(env, obj, mContext, serverSocket, (unsigned short) port);
         if (NULL != env->ExceptionOccurred()) {
             goto exit;
         }
 
         if (0 == port) {
-            getSocketPort(env, obj, serverSocket);
+            getSocketPort(env, obj, mContext, serverSocket);
             if (NULL != env->ExceptionOccurred()) {
                 goto exit;
             }
@@ -479,14 +497,14 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartUdpServer(JNIEnv *env, 
         ssize_t recvSize;
         ssize_t sendSize;
 
-        recvSize = receiveDatagramFromSocket(env, obj, serverSocket, &address, buffer,
+        recvSize = receiveDatagramFromSocket(env, obj, mContext, serverSocket, &address, buffer,
                                              MAX_BUFFER_SIZE);
 
         if ((0 == recvSize) || (NULL != env->ExceptionOccurred())) {
             goto exit;
         }
 
-        sendSize = sendDatagramToSocket(env, obj, serverSocket, &address, buffer,
+        sendSize = sendDatagramToSocket(env, obj, mContext, serverSocket, &address, buffer,
                                         (size_t) recvSize);
 
     }
@@ -506,7 +524,8 @@ static int newLocalSocket(JNIEnv *env, jobject obj) {
     return localSocket;
 }
 
-static void bindLocalSocketToName(JNIEnv *env, jobject obj, int sd, const char *name) {
+static void
+bindLocalSocketToName(JNIEnv *env, jobject obj, jobject mContext, int sd, const char *name) {
     struct sockaddr_un address;
     const size_t nameLength = strlen(name);
     size_t pathLength = nameLength;
@@ -536,7 +555,7 @@ static void bindLocalSocketToName(JNIEnv *env, jobject obj, int sd, const char *
 
         unlink(address.sun_path);
 
-        LogMessage(env, obj, "Binding to local name %s%s.",
+        LogMessage(env, obj, mContext, "Binding to local name %s%s.",
                    (abstractNamespace) ? "(null)" : "",
                    name);
 
@@ -546,9 +565,9 @@ static void bindLocalSocketToName(JNIEnv *env, jobject obj, int sd, const char *
     }
 }
 
-static int acceptOnLocalSocket(JNIEnv *env, jobject obj, int sd) {
+static int acceptOnLocalSocket(JNIEnv *env, jobject obj, jobject mContext, int sd) {
 
-    LogMessage(env, obj, "Waiting for a client connection...");
+    LogMessage(env, obj, mContext, "Waiting for a client connection...");
     int clientSocket = accept(sd, NULL, NULL);
 
     if (-1 == clientSocket) {
@@ -560,6 +579,7 @@ static int acceptOnLocalSocket(JNIEnv *env, jobject obj, int sd) {
 
 JNIEXPORT void JNICALL
 Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartLocalServer(JNIEnv *env, jobject obj,
+                                                                     jobject montext,
                                                                      jstring name) {
 
     int serverSocket = newLocalSocket(env, obj);
@@ -569,7 +589,7 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartLocalServer(JNIEnv *env
             goto exit;
         }
 
-        bindLocalSocketToName(env, obj, serverSocket, nameText);
+        bindLocalSocketToName(env, obj, montext, serverSocket, nameText);
 
         env->ReleaseStringUTFChars(name, nameText);
 
@@ -577,13 +597,13 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartLocalServer(JNIEnv *env
             goto exit;
         }
 
-        listenOnSocket(env, obj, serverSocket, 4);
+        listenOnSocket(env, obj, montext, serverSocket, 4);
 
         if (NULL != env->ExceptionOccurred()) {
             goto exit;
         }
 
-        int clientSocket = acceptOnSocket(env, obj, serverSocket);
+        int clientSocket = acceptOnSocket(env, obj, montext, serverSocket);
         if (NULL != env->ExceptionOccurred()) {
             goto exit;
         }
@@ -593,13 +613,13 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartLocalServer(JNIEnv *env
         ssize_t sendSize;
 
         while (1) {
-            recvSize = receiveFromSocket(env, obj, clientSocket, buffer, MAX_BUFFER_SIZE);
+            recvSize = receiveFromSocket(env, obj, montext, clientSocket, buffer, MAX_BUFFER_SIZE);
 
             if ((0 == recvSize) || (NULL != env->ExceptionOccurred())) {
                 break;
             }
 
-            sendSize = sendToSocket(env, obj, clientSocket, buffer, (size_t) recvSize);
+            sendSize = sendToSocket(env, obj, montext, clientSocket, buffer, (size_t) recvSize);
 
             if ((0 == sendSize) || (NULL != env->ExceptionOccurred())) {
                 break;

@@ -25,7 +25,7 @@ class ClientActivity : BaseSocketActivity() {
                 Thread(Runnable {
 
                     try {
-                        ClientUtil.nativeStartTcpClient(et_client_ip.text.toString(), et_client_port.text.toString().toInt(), et_client_message.text.toString())
+                        ClientUtil.nativeStartTcpClient(this,et_client_ip.text.toString(), et_client_port.text.toString().toInt(), et_client_message.text.toString())
                     } catch (e: Exception) {
                         logMessage(e.message!!)
                     }

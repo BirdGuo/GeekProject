@@ -19,7 +19,7 @@ extern "C" {
  * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartTcpServer
-        (JNIEnv *, jobject, jint);
+        (JNIEnv *, jobject, jobject, jint);
 
 /*
  * Class:     Java_com_guoxw_geekproject_jniutil
@@ -27,7 +27,7 @@ JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStart
  * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartUdpServer
-        (JNIEnv *, jobject, jint);
+        (JNIEnv *, jobject, jobject, jint);
 
 /*
  * Class:     Java_com_guoxw_geekproject_jniutil
@@ -35,7 +35,7 @@ JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStart
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartLocalServer
-        (JNIEnv *, jobject, jstring);
+        (JNIEnv *, jobject, jobject, jstring);
 #ifdef __cplusplus
 };
 #endif

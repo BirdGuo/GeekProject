@@ -1,6 +1,7 @@
 package com.guoxw.geekproject.socket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.guoxw.geekproject.R
@@ -23,13 +24,16 @@ abstract class BaseSocketActivity : BaseToolbarActivity() {
     override fun getContentLayoutId(): Int = R.layout.activity_base_socket
 
     protected fun logMessage(message: String) {
+        Log.i("GXW","=======1==========")
         runOnUiThread { logMessageDirect(message) }
     }
 
     protected fun logMessageDirect(message: String) {
+        Log.i("GXW","=======2=========="+message)
         tv_socket_log.append(message)
         tv_socket_log.append("\n")
         sc_socket.fullScroll(View.FOCUS_DOWN)
+        Log.i("GXW","=======3==========")
     }
 
     abstract fun initSocketUI()

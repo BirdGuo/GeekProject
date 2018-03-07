@@ -1,5 +1,7 @@
 package com.guoxw.geekproject.jniutil
 
+import android.content.Context
+
 /**
  * @auther guoxw
  * @date 2018/3/1 0001
@@ -20,7 +22,7 @@ object ClientUtil {
      * @throws Exception
      */
     @Throws(Exception::class)
-    external fun nativeStartTcpClient(ip: String, port: Int, message: String)
+    external fun nativeStartTcpClient(mContext: Context, ip: String, port: Int, message: String)
 
     /**
      *
@@ -30,5 +32,5 @@ object ClientUtil {
      * @throws Exception
      */
     @Throws(Exception::class)
-    external fun nativeStartUdpClient(ip: String, port: Int, message: String)
+    external fun nativeStartUdpClient(mContext: Context, ip: String, port: Int, message: String)
 }
