@@ -23,11 +23,12 @@ android {
         }
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64","mips","mips64"
         }
     }
     buildTypes {
         debug {
+            debuggable true
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "String", "GankIO_URL", "\"http://gank.io/api/\""
             //混淆

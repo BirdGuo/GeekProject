@@ -2,6 +2,7 @@ package com.guoxw.geekproject.socket
 
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.jniutil.ServerUtil
+import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.NetWorkUtil
 import kotlinx.android.synthetic.main.activity_base_socket.*
 import kotlinx.android.synthetic.main.activity_server.*
@@ -28,8 +29,9 @@ class ServerActivity : BaseSocketActivity() {
 
             Thread(Runnable {
                 try {
-                    ServerUtil.nativeStartTcpServer(this,et_server_port.text.toString().toInt())
+                    ServerUtil.nativeStartTcpServer(this, et_server_port.text.toString().toInt())
                 } catch (e: Exception) {
+                    LogUtil.e("GXW", e.message!!)
                 }
             }).start()
 

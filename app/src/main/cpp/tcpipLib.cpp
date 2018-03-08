@@ -25,7 +25,7 @@ static int newTcpSocket(JNIEnv *env, jobject obj, jobject mContext) {
     LOGI("------newTcpSocket 1-------");
     LogMessage(env, obj, mContext, "新建一个socket对象");
     int tcpSocket = socket(PF_INET, SOCK_STREAM, 0);
-    LOGI("------newTcpSocket 2-------");
+    LOGI("------newTcpSocket 2------- %d ",tcpSocket);
     //socket是否成功构建
     if (-1 == tcpSocket) {
         LOGI("------newTcpSocket 3-------");
