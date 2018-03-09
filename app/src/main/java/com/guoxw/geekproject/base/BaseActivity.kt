@@ -51,8 +51,8 @@ abstract class BaseActivity : AppCompatActivity(), LifeSubscription, Stateful {
      * 要申请的权限
      */
     private val permissions: Array<String> = arrayOf(Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE)
 
     private var decorView: View? = null
 

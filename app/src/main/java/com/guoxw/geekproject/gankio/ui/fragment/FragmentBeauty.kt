@@ -2,14 +2,18 @@ package com.guoxw.geekproject.gankio.ui.fragment
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.view.View
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
 import com.guoxw.geekproject.events.RCVItemClickListener
+import com.guoxw.geekproject.gankio.adapter.SpacesItemDecoration
 import com.guoxw.geekproject.gankio.adapter.WaterFallAdapter
 import com.guoxw.geekproject.gankio.bean.GankData
 import com.guoxw.geekproject.gankio.bean.responses.GankResponse
@@ -48,6 +52,16 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 //    var gankDataPresenter: GankDataPresenter? = null
 //    var gankDataDaoImpl: GankDataDaoImpl? = null
 
+
+    private val handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when (msg.what) {
+                0x0001 -> initPage(currentPage)
+            }
+        }
+    }
+
     override fun initUI() {
 
         //实例化瀑布流
@@ -56,6 +70,9 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
         rcv_beauty.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         //recycleview设置adapter
         rcv_beauty.adapter = waterFullAdapter
+        //设置item之间的间隔
+//        val decoration = SpacesItemDecoration(16)
+//        rcv_beauty.addItemDecoration(decoration)
         //上拉刷新控件设置监听
         srl_beauty.setOnRefreshListener(this)
 
@@ -82,9 +99,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
         if (dates.size > 0) {
             for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
+                Log.i("GXW", "Fragment date :".plus(dates[i]))
                 waterFullAdapter!!.dates.add(dates[i])
             }
             waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
+
+//            handler.sendEmptyMessage(0x0001)
             waterFullAdapter!!.notifyDataSetChanged()
         }
     }
@@ -117,7 +137,11 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
         tv_error_msg.visibility = View.GONE
 
         dates.addAll(result)
-        initPage(currentPage)
+//        initPage(currentPage)
+
+        handler.sendEmptyMessage(0x0001)
+
+        Log.i("GXW", "date size".plus(dates.size))
 
         //滑动监听
         rcv_beauty.addOnScrollListener(object : RecyclerView.OnScrollListener() {

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import com.guoxw.geekproject.R
 import com.guoxw.geekproject.base.BaseNetFragment
@@ -80,6 +81,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         //获取第一页数据
 //        gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
         presenter =  GankDataDaoImpl(context,this, this)
+        Log.i("GXW","initData android")
         presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
 //        gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
     }
@@ -112,6 +114,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
                     //查询新数据
 //                    gankDataPresenter!!.initGankData(GankDataParam(type, pageNum, currentPage))
 //                    gankDataDao!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
+                    Log.i("GXW","onScrollStateChanged android")
                     presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
                 }
             }

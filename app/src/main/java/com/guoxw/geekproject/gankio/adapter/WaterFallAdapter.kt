@@ -23,6 +23,7 @@ import com.guoxw.geekproject.gankio.bean.BeautyPic
 import com.guoxw.geekproject.gankio.bean.params.GankDayDataParam
 import com.guoxw.geekproject.gankio.ui.activity.BeautyActivity
 import com.guoxw.geekproject.gankio.ui.activity.GankDayInfoActivity
+import com.guoxw.geekproject.utils.LogUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.Serializable
@@ -82,11 +83,16 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         val gankIOApi: GankIOApi = GankIOResetApi
 
+        LogUtil.i("GXW", "date:".plus(date))
+
         gankIOApi.getGankDayData(GankDayDataParam(YMD[0], YMD[1], YMD[2])).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
                     if (!res.error) {//有数据
 
                         val url = res.results.福利[0].url
+
+                        LogUtil.i("GXW", "date:".plus(date).plus("   url:").plus(url))
+
                         Glide.with(mContext)
                                 .load(url)
                                 .into(holder.img_item_gank)
@@ -94,9 +100,13 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                         holder.cv_item_gank!!.tag = res.results.福利[0]
 
                         holder.img_item_gank!!.setOnClickListener {
+
+                            //设置需要传递的图片
                             BeautyPic.beauty = holder.img_item_gank!!.drawable
+                            //添加跳转
                             val intent = Intent(mContext, BeautyActivity::class.java)
                             intent.putExtra(GankConfig.MEIZI, holder.cv_item_gank!!.tag as Serializable)
+                            //设置跳转动画
                             val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext as Activity, holder.img_item_gank, GankConfig.TRANSLATE_GIRL_VIEW)
                             ActivityCompat.startActivity(mContext, intent, optionsCompat.toBundle())
                         }
