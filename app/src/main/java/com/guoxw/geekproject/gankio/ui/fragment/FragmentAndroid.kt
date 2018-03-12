@@ -20,6 +20,7 @@ import com.guoxw.geekproject.gankio.bean.params.GankDataParam
 import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
+import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil
 import kotlinx.android.synthetic.main.fragment_android.*
 import kotlinx.android.synthetic.main.fragment_base.*
@@ -123,6 +124,8 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
     }
 
     override fun reflashView(mData: GankResponse<MutableList<GankData>>) {
+
+
         tv_error_msg.visibility = View.GONE
         fl_android.visibility = View.VISIBLE
 
@@ -135,7 +138,6 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
     }
 
     override fun getDataFail(error: String) {
-
         tv_error_msg.visibility = View.VISIBLE
         fl_android.visibility = View.GONE
 
@@ -157,6 +159,7 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         //刷新首页
         currentPage = 1
         //重新请求数据
+        presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
     }
 
 

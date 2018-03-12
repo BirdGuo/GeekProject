@@ -45,6 +45,7 @@ class GankDataDaoImpl(val mContext: Context, private val lifeSubscription: LifeS
                 LogUtil.e("GXW", "message1:".plus(throwable.message))
             }, MyAction(mView))
         } else {
+            LogUtil.e("GXW","无网络1")
             mView.getDataFail(mContext.getString(R.string.error_wifi))
         }
     }
@@ -64,6 +65,7 @@ class GankDataDaoImpl(val mContext: Context, private val lifeSubscription: LifeS
                 LogUtil.e("GXW", "message2:".plus(throwable.message))
             }, MyAction(mView))
         } else {
+            LogUtil.e("GXW","无网络2")
             mView.getDataFail(mContext.getString(R.string.error_wifi))
         }
     }

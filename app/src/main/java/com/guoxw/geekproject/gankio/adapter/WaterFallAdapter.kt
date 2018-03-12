@@ -83,15 +83,11 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
 
         val gankIOApi: GankIOApi = GankIOResetApi
 
-        LogUtil.i("GXW", "date:".plus(date))
-
         gankIOApi.getGankDayData(GankDayDataParam(YMD[0], YMD[1], YMD[2])).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe({ res ->
                     if (!res.error) {//有数据
 
                         val url = res.results.福利[0].url
-
-                        LogUtil.i("GXW", "date:".plus(date).plus("   url:").plus(url))
 
                         Glide.with(mContext)
                                 .load(url)
@@ -117,12 +113,12 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
                             holder.tv_item_gank!!.text = YMD[1].plus("-").plus(YMD[2]).plus("今天木有小视频")
                         }
                     } else {//无数据
-                        dates.clear()
-                        notifyDataSetChanged()
+//                        dates.clear()
+//                        notifyDataSetChanged()
                     }
                 }, { error ->
-                    dates.clear()
-                    notifyDataSetChanged()
+//                    dates.clear()
+//                    notifyDataSetChanged()
                 }, {
                     //complete
                 })
@@ -149,6 +145,7 @@ class WaterFallAdapter : RecyclerView.Adapter<WaterFallAdapter.ViewHolder> {
         var cv_item_gank: CardView? = null
 
         init {
+
             img_item_gank = itemView!!.findViewById(R.id.img_item_gank)
             tv_item_gank = itemView.findViewById(R.id.tv_item_gank)
             cv_item_gank = itemView.findViewById(R.id.cv_item_gank)

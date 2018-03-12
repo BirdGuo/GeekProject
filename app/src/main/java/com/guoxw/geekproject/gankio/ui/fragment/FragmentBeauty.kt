@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
@@ -20,6 +21,7 @@ import com.guoxw.geekproject.gankio.bean.responses.GankResponse
 import com.guoxw.geekproject.gankio.presenter.dao.GankDataDao
 import com.guoxw.geekproject.gankio.presenter.impl.GankDataDaoImpl
 import com.guoxw.geekproject.gankio.ui.views.IGankDataView
+import com.guoxw.geekproject.utils.LogUtil
 import com.guoxw.geekproject.utils.RecyclerViewUtil.isSlideToBottom
 import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.fragment_beauty.*
@@ -46,6 +48,8 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
      */
     private var waterFullAdapter: WaterFallAdapter? = null
 
+    var a: StaggeredGridLayoutManager? = null
+
     /**
      * 数据接口
      */
@@ -57,7 +61,11 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
-                0x0001 -> initPage(currentPage)
+                0x0001 -> {
+                    LogUtil.i("GXW", "handler current page;".plus(currentPage))
+                    initPage(currentPage)
+                }
+                0x0002 -> srl_beauty.isRefreshing = false
             }
         }
     }
@@ -66,8 +74,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
         //实例化瀑布流
         waterFullAdapter = WaterFallAdapter(context, this)
+        a = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        a!!.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         //设置recycleview瀑布流属性
-        rcv_beauty.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        rcv_beauty.layoutManager = a
+
+        (rcv_beauty.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
         //recycleview设置adapter
         rcv_beauty.adapter = waterFullAdapter
         //设置item之间的间隔
@@ -97,9 +109,9 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
      */
     private fun initPage(currentPage: Int) {
 
+        LogUtil.i("GXW", "CurrentPage :".plus(currentPage))
         if (dates.size > 0) {
             for (i in ((10 * currentPage))..(((10 * (currentPage + 1)) - 1))) {
-                Log.i("GXW", "Fragment date :".plus(dates[i]))
                 waterFullAdapter!!.dates.add(dates[i])
             }
             waterFullAdapter!!.getRandomHeight(waterFullAdapter!!.dates)
@@ -107,6 +119,7 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 //            handler.sendEmptyMessage(0x0001)
             waterFullAdapter!!.notifyDataSetChanged()
         }
+        handler.sendEmptyMessage(0x0002)
     }
 
     override fun initListener() {
@@ -132,10 +145,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
     override fun getHisSuccess(result: MutableList<String>) {
 
-
         fl_beauty.visibility = View.VISIBLE
         tv_error_msg.visibility = View.GONE
 
+        if (dates.isNotEmpty()) {
+            dates.clear()
+        }
         dates.addAll(result)
 //        initPage(currentPage)
 
@@ -151,10 +166,12 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                a!!.invalidateSpanAssignments()
                 //判断是否到底部
                 if (isSlideToBottom(recyclerView)) {
                     //页数+1
                     currentPage++
+                    LogUtil.i("GXW", "onScrollStateChanged current page".plus(currentPage))
                     initPage(currentPage)
                 }
             }
@@ -168,6 +185,9 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
     }
 
     override fun onRefresh() {
+        LogUtil.i("GXW", "下拉刷新")
+
+        presenter!!.fetchGankHistory()
 
     }
 
