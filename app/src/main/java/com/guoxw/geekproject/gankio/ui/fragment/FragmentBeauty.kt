@@ -75,6 +75,7 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
         //实例化瀑布流
         waterFullAdapter = WaterFallAdapter(context, this)
         a = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        //解决位置错乱和闪烁
         a!!.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         //设置recycleview瀑布流属性
         rcv_beauty.layoutManager = a
@@ -166,6 +167,7 @@ class FragmentBeauty : BaseNetFragment<GankResponse<MutableList<GankData>>, Gank
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                //解决位置错乱和闪烁
                 a!!.invalidateSpanAssignments()
                 //判断是否到底部
                 if (isSlideToBottom(recyclerView)) {

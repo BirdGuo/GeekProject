@@ -249,7 +249,7 @@ Java_com_guoxw_geekproject_jniutil_ClientUtil_nativeStartTcpClient(JNIEnv *env, 
 
 
     if (NULL == env->ExceptionOccurred()) {
-
+        // Get IP address as C string
         const char *ipAddress = env->GetStringUTFChars(ip, NULL);
         if (NULL == ipAddress) {
             goto exit;
@@ -338,9 +338,9 @@ Java_com_guoxw_geekproject_jniutil_ServerUtil_nativeStartTcpServer(JNIEnv *env, 
 
     exit:
     if (serverSocket > 0) {
+        LOGI("-------exit-------");
         close(serverSocket);
     }
-
 }
 
 /**

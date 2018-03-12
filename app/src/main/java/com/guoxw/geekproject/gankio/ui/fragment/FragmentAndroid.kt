@@ -162,5 +162,4 @@ class FragmentAndroid(val type: String) : BaseNetFragment<GankResponse<MutableLi
         presenter!!.fetchGankData(GankDataParam(type, pageNum, currentPage))
     }
 
-
 }
