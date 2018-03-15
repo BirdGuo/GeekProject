@@ -14,24 +14,30 @@ import java.util.*
  * @package com.guoxw.geekproject.screenrecorder
  * @desciption
  */
-abstract class BaseEncoder(val mCodecName: String) : Encoder {
+abstract class BaseEncoder : Encoder {
 
     var mCallback: Callback? = null
     var mEncoder: MediaCodec? = null
 
-    companion object {
+    var mCodecName: String? = null
 
-        abstract class Callback : Encoder.Callback {
+    constructor(mCodecName: String) {
+        this.mCodecName = mCodecName
+    }
 
-            fun onInputBufferAvailable(encoder: BaseEncoder, index: Int) {}
+    constructor()
 
-            fun onOutputFormatChanged(encoder: BaseEncoder, format: MediaFormat) {}
 
-            fun onOutputBufferAvailable(encoder: BaseEncoder, index: Int, info: MediaCodec.BufferInfo) {}
+    abstract class Callback : Encoder.Callback {
 
-        }
+        fun onInputBufferAvailable(encoder: BaseEncoder, index: Int) {}
+
+        fun onOutputFormatChanged(encoder: BaseEncoder, format: MediaFormat) {}
+
+        fun onOutputBufferAvailable(encoder: BaseEncoder, index: Int, info: MediaCodec.BufferInfo) {}
 
     }
+
 
     override fun setCallback(callback: Encoder.Callback) {
         if (callback !is Callback) {
@@ -158,5 +164,6 @@ abstract class BaseEncoder(val mCodecName: String) : Encoder {
             mCallback!!.onError(this@BaseEncoder, e!!)
         }
     }
+
 
 }
