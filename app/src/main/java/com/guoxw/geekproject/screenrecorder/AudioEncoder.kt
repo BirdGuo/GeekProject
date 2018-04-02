@@ -1,5 +1,6 @@
 package com.guoxw.geekproject.screenrecorder
 
+import android.media.MediaCodec
 import android.media.MediaFormat
 
 /**
@@ -9,6 +10,10 @@ import android.media.MediaFormat
  * @desciption
  */
 class AudioEncoder : BaseEncoder {
+
+    override fun onEncoderConfigured(encoder: MediaCodec) {
+    }
+
     var mConfig: AudioEncodeConfig
 
     constructor(mConfig: AudioEncodeConfig) : super(mConfig.codecName) {

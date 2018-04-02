@@ -81,7 +81,7 @@ abstract class BaseEncoder : Encoder {
         mEncoder = encoder
     }
 
-    protected fun onEncoderConfigured(encoder: MediaCodec) {}
+    abstract fun onEncoderConfigured(encoder: MediaCodec)
 
     /**
      * 创建一个新的MediaCodec
