@@ -19,7 +19,7 @@ buildscript {
                 sqlcipher_version : '3.5.7'
         ]
         compileSdk = 26
-        buildTools = "27.0.0"
+        buildTools = "27.0.3"
         minSdk = 21
         targetSdk = 26
         support = "26.1.0"
@@ -31,7 +31,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin_version}"
 
