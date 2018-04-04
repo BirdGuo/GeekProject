@@ -48,6 +48,7 @@ android {
             path "CMakeLists.txt"
         }
     }
+
     packagingOptions {
         exclude 'META-INF/rxjava.xml'
         exclude 'META-INF/rxjava.properties'

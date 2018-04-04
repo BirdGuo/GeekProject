@@ -4,6 +4,7 @@ import android.media.MediaCodec
 import android.media.MediaFormat
 import android.view.Surface
 import com.guoxw.geekproject.utils.LogUtil
+import java.util.*
 
 /**
  * @auther guoxw
@@ -26,6 +27,9 @@ class VideoEncoder(val mConfig: VideoEncodeConfig) : BaseEncoder(mConfig.codecNa
         return mConfig.toFormat()
     }
 
+    fun getInputSurface(): Surface? {
+        return Objects.requireNonNull(mSurface, "doesn't prepare()")
+    }
 
     override fun release() {
         if (mSurface != null) {
