@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import android.media.MediaMuxer
 import java.io.IOException
 import android.hardware.display.VirtualDisplay
+import android.util.Log
+import java.util.*
 
 
 class ScreenRecorder {
@@ -58,6 +60,11 @@ class ScreenRecorder {
     private val MSG_STOP = 1
     private val MSG_ERROR = 2
     private val STOP_WITH_EOS = 1
+
+    private val mPendingVideoEncoderBufferIndices = LinkedList<Int>()
+    private val mPendingAudioEncoderBufferIndices = LinkedList<Int>()
+    private val mPendingVideoEncoderBufferInfos = LinkedList<MediaCodec.BufferInfo>()
+    private val mPendingAudioEncoderBufferInfos = LinkedList<MediaCodec.BufferInfo>()
 
     constructor(video: VideoEncodeConfig, audio: AudioEncodeConfig, dpi: Int,
                 mp: MediaProjection, dsPath: String) {
@@ -166,7 +173,41 @@ class ScreenRecorder {
         }
 
         if (!mMuxerStarted || mVideoTrackIndex == INVALID_INDEX) {
+            mPendingAudioEncoderBufferIndices.add(index)
+            mPendingAudioEncoderBufferInfos.add(buffer)
+            return
+        }
 
+        val encodedData: ByteBuffer = mVideoEncoder.getOutputBuffer(index)
+        writeSampleData(mVideoTrackIndex, buffer, encodedData)
+        mVideoEncoder.releaseOutputBuffer(index)
+        if ((buffer.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+            LogUtil.d(TAG, "Stop encoder and muxer, since the buffer has been marked with EOS")
+            //send release msg
+            mVideoTrackIndex = INVALID_INDEX
+            signalStop(true)
+        }
+    }
+
+    private fun muxAudio(index: Int, buffer: MediaCodec.BufferInfo) {
+        if (!mIsRunning.get()) {
+            Log.w(TAG, "muxAudio:Already stopped!")
+            return
+        }
+
+        if (!mMuxerStarted || mAudioTrackIndex == INVALID_INDEX) {
+            mPendingAudioEncoderBufferIndices.add(index)
+            mPendingAudioEncoderBufferInfos.add(buffer)
+            return
+        }
+
+        val encodedData = mAudioEncoder!!.getOutputBuffer(index)
+        writeSampleData(mAudioTrackIndex, buffer, encodedData)
+        mAudioEncoder!!.releaseOutputBuffer(index)
+        if ((buffer.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+            LogUtil.d(TAG, "Stop encoder and muxer, since the buffer has been marked with EOS")
+            mAudioTrackIndex = INVALID_INDEX
+            signalStop(true)
         }
     }
 

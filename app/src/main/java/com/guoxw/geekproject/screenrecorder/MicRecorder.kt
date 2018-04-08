@@ -77,8 +77,16 @@ class MicRecorder : Encoder {
         mRecordThread.quitSafely()
     }
 
-    override fun setCallback(callback: Encoder.Callback) {
+    fun releaseOutputBuffer(index: Int) {
+        LogUtil.d(TAG, "audio encoder released output buffer index= $index")
+        Message.obtain(mRecordHandler, MSG_DRAIN_OUTPUT, index, 0)
+    }
 
+    fun getOutputBuffer(index: Int): ByteBuffer {
+        return mEncoder.getOutputBuffer(index)
+    }
+
+    override fun setCallback(callback: Encoder.Callback) {
         this.mCallback = callback as BaseEncoder.Callback
     }
 
